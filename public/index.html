@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Dom</title>
+    <link href="./libs/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="row border rounder-5 p-3 bg-white shadow box-area">
+            <div class="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
+                <div class="featured-image mb-3">
+                    <img src="logo-moi.png" class="img-fluid" style="width: 800px;height: 250px;">
+                </div>
+            </div>
+            <div class="col-md-6 right-box">
+                <div class="row align-items-center">
+                    <div class="header-text mb-4">
+                        <p>Welcome To Dormitory FPTU</p>
+                    </div>
+                    <div class="input-group mb-3 campus-select">
+                        <select>
+                            <option value="0">Select Campus:</option>
+                            <option value="1">Hòa Lạc</option>
+                            <option value="2">Hồ Chí Minh</option>
+                            <option value="3">Cần Thơ</option>
+                            <option value="4">Đà Nẵng</option>
+                            <option value="5">Quy Nhơn</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" placeholder="Username" class="from-control-lg bg-light fs-6">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" placeholder="Password" class="from-control-lg bg-light fs-6">
+                    </div>
+                    <div class="input-group mb-3">
+                       <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Login</button> 
+                    </div>
+                    <div class="input-group mb-3">
+                        <button type="submit" class="btn btn-lg btn-light w-100 fs-6"><img src="logo-gg.jpg" style="width: 20px" class="me-2"><small>Sign In With Google</small></button> 
+                     </div>
+                    <div class="forget">
+                        <small><a href="#">Forget Password</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
