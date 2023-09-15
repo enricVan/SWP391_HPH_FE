@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Topbar from "./Topbar";
+import Topbar from "../../components/Topbar";
 import { Outlet } from "react-router-dom";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import Sidebar from "./Sidebar";
+import Sidebar from "../../components/Sidebar";
 import Box from "@mui/material/Box";
 export default function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);

@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
@@ -14,10 +13,13 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import PaidIcon from "@mui/icons-material/Paid";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import ContactSupportIcon from "@mui/icons-material/ContactSupport";
+import Toolbar from "@mui/material/Toolbar";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import IconButton from "@mui/material/IconButton";
-import { ChevronLeft } from "@mui/icons-material/ChevronLeft";
+import Button from "@mui/material/Button";
+import LogoutIcon from "@mui/icons-material/Logout";
 const drawerWidth = 240;
 export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
   const { pathname } = useLocation();
@@ -25,12 +27,15 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
   const navigate = useNavigate();
   useEffect(() => {
     setActive(pathname.substring(9));
-    console.log(pathname.substring(9));
   }, [pathname]);
   const navItems = [
     {
       text: "Home",
       icon: <HomeIcon />,
+    },
+    {
+      text: "News",
+      icon: <NotificationsIcon />,
     },
     {
       text: "Bed Booking",
@@ -41,12 +46,16 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
       icon: <PaymentIcon />,
     },
     {
-      text: "Room Assignment Status",
+      text: "Room Assignment",
       icon: <ListAltIcon />,
     },
     {
       text: "Payment History",
       icon: <PaidIcon />,
+    },
+    {
+      text: "Request",
+      icon: <ContactSupportIcon />,
     },
   ];
   return (
@@ -66,7 +75,6 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
             },
           }}
         >
-          {/* <Toolbar /> */}
           <Box sx={{ overflow: "auto" }}>
             <Box
               sx={{
@@ -88,17 +96,21 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
               </Box>
             </Box>
             <Divider />
-            <List>
+            <List
+              sx={{
+                "& .MuiListItemButton-root:hover": {
+                  background: "rgba(255,69,0,0.8)",
+                  transition: "0.1s",
+                },
+              }}
+            >
               {navItems.map(({ text, icon }) => {
                 const lcText = text.toLowerCase().replace(/ /g, "");
-                {
-                  console.log(lcText);
-                }
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       sx={{
-                        backgroundColor: active === lcText ? "#1976d2" : "",
+                        backgroundColor: active === lcText ? "orangered" : "",
                       }}
                       onClick={() => {
                         navigate(`${lcText}`);
@@ -106,9 +118,11 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
                       }}
                     >
                       <ListItemIcon
-                        sx={{
-                          color: active === lcText ? "blue" : "",
-                        }}
+                        sx={
+                          {
+                            // color: active === lcText ? "" : "",
+                          }
+                        }
                       >
                         {icon}
                       </ListItemIcon>
@@ -119,6 +133,16 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
               })}
             </List>
           </Box>
+          <Toolbar>
+            <Button
+              variant="contained"
+              startIcon={<LogoutIcon />}
+              fullWidth
+              sx={{ bgcolor: "orangered" }}
+            >
+              LOGOUT
+            </Button>
+          </Toolbar>
         </Drawer>
       )}
     </>

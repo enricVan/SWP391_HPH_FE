@@ -1,21 +1,12 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import Link from "@mui/material/Link";
 import ListItem from "@mui/material/ListItem";
 import { Avatar } from "@mui/material";
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import Item from "../../../constants/Item";
 const LinkItems = [
   "new1",
   "new1",
@@ -35,9 +26,10 @@ export default function Home() {
         <Grid item xs={8}>
           <Typography
             variant="h5"
+            bgcolor="#1565c0"
             sx={{
-              backgroundColor: "#1976d2",
               textAlign: "center",
+              color: "white",
             }}
           >
             News
@@ -46,7 +38,7 @@ export default function Home() {
             <List>
               {LinkItems.map((link, index) => {
                 return (
-                  <ListItem>
+                  <ListItem key={index}>
                     <Link href="#" underline="none">
                       {link}
                     </Link>
@@ -60,8 +52,9 @@ export default function Home() {
           <Typography
             variant="h5"
             sx={{
-              backgroundColor: "#1976d2",
+              backgroundColor: "#1565c0",
               textAlign: "center",
+              color: "white",
             }}
           >
             Personal Information
@@ -71,7 +64,6 @@ export default function Home() {
               <Grid item xs={4}>
                 <Avatar
                   alt="Remy Sharp"
-                  src="/static/images/avatar/1.jpg"
                   sx={{ width: 120, height: 150 }}
                   variant="square"
                 />
