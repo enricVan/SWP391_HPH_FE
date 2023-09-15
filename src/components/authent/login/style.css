@@ -37,3 +37,22 @@ h3{
 .font-text{
     color: aliceblue;
 }
+.login_form #username_error{
+    margin-bottom: 10px;
+    width: 345px;
+    font-size: 18px;
+    color:#C62828;
+    background: rgba(255,0,0,0.1);
+    text-align: center;
+    display: none;
+}
+.login_form #password_error{
+    margin-top: 5px;
+    width: 345px;
+    font-size: 18px;
+    color:#C62828;
+    background: rgba(255,0,0,0.1);
+    text-align: center;
+    display: none;
+}
+ 
