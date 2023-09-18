@@ -5,6 +5,7 @@ import CarouselHeader from "./CarouselHeader";
 import infoImg1 from "./images/info-1.jpg";
 import infoImg2 from "./images/info-2.jpg";
 import infoImg3 from "./images/info-3.jpg";
+import DropdownFAQ from "./DropdownFAQ";
 export default function Landing() {
   return (
     <>
@@ -313,188 +314,68 @@ export default function Landing() {
       {/* Testimonials*/}
       <section className="testimonials text-center bg-light">
         <div className="container">
-          <h2 className="mb-5">What people are saying...</h2>
-          <div className="row">
-            <div className="col-lg-4">
-              <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img
-                  className="img-fluid rounded-circle mb-3"
-                  src="assets/img/testimonials-1.jpg"
-                  alt="..."
-                />
-                <h5>Margaret E.</h5>
-                <p className="font-weight-light mb-0">
-                  This is fantastic! Thanks so much guys!
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img
-                  className="img-fluid rounded-circle mb-3"
-                  src="assets/img/testimonials-2.jpg"
-                  alt="..."
-                />
-                <h5>Fred S.</h5>
-                <p className="font-weight-light mb-0">
-                  Bootstrap is amazing. I have been using it to create lots of
-                  super nice landing pages.
-                </p>
-              </div>
-            </div>
-            <div className="col-lg-4">
-              <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                <img
-                  className="img-fluid rounded-circle mb-3"
-                  src="assets/img/testimonials-3.jpg"
-                  alt="..."
-                />
-                <h5>Sarah W.</h5>
-                <p className="font-weight-light mb-0">
-                  Thanks so much for making these free resources available to
-                  us!
-                </p>
-              </div>
-            </div>
-          </div>
+          <h1
+            className="text-center mb-5"
+            style={{
+              fontFamily: "monospace",
+              color: "#F48120",
+              fontSize: "72px",
+            }}
+          >
+            FAQ
+          </h1>
+
+          <DropdownFAQ />
         </div>
       </section>
-      {/* Call to Action*/}
-      <section className="call-to-action text-white text-center" id="signup">
-        <div className="container position-relative">
-          <div className="row justify-content-center">
-            <div className="col-xl-6">
-              <h2 className="mb-4">Ready to get started? Sign up now!</h2>
-              {/* Signup form*/}
-              {/* * * * * * * * * * * * * * * **/}
-              {/* * * SB Forms Contact Form * **/}
-              {/* * * * * * * * * * * * * * * **/}
-              {/* This form is pre-integrated with SB Forms.*/}
-              {/* To make this form functional, sign up at*/}
-              {/* https://startbootstrap.com/solution/contact-forms*/}
-              {/* to get an API token!*/}
-              <form
-                className="form-subscribe"
-                id="contactFormFooter"
-                data-sb-form-api-token="API_TOKEN"
-              >
-                {/* Email address input*/}
-                <div className="row">
-                  <div className="col">
-                    <input
-                      className="form-control form-control-lg"
-                      id="emailAddressBelow"
-                      type="email"
-                      placeholder="Email Address"
-                      data-sb-validations="required,email"
-                    />
-                    <div
-                      className="invalid-feedback text-white"
-                      data-sb-feedback="emailAddressBelow:required"
-                    >
-                      Email Address is required.
-                    </div>
-                    <div
-                      className="invalid-feedback text-white"
-                      data-sb-feedback="emailAddressBelow:email"
-                    >
-                      Email Address Email is not valid.
-                    </div>
-                  </div>
-                  <div className="col-auto">
-                    <button
-                      className="btn btn-primary btn-lg disabled"
-                      id="submitButton"
-                      type="submit"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </div>
-                {/* Submit success message*/}
-                {/**/}
-                {/* This is what your users will see when the form*/}
-                {/* has successfully submitted*/}
-                <div className="d-none" id="submitSuccessMessage">
-                  <div className="text-center mb-3">
-                    <div className="fw-bolder">Form submission successful!</div>
-                    <p>To activate this form, sign up at</p>
-                    <a
-                      className="text-white"
-                      href="https://startbootstrap.com/solution/contact-forms"
-                    >
-                      https://startbootstrap.com/solution/contact-forms
-                    </a>
-                  </div>
-                </div>
-                {/* Submit error message*/}
-                {/**/}
-                {/* This is what your users will see when there is*/}
-                {/* an error submitting the form*/}
-                <div className="d-none" id="submitErrorMessage">
-                  <div className="text-center text-danger mb-3">
-                    Error sending message!
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
+
       {/* Footer*/}
       <footer className="footer bg-light">
         <div className="container">
           <div className="row">
-            <div className="col-lg-6 h-100 text-center text-lg-start my-auto">
-              <ul className="list-inline mb-2">
-                <li className="list-inline-item">
-                  <a href="#!">About</a>
-                </li>
-                <li className="list-inline-item">⋅</li>
-                <li className="list-inline-item">
-                  <a href="#!">Contact</a>
-                </li>
-                <li className="list-inline-item">⋅</li>
-                <li className="list-inline-item">
-                  <a href="#!">Terms of Use</a>
-                </li>
-                <li className="list-inline-item">⋅</li>
-                <li className="list-inline-item">
-                  <a href="#!">Privacy Policy</a>
-                </li>
-              </ul>
-              <p className="text-muted small mb-4 mb-lg-0">
-                © Your Website 2023. All Rights Reserved.
+            <hr style={{ borderColor: "#F48120", borderWidth: "4px" }} />
+            <div className="col-lg-3">
+              <h3>Hà Nội</h3>
+              <p>
+                {" "}
+                Khu Giáo dục và Đào tạo - Khu Công nghệ cao Hòa Lạc - KM29 Đại
+                Lộ Thăng Long, H. Thạch Thất, TP. Hà Nội
               </p>
+
+              <p>Điện thoại: 024 7300 1866</p>
+
+              <p>Email: daihocfpt@fpt.edu.vn</p>
             </div>
-            <div className="col-lg-6 h-100 text-center text-lg-end my-auto">
-              <ul className="list-inline mb-0">
-                <li className="list-inline-item me-4">
-                  <a href="#!">
-                    <i className="bi-facebook fs-3" />
-                  </a>
-                </li>
-                <li className="list-inline-item me-4">
-                  <a href="#!">
-                    <i className="bi-twitter fs-3" />
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#!">
-                    <i className="bi-instagram fs-3" />
-                  </a>
-                </li>
-              </ul>
+            <div className="col-lg-3">
+              <h3>Đà Nẵng</h3>
+              <p>
+                Khu đô thị công nghệ FPT Đà Nẵng, P. Hoà Hải, Q. Ngũ Hành Sơn,
+                TP. Đà Nẵng
+              </p>
+              <p>Điện thoại: 024 7300 1866</p>
+              <p>Email: daihocfpt@fpt.edu.vn</p>
+            </div>
+            <div className="col-lg-3">
+              <h3>Cần Thơ</h3>
+              <p>
+                Số 600 Đường Nguyễn Văn Cừ (nối dài), P. An Bình, Q. Ninh Kiều,
+                TP. Cần Thơ
+              </p>
+              <p>Điện thoại: 024 7300 1866</p>
+              <p>Email: daihocfpt@fpt.edu.vn</p>
+            </div>
+            <div className="col-lg-3">
+              <h3>Quy nhơn</h3>
+              <p>
+                Khu đô thị mới An Phú Thịnh, Phường Nhơn Bình & Phường Đống Đa,
+                TP. Quy Nhơn, Bình Định
+              </p>
+              <p>Điện thoại: 024 7300 1866/ 0256 7300 999</p>
+              <p>Email: daihocfpt@fpt.edu.vn</p>
             </div>
           </div>
         </div>
       </footer>
-      {/* Bootstrap core JS*/}
-      {/* Core theme JS*/}
-      {/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/}
-      {/* * *                               SB Forms JS                               * **/}
-      {/* * * Activate your form at https://startbootstrap.com/solution/contact-forms * **/}
-      {/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **/}
     </>
   );
 }
