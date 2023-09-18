@@ -6,7 +6,7 @@ import infoImg1 from "./images/info-1.jpg";
 import infoImg2 from "./images/info-2.jpg";
 import infoImg3 from "./images/info-3.jpg";
 import DropdownFAQ from "./DropdownFAQ";
-export default function Landing() {
+export default function LandingPage() {
   return (
     <>
       <meta charSet="utf-8" />
