@@ -79,7 +79,11 @@ export function LoginPage() {
               </div>
               {errors.password && <p style={{color:"red",fontSize:"13px"}}>{errors.password}</p>}
               <div className="input-group mb-3 d-flex justify-content-between">
-                <div />
+                <div>
+                <small>
+                    <a href="#">Change Password?</a>
+                  </small>
+                </div>
                 <div className="forget">
                   <small>
                     <a href="#">Forget Password?</a>
