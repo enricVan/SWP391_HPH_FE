@@ -89,7 +89,7 @@ export default function LandingPage() {
                 }}
               >
                 Thông tin{" "}
-                <a href="#">
+                <a href="#dorm-info">
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +177,7 @@ export default function LandingPage() {
                 }}
               >
                 FAQ{" "}
-                <a href="#">
+                <a href="#FAQ">
                   <span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +200,7 @@ export default function LandingPage() {
       </section>
 
       {/* Image Showcases*/}
-      <section className="showcase ">
+      <section className="showcase" id="dorm-info">
         <div className="container p-0">
           <div className="row mb-5">
             <h1
@@ -224,26 +224,28 @@ export default function LandingPage() {
                 Trường Đại học FPT là một trong những ngôi trường nổi tiếng đào
                 tạo đa ngành, với chất lượng đào tạo đạt chuẩn quốc tế. Trường
                 không chỉ quan tâm đến chất lượng đào tạo, công tác tuyển sinh
-                mà còn chăm lo cho đời sống sinh viên. Bằng việc đầu tư, xây
-                dựng khu{" "}
-                <span style={{ color: "#F48120", fontWeight: "bold" }}>
-                  Ký túc xá
-                </span>{" "}
-                xịn sò. Đầy đủ trang thiết bị cần thiết, không gian thoáng mát,
-                sạch sẽ. Để đáp ứng nhu cầu và tạo không gian học tập, sinh hoạt
-                thoải mái nhất cho sinh viên.{" "}
-                <span style={{ color: "#F48120", fontWeight: "bold" }}>
-                  KTX
-                </span>{" "}
-                cũng được xem như ngôi nhà thứ 2 của nhiều sinh viên.
+                mà còn chăm lo cho đời sống sinh viên.
+                <p>
+                  Bằng việc đầu tư, xây dựng khu{" "}
+                  <span style={{ color: "#F48120", fontWeight: "bold" }}>
+                    Ký túc xá
+                  </span>{" "}
+                  xịn sò. Đầy đủ trang thiết bị cần thiết, không gian thoáng
+                  mát, sạch sẽ. Để đáp ứng nhu cầu và tạo không gian học tập,
+                  sinh hoạt thoải mái nhất cho sinh viên.{" "}
+                  <span style={{ color: "#F48120", fontWeight: "bold" }}>
+                    KTX
+                  </span>{" "}
+                  cũng được xem như ngôi nhà thứ 2 của nhiều sinh viên.
+                </p>
               </p>
             </div>
           </div>
           <div className="row mb-5">
             <div className="col-lg-8 text-white ">
-              <img src={infoImg2} alt="" />
+              <img src={infoImg2} alt="" width={"95%"} />
             </div>
-            <div className="col-lg-3 d-flex align-items-end justify-content-end">
+            <div className="col-lg-4 d-flex align-items-end justify-content-end">
               <p
                 className=" mb-0 "
                 style={{
@@ -312,7 +314,7 @@ export default function LandingPage() {
         </div>
       </section>
       {/* Testimonials*/}
-      <section className="testimonials text-center bg-light">
+      <section className="testimonials text-center bg-light" id="FAQ">
         <div className="container">
           <h1
             className="text-center mb-5"

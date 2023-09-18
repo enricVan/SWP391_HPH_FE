@@ -11273,3 +11273,7 @@ footer.footer {
 .btn-orange:hover {
   background-color: orangered;
 }
+
+* {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
