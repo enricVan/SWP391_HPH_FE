@@ -101,7 +101,7 @@ export function LoginPage() {
                 >
                   <img
                     src="src/assets/image/logo-gg.jpg"
-                    style={{ width: 20 }}
+                    style={{ width: 20, height: 20}}
                     className="me-2"
                   />
                   <small>Sign In With Google</small>

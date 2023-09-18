@@ -7,6 +7,7 @@ import BedPayment from "./bedpayment/BedPayment";
 import RoomAssignment from "./roomassignment/RoomAssignment";
 import PaymentHistory from "./paymenthistory/PaymentHistory";
 import Request from "./request/Request";
+import Profile from "./profile/StudentProfile"
 function StudentPage() {
   return (
     <>
@@ -20,6 +21,7 @@ function StudentPage() {
           <Route path="roomassignment" element={<RoomAssignment />} />
           <Route path="paymenthistory" element={<PaymentHistory />} />
           <Route path="request" element={<Request />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
       </Routes>
     </>
