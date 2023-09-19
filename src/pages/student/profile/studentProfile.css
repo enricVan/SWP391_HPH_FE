@@ -1,7 +1,4 @@
-body{
-    background-color: #ececec;
-    
-}
+
 .box-area{
     width: 930px;
 }
@@ -38,7 +35,7 @@ h3{
     color: aliceblue;
 }
 
-img{
+.edit-img{
     width: 300px;
     height: 300px;
     border-radius: 50%;
