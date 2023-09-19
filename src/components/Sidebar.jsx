@@ -20,8 +20,16 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useDispatch } from "react-redux";
+import { logout, reset } from "../features/authSlice";
 const drawerWidth = 240;
 export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
+  const dispatch = useDispatch();
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate(-1);
+  };
   const { pathname } = useLocation();
   const [active, setActive] = useState("home");
   const navigate = useNavigate();
@@ -139,6 +147,7 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
               startIcon={<LogoutIcon />}
               fullWidth
               sx={{ bgcolor: "orangered" }}
+              onClick={onLogout}
             >
               LOGOUT
             </Button>
