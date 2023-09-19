@@ -49,151 +49,99 @@ export default function LandingPage() {
           <div className="row">
             <div className="col-lg-12">
               <img
-                className="d-block rounded mx-auto"
+                className="d-block mx-auto img-fluid rounded"
                 src={contentbanner}
-                width={"90%"}
+                alt="Banner"
               />
             </div>
           </div>
-          <div
-            className="row mx-auto"
-            style={{
-              width: "90%",
-              marginTop: "10px",
-              transform: "translateX(10px)",
-            }}
-          >
-            <div
-              className="col-lg-4"
-              style={{
-                borderRadius: "10px",
-                backgroundColor: "#F48120",
-                width: "31%",
-                margin: "10px",
-                padding: "10px",
-              }}
-            >
-              <h4
+          <div className="row mt-3">
+            <div className="col-lg-4 mb-3">
+              <div
+                className="rounded p-3"
                 style={{
-                  fontFamily: "monospace",
-                  color: "#fff",
+                  backgroundColor: "#F48120",
                 }}
               >
-                Thông tin KTX Đại Học FPT
-              </h4>
-              <p
-                className="lead mb-0 "
-                style={{
-                  fontFamily: "monospace",
-                  color: "#fff",
-                }}
-              >
-                Thông tin{" "}
-                <a href="#dorm-info">
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="16"
-                      viewBox="0 0 22 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M13.6667 1L21 8M21 8L13.6667 15M21 8H1"
-                        stroke="white"
-                      />
-                    </svg>
-                  </span>
-                </a>
-              </p>
+                <h4 className="text-white">Thông tin KTX Đại Học FPT</h4>
+                <p className="lead mb-0 text-white">
+                  Thông tin{" "}
+                  <a href="#dorm-info" className="text-white">
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="16"
+                        viewBox="0 0 22 16"
+                        fill="none"
+                      >
+                        <path
+                          d="M13.6667 1L21 8M21 8L13.6667 15M21 8H1"
+                          stroke="white"
+                        />
+                      </svg>
+                    </span>
+                  </a>
+                </p>
+              </div>
             </div>
-            <div
-              className="col-lg-4"
-              style={{
-                borderRadius: "10px",
-                backgroundColor: "#F48120",
-                width: "31%",
-                margin: "10px",
-                padding: "10px",
-              }}
-            >
-              <h4
+            <div className="col-lg-4 mb-3">
+              <div
+                className="rounded p-3"
                 style={{
-                  fontFamily: "monospace",
-                  color: "#fff",
+                  backgroundColor: "#F48120",
                 }}
               >
-                Đăng kí sử dụng KTX
-              </h4>
-              <p
-                className="lead mb-0 "
-                style={{
-                  fontFamily: "monospace",
-                  color: "#fff",
-                }}
-              >
-                Đăng kí{" "}
-                <a href="#">
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="16"
-                      viewBox="0 0 22 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M13.6667 1L21 8M21 8L13.6667 15M21 8H1"
-                        stroke="white"
-                      />
-                    </svg>
-                  </span>
-                </a>
-              </p>
+                <h4 className="text-white">Đăng kí sử dụng Ký túc xá</h4>
+                <p className="lead mb-0 text-white">
+                  Đăng kí{" "}
+                  <a href="#" className="text-white">
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="16"
+                        viewBox="0 0 22 16"
+                        fill="none"
+                      >
+                        <path
+                          d="M13.6667 1L21 8M21 8L13.6667 15M21 8H1"
+                          stroke="white"
+                        />
+                      </svg>
+                    </span>
+                  </a>
+                </p>
+              </div>
             </div>
-            <div
-              className="col-lg-4"
-              style={{
-                borderRadius: "10px",
-                backgroundColor: "#F48120",
-                width: "31%",
-                margin: "10px",
-                padding: "10px",
-              }}
-            >
-              <h4
+            <div className="col-lg-4 mb-3">
+              <div
+                className="rounded p-3"
                 style={{
-                  fontFamily: "monospace",
-                  color: "#fff",
+                  backgroundColor: "#F48120",
                 }}
               >
-                Các câu hỏi thường gặp
-              </h4>
-              <p
-                className="lead mb-0 "
-                style={{
-                  fontFamily: "monospace",
-                  color: "#fff",
-                }}
-              >
-                FAQ{" "}
-                <a href="#FAQ">
-                  <span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="16"
-                      viewBox="0 0 22 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M13.6667 1L21 8M21 8L13.6667 15M21 8H1"
-                        stroke="white"
-                      />
-                    </svg>
-                  </span>
-                </a>
-              </p>
+                <h4 className="text-white">Các câu hỏi thường gặp</h4>
+                <p className="lead mb-0 text-white">
+                  FAQ{" "}
+                  <a href="#FAQ" className="text-white">
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="22"
+                        height="16"
+                        viewBox="0 0 22 16"
+                        fill="none"
+                      >
+                        <path
+                          d="M13.6667 1L21 8M21 8L13.6667 15M21 8H1"
+                          stroke="white"
+                        />
+                      </svg>
+                    </span>
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -201,7 +149,7 @@ export default function LandingPage() {
 
       {/* Image Showcases*/}
       <section className="showcase" id="dorm-info">
-        <div className="container p-0">
+        <div className="container">
           <div className="row mb-5">
             <h1
               className="text-center p-4"
@@ -209,10 +157,10 @@ export default function LandingPage() {
             >
               Thông tin Ký túc xá Đại Học FPT
             </h1>
-            <div className="col-lg-6 order-lg-2 text-white ">
-              <img src={infoImg1} alt="" />
+            <div className="col-lg-5 order-lg-2 col-xs-12 text-white">
+              <img src={infoImg1} alt="" className="img-fluid w-100" />
             </div>
-            <div className="col-lg-6 order-lg-1 d-flex align-items-end">
+            <div className="col-lg-7 order-lg-1 col-xs-12 d-flex align-items-end">
               <p
                 className=" mb-0 "
                 style={{
@@ -242,10 +190,10 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="row mb-5">
-            <div className="col-lg-8 text-white ">
-              <img src={infoImg2} alt="" width={"95%"} />
+            <div className="col-lg-8 text-white col-xs-12">
+              <img src={infoImg2} alt="" className="img-fluid w-100" />
             </div>
-            <div className="col-lg-4 d-flex align-items-end justify-content-end">
+            <div className="col-lg-4 col-xs-12 d-flex align-items-end justify-content-end">
               <p
                 className=" mb-0 "
                 style={{
@@ -273,10 +221,10 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="row mb-5">
-            <div className="col-lg-12 order-lg-1 text-white d-flex justify-content-center">
-              <img src={infoImg3} alt="" />
+            <div className="col-lg-12 order-lg-1 col-xs-12 text-white d-flex justify-content-center">
+              <img src={infoImg3} alt="" className="img-fluid w-100" />
             </div>
-            <div className="col-lg-10 order-lg-2 offset-md-1">
+            <div className="col-lg-12 col-xs-12 order-lg-2 ">
               <p
                 className=" mb-0"
                 style={{
