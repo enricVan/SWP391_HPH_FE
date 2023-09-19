@@ -1,36 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./style.css";
-import validation from "./validationlogin";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../../features/authSlice";
+import validation from './validationlogin'
 export function LoginPage() {
-  const dispatch = useDispatch();
-  const { user, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [values, setValues] = useState({
-    name: "",
-    password: "",
-  });
+    name:'',
+    password:''
+  })
 
-  function handleChange(e) {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  function handleChange(e){
+    setValues({...values, [e.target.name]: e.target.value})
   }
-  function handleSubmit(e) {
+
+  const[errors, setError] = useState({})
+  
+  function handleSubmit(e){
     e.preventDefault();
-    const userData = {
-      username: values.name,
-      password: values.password,
-    };
-    dispatch(login(userData));
+    setError(validation(values))
   }
-  useEffect(() => {
-    if (isSuccess || user) {
+  
+ useEffect(()=>{
+    if(Object.keys(errors).length === 0 && (values.name !== "" && values.password !== "")){
       navigate("/student");
     }
-  }, [user, isError, isSuccess, message, dispatch, navigate]);
+ }, [errors])
+
+  
   return (
     <>
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
@@ -112,42 +108,12 @@ export function LoginPage() {
                     style={{ width: 20, height: 20}}
                     className="me-2"
                   />
-                </div>
-                {isError && (
-                  <p style={{ color: "red", fontSize: "13px" }}>{message}</p>
-                )}
-                <div className="input-group mb-3 d-flex justify-content-between">
-                  <div />
-                  <div className="forget">
-                    <small>
-                      <a href="#">Forget Password?</a>
-                    </small>
-                  </div>
-                </div>
-                <div className="input-group mb-3">
-                  <button
-                    type="submit"
-                    className="btn btn-lg login w-100 fs-6 font-text"
-                  >
-                    Login
-                  </button>
-                </div>
-                <div className="input-group mb-3">
-                  <button
-                    type="submit"
-                    className="btn btn-lg btn-light w-100 fs-6"
-                  >
-                    <img
-                      src="src/assets/image/logo-gg.jpg"
-                      style={{ width: 20 }}
-                      className="me-2"
-                    />
-                    <small>Sign In With Google</small>
-                  </button>
-                </div>
+                  <small>Sign In With Google</small>
+                </button>
+              </div>
               </form>
             </div>
-
+            
             <div className="row">
               <small>
                 Do not have account?<a href="#">Sign Up</a>
@@ -158,4 +124,4 @@ export function LoginPage() {
       </div>
     </>
   );
-}
+  }
