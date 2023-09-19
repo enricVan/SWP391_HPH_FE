@@ -60,24 +60,57 @@ export function LoginPage() {
                 </select>
               </div>
               <form onSubmit={handleSubmit}>
-                <div className="input-group mb-3">
-                  <input
-                    type="text"
-                    className="form-control form-control-lg bg-light fs-6"
-                    placeholder="Username"
-                    name="name"
-                    onChange={handleChange}
-                    value={values.name}
-                  />
+              <div className="input-group mb-3">
+                <input
+                  type="text"
+                  className="form-control form-control-lg bg-light fs-6"
+                  placeholder="Username"
+                  name="name"
+                  onChange={handleChange}
+                  value={values.name}
+                />
+              </div>
+              {errors.name && <p style={{color:"red",fontSize:"13px"}}>{errors.name}</p>}
+              <div className="input-group mb-3">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="form-control form-control-lg bg-light fs-6"
+                  name="password"
+                  onChange={handleChange}
+                  value={values.password}
+                />
+              </div>
+              {errors.password && <p style={{color:"red",fontSize:"13px"}}>{errors.password}</p>}
+              <div className="input-group mb-3 d-flex justify-content-between">
+                <div>
+                <small>
+                    <a href="#">Change Password?</a>
+                  </small>
                 </div>
-                <div className="input-group mb-3">
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    className="form-control form-control-lg bg-light fs-6"
-                    name="password"
-                    onChange={handleChange}
-                    value={values.password}
+                <div className="forget">
+                  <small>
+                    <a href="#">Forget Password?</a>
+                  </small>
+                </div>
+              </div>
+              <div className="input-group mb-3">
+                <button
+                  type="submit"
+                  className="btn btn-lg login w-100 fs-6 font-text"
+                >
+                  Login
+                </button>
+              </div>
+              <div className="input-group mb-3">
+                <button
+                  type="submit"
+                  className="btn btn-lg btn-light w-100 fs-6"
+                >
+                  <img
+                    src="src/assets/image/logo-gg.jpg"
+                    style={{ width: 20, height: 20}}
+                    className="me-2"
                   />
                 </div>
                 {isError && (
