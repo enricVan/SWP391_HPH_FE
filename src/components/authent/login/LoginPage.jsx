@@ -79,7 +79,11 @@ export function LoginPage() {
               </div>
               {errors.password && <p style={{color:"red",fontSize:"13px"}}>{errors.password}</p>}
               <div className="input-group mb-3 d-flex justify-content-between">
-                <div />
+                <div>
+                <small>
+                    <a href="#">Change Password?</a>
+                  </small>
+                </div>
                 <div className="forget">
                   <small>
                     <a href="#">Forget Password?</a>
@@ -101,7 +105,7 @@ export function LoginPage() {
                 >
                   <img
                     src="src/assets/image/logo-gg.jpg"
-                    style={{ width: 20 }}
+                    style={{ width: 20, height: 20}}
                     className="me-2"
                   />
                   <small>Sign In With Google</small>
