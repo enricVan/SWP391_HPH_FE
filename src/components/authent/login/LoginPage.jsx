@@ -29,7 +29,7 @@ export function LoginPage() {
   
   return (
     <>
-      <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
         <div className="row border rounder-5 p-3 bg-white shadow box-area">
           <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
             <div className="featured-image mb-3">
@@ -43,7 +43,7 @@ export function LoginPage() {
           <div className="col-md-6 right-box">
             <div className="row justify-content-center">
               <div className="header-text mb-4">
-                <h3>Welcome To Dormitory FPTU</h3>
+                <h3 className="format-text">Welcome To Dormitory FPTU</h3>
               </div>
               <div className="input-group mb-3 form-control-lg justify-content-center">
                 <select className="color-text">
