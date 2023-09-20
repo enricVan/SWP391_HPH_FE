@@ -31,7 +31,7 @@ export default function LandingPage() {
       <nav className="navbar navbar-light bg-light static-top">
         <div className="container">
           <img src={logo} />
-          <a className="btn btn-orange" href="#signup">
+          <a className="btn btn-orange" href="/login">
             Login
           </a>
         </div>
