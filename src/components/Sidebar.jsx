@@ -110,7 +110,9 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       sx={{
-                        backgroundColor: active === lcText ? "orangered" : "",
+                        backgroundColor: active.includes(lcText)
+                          ? "orangered"
+                          : "",
                       }}
                       onClick={() => {
                         navigate(`${lcText}`);
