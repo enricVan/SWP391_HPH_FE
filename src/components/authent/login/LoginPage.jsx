@@ -1,32 +1,36 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./style.css";
-import validation from './validationlogin'
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../features/authSlice";
 export function LoginPage() {
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const { user, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+  const navigate = useNavigate();
   const [values, setValues] = useState({
-    name:'',
-    password:''
-  })
+    name: "",
+    password: "",
+  });
 
-  function handleChange(e){
-    setValues({...values, [e.target.name]: e.target.value})
+  function handleChange(e) {
+    setValues({ ...values, [e.target.name]: e.target.value });
   }
-
-  const[errors, setError] = useState({})
-  
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
-    setError(validation(values))
+    const userData = {
+      username: values.name,
+      password: values.password,
+    };
+    dispatch(login(userData));
   }
-  
- useEffect(()=>{
-    if(Object.keys(errors).length === 0 && (values.name !== "" && values.password !== "")){
-      navigate("/student");
+  useEffect(() => {
+    if (isSuccess || user) {
+      const role = localStorage.getItem("role");
+      role === "STUDENT" ? navigate("/student") : navigate("/admin");
     }
- }, [errors])
-
-  
+  }, [user, isError, isSuccess, message, dispatch, navigate]);
   return (
     <>
       <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
@@ -56,64 +60,67 @@ export function LoginPage() {
                 </select>
               </div>
               <form onSubmit={handleSubmit}>
-              <div className="input-group mb-3">
-                <input
-                  type="text"
-                  className="form-control form-control-lg bg-light fs-6"
-                  placeholder="Username"
-                  name="name"
-                  onChange={handleChange}
-                  value={values.name}
-                />
-              </div>
-              {errors.name && <p style={{color:"red",fontSize:"13px"}}>{errors.name}</p>}
-              <div className="input-group mb-3">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="form-control form-control-lg bg-light fs-6"
-                  name="password"
-                  onChange={handleChange}
-                  value={values.password}
-                />
-              </div>
-              {errors.password && <p style={{color:"red",fontSize:"13px"}}>{errors.password}</p>}
-              <div className="input-group mb-3 d-flex justify-content-between">
-                <div>
-                <small>
-                    <a href="#">Change Password?</a>
-                  </small>
-                </div>
-                <div className="forget">
-                  <small>
-                    <a href="#">Forget Password?</a>
-                  </small>
-                </div>
-              </div>
-              <div className="input-group mb-3">
-                <button
-                  type="submit"
-                  className="btn btn-lg login w-100 fs-6 font-text"
-                >
-                  Login
-                </button>
-              </div>
-              <div className="input-group mb-3">
-                <button
-                  type="submit"
-                  className="btn btn-lg btn-light w-100 fs-6"
-                >
-                  <img
-                    src="src/assets/image/logo-gg.jpg"
-                    style={{ width: 20, height: 20}}
-                    className="me-2"
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg bg-light fs-6"
+                    placeholder="Username"
+                    name="name"
+                    onChange={handleChange}
+                    value={values.name}
                   />
-                  <small>Sign In With Google</small>
-                </button>
-              </div>
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className="form-control form-control-lg bg-light fs-6"
+                    name="password"
+                    onChange={handleChange}
+                    value={values.password}
+                  />
+                </div>
+                {isError && (
+                  <p style={{ color: "red", fontSize: "13px" }}>
+                    {"Account not existed!"}
+                  </p>
+                )}
+                <div className="input-group mb-3 d-flex justify-content-between">
+                  <div>
+                    <small>
+                      <a href="#">Change Password?</a>
+                    </small>
+                  </div>
+                  <div className="forget">
+                    <small>
+                      <a href="#">Forget Password?</a>
+                    </small>
+                  </div>
+                </div>
+                <div className="input-group mb-3">
+                  <button
+                    type="submit"
+                    className="btn btn-lg login w-100 fs-6 font-text"
+                  >
+                    Login
+                  </button>
+                </div>
+                <div className="input-group mb-3">
+                  <button
+                    type="submit"
+                    className="btn btn-lg btn-light w-100 fs-6"
+                  >
+                    <img
+                      src="src/assets/image/logo-gg.jpg"
+                      style={{ width: 20, height: 20 }}
+                      className="me-2"
+                    />
+                    <small>Sign In With Google</small>
+                  </button>
+                </div>
               </form>
             </div>
-            
+
             <div className="row">
               <small>
                 Do not have account?<a href="#">Sign Up</a>
@@ -124,4 +131,4 @@ export function LoginPage() {
       </div>
     </>
   );
-  }
+}

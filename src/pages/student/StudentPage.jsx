@@ -8,7 +8,8 @@ import RoomAssignment from "./roomassignment/RoomAssignment";
 import PaymentHistory from "./paymenthistory/PaymentHistory";
 import Request from "./request/Request";
 import Profile from "./profile/StudentProfile";
-import ChangePassword from "./changepassword/ChangePassword"
+import ChangePassword from "./changepassword/ChangePassword";
+import NewsDetail from "./news/NewsDetail";
 function StudentPage() {
   return (
     <>
@@ -17,6 +18,7 @@ function StudentPage() {
           <Route path="/" element={<Navigate to="/student/home" replace />} />
           <Route path="home" element={<Home />} />
           <Route path="news" element={<News />} />
+          <Route path="news/details" element={<NewsDetail />} />
           <Route path="bedbooking" element={<BedBooking />} />
           <Route path="bedpayment" element={<BedPayment />} />
           <Route path="roomassignment" element={<RoomAssignment />} />
