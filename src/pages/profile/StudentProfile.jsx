@@ -1,11 +1,12 @@
 import "./studentProfile.css";
+import avatar from "../../assets/image/avatar.jpeg";
 export default function StudentProfile() {
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
       <div className="row border rounder-5 p-3 bg-white shadow box-area">
         <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
           <div className="featured-image mb-3">
-            <img src="" className="edit-img" />
+            <img src={avatar} className="edit-img" />
           </div>
         </div>
         <div className="col-md-6 right-box">

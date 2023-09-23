@@ -103,7 +103,7 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
                     marginBottom: 0,
                   }}
                 >
-                  Thao TTP
+                  LongVH
                 </Typography>
                 <Typography paragraph>RollNumber: HE172788</Typography>
               </Box>
