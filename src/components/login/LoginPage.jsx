@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../../features/authSlice";
+import { login } from "../../features/authSlice";
 export function LoginPage() {
   const dispatch = useDispatch();
   const { user, isError, isSuccess, message } = useSelector(
@@ -50,14 +50,7 @@ export function LoginPage() {
                 <h3 className="format-text">Welcome To Dormitory FPTU</h3>
               </div>
               <div className="input-group mb-3 form-control-lg justify-content-center">
-                <select className="color-text">
-                  <option value={0}>Select Campus:</option>
-                  <option value={1}>Hòa Lạc</option>
-                  <option value={2}>Hồ Chí Minh</option>
-                  <option value={3}>Cần Thơ</option>
-                  <option value={4}>Đà Nẵng</option>
-                  <option value={5}>Quy Nhơn</option>
-                </select>
+              <h3 className="format-text">CAMPUS HOLA</h3>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="input-group mb-3">
@@ -87,13 +80,11 @@ export function LoginPage() {
                 )}
                 <div className="input-group mb-3 d-flex justify-content-between">
                   <div>
-                    <small>
-                      <a href="#">Change Password?</a>
-                    </small>
+                    
                   </div>
                   <div className="forget">
                     <small>
-                      <a href="#">Forget Password?</a>
+                      <a href="/forgetPassword">Forget Password?</a>
                     </small>
                   </div>
                 </div>
@@ -101,6 +92,7 @@ export function LoginPage() {
                   <button
                     type="submit"
                     className="btn btn-lg login w-100 fs-6 font-text"
+                    style ={{backgroundColor:"orangered",color:"white"}}
                   >
                     Login
                   </button>

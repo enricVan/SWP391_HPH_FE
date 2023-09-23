@@ -8,7 +8,7 @@ import RoomAssignment from "./roomassignment/RoomAssignment";
 import PaymentHistory from "./paymenthistory/PaymentHistory";
 import Request from "./request/Request";
 import NewsDetail from "./news/NewsDetail";
-import ChangePassword from "../changepassword/ChangePassword";
+import ChangePassword from "../changePassword/ChangePassword";
 import StudentProfile from "../profile/StudentProfile";
 function StudentPage() {
   return (

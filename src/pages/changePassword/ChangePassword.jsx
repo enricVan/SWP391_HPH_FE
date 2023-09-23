@@ -1,6 +1,5 @@
-import "./changepassword.css";
+import "./ChangePassword.css";
 import imagelogo from "./imagelogo/FrogFind.png";
-import imagelogogg from "./imagelogo/logo-gg.jpg";
 export default function ChangePassword() {
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
@@ -16,7 +15,7 @@ export default function ChangePassword() {
         </div>
         <div className="col-md-6 right-box">
           <div className="row justify-content-center">
-            <div className="header-text mb-4">
+            <div className="header-text mb-4" style={{ color: "orangered" }}>
               <h3>Change Password?</h3>
             </div>
             <div className="input-group mb-3">
@@ -49,11 +48,12 @@ export default function ChangePassword() {
             <button
               type="submit"
               className="btn btn-lg login w-100 fs-6 font-text"
+              style={{ backgroundColor: "orangered", color: "white" }}
             >
               Change Password
             </button>
           </div>
-          <div className="input-group mb-3">
+          {/* <div className="input-group mb-3">
             <button type="submit" className="btn btn-lg btn-light w-100 fs-6">
               <img
                 src={imagelogogg}
@@ -62,7 +62,7 @@ export default function ChangePassword() {
               />
               <small>Send new password to Gmail</small>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
