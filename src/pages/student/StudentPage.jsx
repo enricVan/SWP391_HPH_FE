@@ -18,7 +18,7 @@ function StudentPage() {
           <Route path="/" element={<Navigate to="/student/home" replace />} />
           <Route path="home" element={<Home />} />
           <Route path="news" element={<News />} />
-          <Route path="news/details" element={<NewsDetail />} />
+          <Route path="news/detail/:id" element={<NewsDetail />} />
           <Route path="bedbooking" element={<BedBooking />} />
           <Route path="bedpayment" element={<BedPayment />} />
           <Route path="roomassignment" element={<RoomAssignment />} />

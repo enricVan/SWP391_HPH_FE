@@ -7,18 +7,8 @@ import Link from "@mui/material/Link";
 import ListItem from "@mui/material/ListItem";
 import { Avatar } from "@mui/material";
 import Item from "../../../constants/Item";
-const LinkItems = [
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-];
+import newsService from "../../../service/newsService";
+const LinkItems = newsService.getRecentNews();
 export default function Home() {
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -39,8 +29,8 @@ export default function Home() {
               {LinkItems.map((link, index) => {
                 return (
                   <ListItem key={index}>
-                    <Link href="#" underline="none">
-                      {link}
+                    <Link href={`news/detail/${link.id}`} underline="none">
+                      {link.title}
                     </Link>
                   </ListItem>
                 );

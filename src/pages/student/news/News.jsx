@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Searchbar from "../../../components/Searchbar";
@@ -6,21 +6,19 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CssBaseline,
   Divider,
   Pagination,
   Typography,
 } from "@mui/material";
-import { getRecentNews } from "../../../service/newsService";
-
-const LinkItems = getRecentNews();
+import newsService from "../../../service/newsService";
 export default function News() {
+  const news = newsService.getNews();
   return (
     <Box>
       <h1 style={{ marginLeft: "8px" }}>News</h1>
       <Searchbar />
       <Grid container p={"8px"} spacing={1}>
-        {LinkItems.map((item, index) => {
+        {news.map((item, index) => {
           return (
             <Grid item xs={6}>
               <Card>
