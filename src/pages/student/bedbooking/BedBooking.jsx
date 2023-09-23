@@ -44,7 +44,7 @@ export default function BedBooking() {
     <Box>
       {console.log(beds)}
       <h1 style={{ marginLeft: "8px" }}>Choose Room Type</h1>
-      <FormControl>
+      <FormControl sx={{ minWidth: 120, m: 1 }}>
         <InputLabel id="roomType-label">Room Type</InputLabel>
         <Select
           id="select"
@@ -62,19 +62,33 @@ export default function BedBooking() {
             );
           })}
         </Select>
-        <Button>Booking</Button>
       </FormControl>
+      <Button
+        variant="contained"
+        sx={{
+          m: 1,
+          height: "56px",
+          bgcolor: "orangered",
+          ":hover": {
+            background: "rgba(255,69,0,0.8)",
+            color: "white",
+            transition: "0.1s",
+          },
+        }}
+      >
+        Booking
+      </Button>
       <Box padding={1}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell align="right">Name</TableCell>
-                <TableCell align="right">Dorm</TableCell>
-                <TableCell align="right">Floor</TableCell>
-                <TableCell align="right">Price&nbsp;(g)</TableCell>
-                <TableCell align="right"></TableCell>
+                <TableCell align="center">Name</TableCell>
+                <TableCell align="center">Dorm</TableCell>
+                <TableCell align="center">Floor</TableCell>
+                <TableCell align="center">Price&nbsp;(g)</TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -92,13 +106,13 @@ export default function BedBooking() {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {bed.roomName}
+                      {bed.roomId}
                     </TableCell>
-                    <TableCell align="right">{bed.belongDom}</TableCell>
-                    <TableCell align="right">{bed.floor}</TableCell>
-                    <TableCell align="right"></TableCell>
-                    <TableCell align="right"></TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">{bed.roomName}</TableCell>
+                    <TableCell align="center">{bed.belongDom}</TableCell>
+                    <TableCell align="center">{bed.floor}</TableCell>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center">
                       <Radio
                         checked={selectedValue === bed.roomId}
                         onClick={() => {
