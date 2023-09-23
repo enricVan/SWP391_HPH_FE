@@ -7,9 +7,9 @@ import BedPayment from "./bedpayment/BedPayment";
 import RoomAssignment from "./roomassignment/RoomAssignment";
 import PaymentHistory from "./paymenthistory/PaymentHistory";
 import Request from "./request/Request";
-import Profile from "./profile/StudentProfile";
-import ChangePassword from "./changepassword/ChangePassword";
 import NewsDetail from "./news/NewsDetail";
+import ChangePassword from "../changepassword/ChangePassword";
+import StudentProfile from "../profile/StudentProfile";
 function StudentPage() {
   return (
     <>
@@ -24,9 +24,9 @@ function StudentPage() {
           <Route path="roomassignment" element={<RoomAssignment />} />
           <Route path="paymenthistory" element={<PaymentHistory />} />
           <Route path="request" element={<Request />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="changepassword" element={<ChangePassword />} />
         </Route>
+        <Route path="profile" element={<StudentProfile />} />
+        <Route path="changepassword" element={<ChangePassword />} />
       </Routes>
     </>
   );
