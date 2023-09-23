@@ -1,37 +1,46 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import Item from "../../../constants/Item";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Searchbar from "../../../components/Searchbar";
-import { Pagination } from "@mui/material";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CssBaseline,
+  Divider,
+  Pagination,
+  Typography,
+} from "@mui/material";
+import { getRecentNews } from "../../../service/newsService";
 
-const LinkItems = [
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-];
+const LinkItems = getRecentNews();
 export default function News() {
   return (
     <Box>
       <h1 style={{ marginLeft: "8px" }}>News</h1>
       <Searchbar />
       <Grid container p={"8px"} spacing={1}>
-        {LinkItems.map((link, index) => {
+        {LinkItems.map((item, index) => {
           return (
             <Grid item xs={6}>
-              <Item>
-                <Link href="#" underline="none">
-                  {link}
-                </Link>
-              </Item>
+              <Card>
+                <CardActionArea>
+                  <CardContent>
+                    <Typography
+                      gutterBottom
+                      variant="h7"
+                      component="div"
+                      fontWeight={"bold"}
+                    >
+                      {item.date}
+                    </Typography>
+                    <Divider sx={{ bgcolor: "black" }} />
+                    <Typography variant="body2" color="primary" mt={1}>
+                      {item.title}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             </Grid>
           );
         })}

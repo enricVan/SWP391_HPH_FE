@@ -22,6 +22,7 @@ import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import { logout, reset } from "../features/authSlice";
+import logo from "../assets/image/avatar-logo.jpg";
 const drawerWidth = 240;
 export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
   const dispatch = useDispatch();
@@ -89,7 +90,11 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
                 padding: "10px 0 10px 0",
               }}
             >
-              <Avatar sx={{ margin: "auto" }} variant="square"></Avatar>
+              <Avatar
+                sx={{ margin: "auto", width: "100%", height: "100%" }}
+                variant="square"
+                src={logo}
+              ></Avatar>
               <Box sx={{ textAlign: "center" }}>
                 <Typography
                   variant="h5"
