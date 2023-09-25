@@ -7,6 +7,9 @@ import Link from "@mui/material/Link";
 import ListItem from "@mui/material/ListItem";
 import { Avatar } from "@mui/material";
 import Item from "../../../constants/Item";
+import student from "../../../data/student.json";
+import avatar from "../../../assets/image/avatar.jpeg";
+
 const LinkItems = [
   "new1",
   "new1",
@@ -66,10 +69,14 @@ export default function Home() {
                   alt="Remy Sharp"
                   sx={{ width: 120, height: 150 }}
                   variant="square"
+                  src={avatar}
                 />
               </Grid>
               <Grid item xs={8}>
-                <Typography>Info</Typography>
+                <Typography>{student.fullName}</Typography>
+                <Typography>{student.dob}</Typography>
+                <Typography>{student.gender}</Typography>
+                <Typography>{student.bed}</Typography>
               </Grid>
             </Grid>
           </Item>
