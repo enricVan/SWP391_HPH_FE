@@ -9,8 +9,21 @@ import {
   Divider,
   Pagination,
   Typography,
+  styled,
 } from "@mui/material";
 import newsService from "../../../service/newsService";
+import { Link } from "react-router-dom";
+const StyledLink = styled(Link)`
+  text-decoration: none;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
+`;
 export default function News() {
   const news = newsService.getNews();
   return (
@@ -22,22 +35,25 @@ export default function News() {
           return (
             <Grid item xs={6}>
               <Card>
-                <CardActionArea>
-                  <CardContent>
-                    <Typography
-                      gutterBottom
-                      variant="h7"
-                      component="div"
-                      fontWeight={"bold"}
-                    >
-                      {item.date}
-                    </Typography>
-                    <Divider sx={{ bgcolor: "black" }} />
-                    <Typography variant="body2" color="primary" mt={1}>
-                      {item.title}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
+                <StyledLink>
+                  <CardActionArea>
+                    <CardContent>
+                      <Typography
+                        gutterBottom
+                        variant="h7"
+                        component="div"
+                        fontWeight={"bold"}
+                        color={"gray"}
+                      >
+                        {item.date}
+                      </Typography>
+                      <Divider sx={{ bgcolor: "black" }} />
+                      <Typography variant="body2" color="primary" mt={1}>
+                        {item.title}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </StyledLink>
               </Card>
             </Grid>
           );
