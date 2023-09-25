@@ -38,6 +38,24 @@ export default function BedBooking() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
+    // const bedId = document.getElementsByName("radio-buttons").value;
+    // const requestData = {
+    //   bed: {
+    //     bedId: bedId,
+    //   },
+    //   student: {
+    //     studentid: 1,
+    //   },
+    //   semesterId: 3,
+    // };
+    // const sendRequest = async (request) => {
+    //   const res = await axios.post(
+    //     "http://localhost:8888/api/v1/admin/bed-request",
+    //     request
+    //   );
+    //   return res.data;
+    // };
+    // sendRequest(requestData);
     setOpen(true);
   };
   const handleClose = () => {
@@ -50,14 +68,14 @@ export default function BedBooking() {
   const [types, settypes] = useState([]);
   const [roomType, setRoomType] = useState("");
   const [isDisable, setIsDisable] = useState(true);
-  // const fetchData = async () => {
-  //   const res = await axios.get("http://localhost:8888/api/v1/admin/room");
-  //   setBeds(res.data);
-  //   settypes(res.data.map((bed) => bed.roomType));
-  // };
-  const fetchData = () => {
-    setBeds(bedData);
-    settypes(bedData.map((bed) => bed.roomType));
+  const fetchData = async () => {
+    // const res1 = await axios.get("http://localhost:8888/api/v1/admin/bed");
+    // const bedData = await res1;
+    // console.log(bedData);
+    // setBeds(res1.data);
+    const res2 = await axios.get("http://localhost:8888/api/v1/admin/room");
+    const roomData = await res2;
+    settypes(roomData.map((room) => room.roomType));
   };
   useEffect(() => {
     fetchData();
@@ -87,9 +105,9 @@ export default function BedBooking() {
           onChange={handleChange}
         >
           <MenuItem value="">All</MenuItem>
-          {types.map((type) => {
+          {types.map((type, index) => {
             return (
-              <MenuItem key={type.roomTypeId} value={type.roomTypeId}>
+              <MenuItem key={index} value={type.roomTypeId}>
                 {type.roomTypeName}
               </MenuItem>
             );
@@ -133,36 +151,36 @@ export default function BedBooking() {
                 .filter((bed) => {
                   if (roomType === "") {
                     return bed;
-                  } else if (bed.roomType.roomTypeId === roomType) {
+                  } else if (bed.room.roomType.roomTypeId === roomType) {
                     return bed;
                   }
                 })
                 .map((bed) => (
                   <TableRow
-                    key={bed.roomId}
+                    key={bed.bedId}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {bed.roomId}
+                      {bed.room.roomId}
                     </TableCell>
                     <TableCell align="center">{bed.bedName}</TableCell>
-                    <TableCell align="center">{bed.roomName}</TableCell>
-                    <TableCell align="center">{bed.belongDom}</TableCell>
-                    <TableCell align="center">{bed.floor}</TableCell>
-                    <TableCell align="center">{bed.roomType.price}</TableCell>
+                    <TableCell align="center">{bed.room.roomName}</TableCell>
+                    <TableCell align="center">{bed.room.belongDom}</TableCell>
+                    <TableCell align="center">{bed.room.floor}</TableCell>
+                    <TableCell align="center">{bed.price}</TableCell>
                     <TableCell align="center">
                       <Radio
-                        checked={selectedValue === bed.roomId}
+                        checked={selectedValue === bed.bedId}
                         onClick={() => {
-                          if (selectedValue === bed.roomId) {
+                          if (selectedValue === bed.bedId) {
                             setSelectedValue("");
                             setIsDisable(true);
                           } else {
-                            setSelectedValue(bed.roomId);
+                            setSelectedValue(bed.bedId);
                             setIsDisable(false);
                           }
                         }}
-                        value={bed.roomId}
+                        value={bed.bedId}
                         name="radio-buttons"
                         inputProps={{ "aria-label": "A" }}
                       />
