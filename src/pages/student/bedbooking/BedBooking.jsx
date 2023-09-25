@@ -38,24 +38,16 @@ export default function BedBooking() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    // const bedId = document.getElementsByName("radio-buttons").value;
-    // const requestData = {
-    //   bed: {
-    //     bedId: bedId,
-    //   },
-    //   student: {
-    //     studentid: 1,
-    //   },
-    //   semesterId: 3,
-    // };
-    // const sendRequest = async (request) => {
-    //   const res = await axios.post(
-    //     "http://localhost:8888/api/v1/admin/bed-request",
-    //     request
-    //   );
-    //   return res.data;
-    // };
-    // sendRequest(requestData);
+    const requestData = {
+      bed: {
+        bedId: selectedValue,
+      },
+      student: {
+        studentId: 2,
+      },
+      semester: semester,
+    };
+    axios.post("http://localhost:8888/api/v1/admin/bed-request", requestData);
     setOpen(true);
   };
   const handleClose = () => {
@@ -69,13 +61,17 @@ export default function BedBooking() {
   const [roomType, setRoomType] = useState("");
   const [isDisable, setIsDisable] = useState(true);
   const fetchData = async () => {
-    // const res1 = await axios.get("http://localhost:8888/api/v1/admin/bed");
-    // const bedData = await res1;
-    // console.log(bedData);
-    // setBeds(res1.data);
-    const res2 = await axios.get("http://localhost:8888/api/v1/admin/room");
+    const res1 = await axios.get("http://localhost:8888/api/v1/admin/bed");
+    const bedData = await res1;
+    setBeds(res1.data);
+    const res2 = await axios.get("http://localhost:8888/api/v1/admin/roomtype");
     const roomData = await res2;
-    settypes(roomData.map((room) => room.roomType));
+    settypes(roomData.data);
+    const res3 = await axios.get(
+      "http://localhost:8888/api/v1/admin/semester/next-semester"
+    );
+    const semesterData = await res3;
+    setSemester(semesterData.data.semesterName);
   };
   useEffect(() => {
     fetchData();
@@ -85,7 +81,6 @@ export default function BedBooking() {
       setSelectedValue("");
     } else {
       setSelectedValue(event.target.value);
-      console.log(event.target.value);
     }
   };
   const handleChange = (e) => {
@@ -93,45 +88,56 @@ export default function BedBooking() {
   };
   return (
     <Box>
-      {console.log(beds)}
       <h1 style={{ marginLeft: "8px" }}>Choose Room Type</h1>
-      <FormControl sx={{ minWidth: 120, m: 1 }}>
-        <InputLabel id="roomType-label">Room Type</InputLabel>
-        <Select
-          id="select"
-          label="Room Type"
-          value={roomType}
-          labelId="roomType-label"
-          onChange={handleChange}
+      <Box display={"flex"}>
+        <FormControl sx={{ minWidth: 120, m: 1 }}>
+          <InputLabel id="roomType-label">Room Type</InputLabel>
+          <Select
+            id="select"
+            label="Room Type"
+            value={roomType}
+            labelId="roomType-label"
+            onChange={handleChange}
+          >
+            <MenuItem value="">All</MenuItem>
+            {types.map((type) => {
+              return (
+                <MenuItem key={type.roomTypeId} value={type.roomTypeId}>
+                  {type.roomTypeName}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <Button
+          disabled={isDisable}
+          onClick={handleClickOpen}
+          variant="contained"
+          sx={{
+            m: 1,
+            height: "56px",
+            bgcolor: "orangered",
+            ":hover": {
+              background: "rgba(255,69,0,0.8)",
+              color: "white",
+              transition: "0.1s",
+            },
+          }}
         >
-          <MenuItem value="">All</MenuItem>
-          {types.map((type, index) => {
-            return (
-              <MenuItem key={index} value={type.roomTypeId}>
-                {type.roomTypeName}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      {console.log(document.getElementsByName("radio-buttons").length)}
-      <Button
-        disabled={isDisable}
-        onClick={handleClickOpen}
-        variant="contained"
-        sx={{
-          m: 1,
-          height: "56px",
-          bgcolor: "orangered",
-          ":hover": {
-            background: "rgba(255,69,0,0.8)",
-            color: "white",
-            transition: "0.1s",
-          },
-        }}
-      >
-        Booking
-      </Button>
+          Booking
+        </Button>
+        <Typography
+          flexGrow={1}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          mx={1}
+          variant="h5"
+          color={"orangered"}
+        >
+          Semester: {semester}
+        </Typography>
+      </Box>
       <Box padding={1}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -161,7 +167,7 @@ export default function BedBooking() {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {bed.room.roomId}
+                      {bed.bedId}
                     </TableCell>
                     <TableCell align="center">{bed.bedName}</TableCell>
                     <TableCell align="center">{bed.room.roomName}</TableCell>
