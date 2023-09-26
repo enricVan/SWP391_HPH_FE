@@ -55,6 +55,7 @@ export default function Request() {
       .post("http://localhost:8888/api/v1/admin/studentRequest", request)
       .then(() => {
         setOpen(!open);
+        setInputText("");
         setSnackBarOpen({ ...snackBarOpen, successOpen: true });
         setReload(!reload);
       });
