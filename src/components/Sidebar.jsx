@@ -29,7 +29,7 @@ export default function SideBar({ isSidebarOpen, setIsSidebarOpen }) {
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
-    navigate(-1);
+    navigate("/");
   };
   const { pathname } = useLocation();
   const [active, setActive] = useState("home");
