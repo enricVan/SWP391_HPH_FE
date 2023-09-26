@@ -64,11 +64,11 @@ export default function BedBooking() {
     const res1 = await axios.get("http://localhost:8888/api/v1/admin/bed");
     const bedData = await res1;
     setBeds(res1.data);
-    const res2 = await axios.get("http://localhost:8888/api/v1/admin/roomtype");
+    const res2 = await axios.get("http://localhost:8888/api/v1/admin/roomType");
     const roomData = await res2;
     settypes(roomData.data);
     const res3 = await axios.get(
-      "http://localhost:8888/api/v1/admin/semester/next-semester"
+      "http://localhost:8888/api/v1/admin/semester/nextSemester"
     );
     const semesterData = await res3;
     setSemester(semesterData.data.semesterName);
