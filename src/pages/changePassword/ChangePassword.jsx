@@ -48,6 +48,13 @@ export default function ChangePassword() {
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
       <div className="row border rounder-5 p-3 bg-white shadow box-area">
+        <button
+          type="submit"
+          className="btn btn-lg login w-100 fs-6 font-text"
+          style={{ backgroundColor: "orangered", color: "white" }}
+        >
+          <a href="/student">Back to dashboard</a>
+        </button>
         <form onSubmit={handleSubmit}>
           <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
             <div className="featured-image mb-3">

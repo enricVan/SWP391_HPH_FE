@@ -1,8 +1,8 @@
 import { useState } from "react";
-import "./ForgetPassword.css";
+import "./Signup.css";
 import imagelogo from "./imagelogo/FrogFind.png";
 import axios from "axios";
-export default function ForgetPassword() {
+export default function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,15 +21,15 @@ export default function ForgetPassword() {
     event.preventDefault();
 
     try {
-      const response = await axios.put('http://localhost:8888/api/v1/auth/forgetPassword', {
+      const response = await axios.post('http://localhost:8888/api/v1/auth/register', {
         username,
         email
       });
 
-      console.log('Password change successful:', response.data);
-      setErrorMessage('Password change successful.');
+      console.log('Signup successfully:', response.data);
+      setErrorMessage('Signup successfully.');
     } catch (error) {
-      console.error('Password change failed:', error);
+      console.error('Signup fail:', error);
 
       if (error.response && error.response.status === 401) {
         setErrorMessage('Invalid username or email.');
@@ -61,7 +61,7 @@ export default function ForgetPassword() {
           <div className="col-md-6 right-box">
             <div className="row justify-content-center">
               <div className="header-text mb-4" style={{ color: "orangered" }}>
-                <h3>Forget Password?</h3>
+                <h3>Register</h3>
               </div>
               <div className="input-group mb-3">
                 <input
