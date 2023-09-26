@@ -9,20 +9,19 @@ import { Avatar } from "@mui/material";
 import Item from "../../../constants/Item";
 import student from "../../../data/student.json";
 import avatar from "../../../assets/image/avatar.jpeg";
+import axios from "axios";
 
-const LinkItems = [
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-  "new1",
-];
 export default function Home() {
+  const [news, setNews] = React.useState([]);
+  const fetchData = async () => {
+    const res = await axios.get(
+      "http://localhost:8888/api/v1/admin/news?page=0"
+    );
+    setNews(res.data.content);
+  };
+  React.useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} padding={1}>
@@ -39,13 +38,20 @@ export default function Home() {
           </Typography>
           <Item>
             <List>
-              {LinkItems.map((link, index) => {
+              {news.map((item, index) => {
                 return (
-                  <ListItem key={index}>
-                    <Link href="#" underline="none">
-                      {link}
-                    </Link>
-                  </ListItem>
+                  <>
+                    <ListItem key={index}>
+                      <Link
+                        href={`news/detail/${item.newsId}`}
+                        underline="none"
+                        width={"100%"}
+                      >
+                        {item.title}
+                      </Link>
+                    </ListItem>
+                    <p style={{ marginLeft: "16px" }}>{item.createdAt}</p>
+                  </>
                 );
               })}
             </List>
@@ -67,12 +73,12 @@ export default function Home() {
               <Grid item xs={4}>
                 <Avatar
                   alt="Remy Sharp"
-                  sx={{ width: 120, height: 150 }}
+                  sx={{ width: "100%", height: 150 }}
                   variant="square"
                   src={avatar}
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={8} width={"100%"} paddingLeft={1}>
                 <Typography>{student.fullName}</Typography>
                 <Typography>{student.dob}</Typography>
                 <Typography>{student.gender}</Typography>
