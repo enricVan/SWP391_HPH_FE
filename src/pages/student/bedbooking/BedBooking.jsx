@@ -47,7 +47,7 @@ export default function BedBooking() {
       },
       semester: semester,
     };
-    axios.post("http://localhost:8888/api/v1/admin/bed-request", requestData);
+    axios.post("http://localhost:8888/api/v1/admin/bedRequest", requestData);
     setOpen(true);
   };
   const handleClose = () => {

@@ -133,7 +133,21 @@ export default function Request() {
                 >
                   {request.requestContent}
                 </TableCell>
-                <TableCell>{request.status}</TableCell>
+                <TableCell
+                  sx={{
+                    ...(request.status === "pending" && {
+                      color: "#ccb01c",
+                    }),
+                    ...(request.status === "denied" && {
+                      color: "red",
+                    }),
+                    ...(request.status === "approved" && {
+                      color: "green",
+                    }),
+                  }}
+                >
+                  {request.status}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
