@@ -31,7 +31,7 @@ export default function ChangePassword() {
 
     // Send a request to the backend to change the password using Axios
     axios.put('http://localhost:8888/api/v1/auth/changePassword', {
-      username: "loi4",
+      username: localStorage.getItem("username"),
       oldPassword: formData.oldPassword,
       newPassword: formData.newPassword
     })

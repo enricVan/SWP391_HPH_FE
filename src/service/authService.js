@@ -5,11 +5,15 @@ const login = async (userData) => {
   if (res.data) {
     localStorage.setItem("token", JSON.stringify(res.data.token));
     localStorage.setItem("role", res.data.role);
+    localStorage.setItem("username", res.data.username)
+    console.log(res.data.username)
   }
   return res.data;
 };
 const logout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("username");
 };
 const authService = {
   login,
