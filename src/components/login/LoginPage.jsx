@@ -97,7 +97,7 @@ export function LoginPage() {
                     Login
                   </button>
                 </div>
-                <div className="input-group mb-3">
+                {/* <div className="input-group mb-3">
                   <button
                     type="submit"
                     className="btn btn-lg btn-light w-100 fs-6"
@@ -109,13 +109,13 @@ export function LoginPage() {
                     />
                     <small>Sign In With Google</small>
                   </button>
-                </div>
+                </div> */}
               </form>
             </div>
 
             <div className="row">
               <small>
-                Do not have account?<a href="#">Sign Up</a>
+                Do not have account?<a href="/signup">Sign Up</a>
               </small>
             </div>
           </div>
