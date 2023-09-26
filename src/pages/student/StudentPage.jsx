@@ -11,6 +11,12 @@ import NewsDetail from "./news/NewsDetail";
 import ChangePassword from "../changePassword/ChangePassword";
 import StudentProfile from "../profile/StudentProfile";
 function StudentPage() {
+  if (
+    localStorage.getItem("role") !== "STUDENT" ||
+    !localStorage.getItem("token")
+  ) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <>
       <Routes>
