@@ -1,4 +1,3 @@
-import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -15,35 +14,80 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Snackbar,
+} from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 export default function Request() {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [open, setOpen] = useState(false);
+  const [requests, setRequests] = useState([]);
+  const [requestTypeId, setRequestTypeId] = useState("");
+  const [types, setTypes] = useState([]);
+  const [inputText, setInputText] = useState("");
+  const [reload, setReload] = useState(false);
+  const [snackBarOpen, setSnackBarOpen] = useState({
+    successOpen: false,
+    vertical: "bottom",
+    horizontal: "right",
+  });
+  const { vertical, horizontal, successOpen } = snackBarOpen;
+  const handleInputContent = (e) => {
+    setInputText(e.target.value);
+    console.log(e.target.value);
   };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleSendRequest = () => {
+    console.log(inputText);
+    const request = {
+      student: {
+        studentId: 1,
+      },
+      studentRequestType: {
+        studentRequestTypeId: requestTypeId,
+      },
+      requestContent: inputText,
+    };
+    axios
+      .post("http://localhost:8888/api/v1/admin/studentRequest", request)
+      .then(() => {
+        setOpen(!open);
+        setInputText("");
+        setSnackBarOpen({ ...snackBarOpen, successOpen: true });
+        setReload(!reload);
+      });
   };
+  const handleChange = (e) => {
+    setRequestTypeId(e.target.value);
+    console.log(e.target.value);
+  };
+  const fetchData = async () => {
+    const res1 = await axios.get(
+      "http://localhost:8888/api/v1/admin/studentRequest"
+    );
+    if (res1 && res1.data) {
+      setRequests(res1.data);
+    }
+    const res2 = await axios.get(
+      "http://localhost:8888/api/v1/admin/studentRequestType"
+    );
+    if (res2 && res2.data) {
+      setTypes(res2.data);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [reload]);
   return (
     <Box padding={1}>
       <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
         <h1 style={{ marginLeft: "8px" }}>Requests History</h1>
         <Button
           variant="contained"
-          onClick={handleClickOpen}
+          onClick={() => setOpen(true)}
           startIcon={<AddCircleOutlineIcon />}
           sx={{ bgcolor: "orangered" }}
         >
@@ -59,33 +103,81 @@ export default function Request() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
+              <TableCell>ID</TableCell>
+              <TableCell>Request Type</TableCell>
+              <TableCell>Created Date</TableCell>
+              <TableCell>Content</TableCell>
+              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {requests.map((request) => (
               <TableRow
-                key={row.name}
+                key={request.requestId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {request.requestId}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell>
+                  {request.studentRequestType.requestTypeName}
+                </TableCell>
+                <TableCell sx={{ whiteSpace: "pre" }}>
+                  {request.createdAt}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {request.requestContent}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    ...(request.status === "pending" && {
+                      color: "#ccb01c",
+                    }),
+                    ...(request.status === "denied" && {
+                      color: "red",
+                    }),
+                    ...(request.status === "approved" && {
+                      color: "green",
+                    }),
+                  }}
+                >
+                  {request.status}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Request</DialogTitle>
+        <Box p={3}>
+          <FormControl fullWidth>
+            <InputLabel id="requestType-label">Request Type</InputLabel>
+            <Select
+              id="select"
+              label="Request Type"
+              value={requestTypeId}
+              labelId="requestType-label"
+              onChange={handleChange}
+            >
+              {types.map((type) => {
+                return (
+                  <MenuItem
+                    key={type.studentRequestTypeId}
+                    value={type.studentRequestTypeId}
+                  >
+                    {type.requestTypeName}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Box>
         <DialogContent>
           <DialogContentText>
             To send your request, please enter your description of what you want
@@ -100,17 +192,41 @@ export default function Request() {
             fullWidth
             multiline
             variant="standard"
+            value={inputText}
+            onChange={handleInputContent}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{ color: "orangered" }}>
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            sx={{ color: "orangered" }}
+          >
             Cancel
           </Button>
-          <Button onClick={handleClose} sx={{ color: "orangered" }}>
+          <Button onClick={handleSendRequest} sx={{ color: "orangered" }}>
             Send
           </Button>
         </DialogActions>
       </Dialog>
+      <Box sx={{ width: 500 }}>
+        <Snackbar
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical, horizontal }}
+          open={successOpen}
+          onClose={() => {
+            setSnackBarOpen({ ...snackBarOpen, successOpen: false });
+          }}
+          message="Send Request Success"
+          key={vertical + horizontal}
+          ContentProps={{
+            sx: {
+              bgcolor: "green",
+            },
+          }}
+        />
+      </Box>
     </Box>
   );
 }
