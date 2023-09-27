@@ -1,9 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/authSlice";
 export function LoginPage() {
+  if (localStorage.getItem("token")) {
+    return <Navigate to="/student" replace></Navigate>;
+  }
   const dispatch = useDispatch();
   const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
@@ -50,7 +53,7 @@ export function LoginPage() {
                 <h3 className="format-text">Welcome To Dormitory FPTU</h3>
               </div>
               <div className="input-group mb-3 form-control-lg justify-content-center">
-              <h3 className="format-text">CAMPUS HOLA</h3>
+                <h3 className="format-text">CAMPUS HOLA</h3>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="input-group mb-3">
@@ -79,9 +82,7 @@ export function LoginPage() {
                   </p>
                 )}
                 <div className="input-group mb-3 d-flex justify-content-between">
-                  <div>
-                    
-                  </div>
+                  <div></div>
                   <div className="forget">
                     <small>
                       <a href="/forgetPassword">Forget Password?</a>
@@ -92,7 +93,7 @@ export function LoginPage() {
                   <button
                     type="submit"
                     className="btn btn-lg login w-100 fs-6 font-text"
-                    style ={{backgroundColor:"orangered",color:"white"}}
+                    style={{ backgroundColor: "orangered", color: "white" }}
                   >
                     Login
                   </button>
