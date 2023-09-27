@@ -15,7 +15,7 @@ function StudentPage() {
     localStorage.getItem("role") !== "STUDENT" ||
     !localStorage.getItem("token")
   ) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
   return (
     <>
