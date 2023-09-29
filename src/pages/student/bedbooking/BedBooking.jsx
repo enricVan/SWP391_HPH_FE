@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Radio from "@mui/material/Radio";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import axios from "axios";
+import axios from "../../../service/axios";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { Button } from "@mui/material";
@@ -47,7 +47,7 @@ export default function BedBooking() {
       },
       semester: semester,
     };
-    axios.post("http://localhost:8888/api/v1/admin/bedRequest", requestData);
+    axios.post("v1/admin/bedRequest", requestData);
     setOpen(true);
   };
   const handleClose = () => {
@@ -61,15 +61,13 @@ export default function BedBooking() {
   const [roomType, setRoomType] = useState("");
   const [isDisable, setIsDisable] = useState(true);
   const fetchData = async () => {
-    const res1 = await axios.get("http://localhost:8888/api/v1/admin/bed");
+    const res1 = await axios.get("v1/admin/bed");
     const bedData = await res1;
     setBeds(res1.data);
-    const res2 = await axios.get("http://localhost:8888/api/v1/admin/roomType");
+    const res2 = await axios.get("v1/admin/roomType");
     const roomData = await res2;
     settypes(roomData.data);
-    const res3 = await axios.get(
-      "http://localhost:8888/api/v1/admin/semester/nextSemester"
-    );
+    const res3 = await axios.get("v1/admin/semester/nextSemester");
     const semesterData = await res3;
     setSemester(semesterData.data.semesterName);
   };

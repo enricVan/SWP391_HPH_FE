@@ -3,20 +3,18 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import ListItem from "@mui/material/ListItem";
 import { Avatar } from "@mui/material";
 import Item from "../../../constants/Item";
 import student from "../../../data/student.json";
 import avatar from "../../../assets/image/avatar.jpeg";
-import axios from "axios";
+import axios from "../../../service/axios";
 
 export default function Home() {
   const [news, setNews] = React.useState([]);
   const fetchData = async () => {
-    const res = await axios.get(
-      "http://localhost:8888/api/v1/admin/news?page=0"
-    );
+    const res = await axios.get("v1/admin/news?page=0");
     setNews(res.data.content);
   };
   React.useEffect(() => {
@@ -41,12 +39,8 @@ export default function Home() {
               {news.map((item, index) => {
                 return (
                   <>
-                    <ListItem key={index}>
-                      <Link
-                        href={`news/detail/${item.newsId}`}
-                        underline="none"
-                        width={"100%"}
-                      >
+                    <ListItem key={item.newsId}>
+                      <Link to={`../news/detail/${item.newsId}`}>
                         {item.title}
                       </Link>
                     </ListItem>

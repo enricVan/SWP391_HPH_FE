@@ -1,53 +1,56 @@
 import { useState } from "react";
 import "./ForgetPassword.css";
 import imagelogo from "./imagelogo/FrogFind.png";
-import axios from "axios";
+import axios from "../../service/axios";
+import { Link } from "react-router-dom";
 export default function ForgetPassword() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
-    setErrorMessage('');
+    setErrorMessage("");
   };
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    setErrorMessage('');
+    setErrorMessage("");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.put('http://localhost:8888/api/v1/auth/forgetPassword', {
+      const response = await axios.put("v1/auth/forgetPassword", {
         username,
-        email
+        email,
       });
 
-      console.log('Password change successful:', response.data);
-      setErrorMessage('Password change successful.');
+      console.log("Password change successful:", response.data);
+      setErrorMessage("Password change successful.");
     } catch (error) {
-      console.error('Password change failed:', error);
+      console.error("Password change failed:", error);
 
       if (error.response && error.response.status === 401) {
-        setErrorMessage('Invalid username or email.');
+        setErrorMessage("Invalid username or email.");
       } else {
-        setErrorMessage('An error occurred. Please try again later.');
+        setErrorMessage("An error occurred. Please try again later.");
       }
     }
   };
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
       <div className="row border rounder-5 p-3 bg-white shadow box-area">
-        <button
-          type="submit"
-          className="btn btn-lg login w-100 fs-6 font-text"
-          style={{ backgroundColor: "orangered", color: "white" }}
-        >
-          <a href="/login" style={{textDecoration: "none"}}>Back to login</a>
-        </button>
+        <Link to="/login" style={{ width: "100%" }}>
+          <button
+            type="submit"
+            className="btn btn-lg login w-100 fs-6 font-text"
+            style={{ backgroundColor: "orangered", color: "white" }}
+          >
+            Back to login
+          </button>
+        </Link>
         <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
           <div className="featured-image mb-3">
             <img
@@ -83,7 +86,7 @@ export default function ForgetPassword() {
                 />
               </div>
             </div>
-            {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
             <div className="input-group mb-3">
               <button
                 type="submit"
@@ -105,8 +108,7 @@ export default function ForgetPassword() {
               <small>Send new password to Gmail</small>
             </button>
           </div> */}
-
       </div>
-    </div >
+    </div>
   );
 }

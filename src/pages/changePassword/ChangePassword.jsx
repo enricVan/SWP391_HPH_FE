@@ -1,14 +1,15 @@
-import axios from "axios";
+import { Link } from "react-router-dom";
+import axios from "../../service/axios";
 import "./ChangePassword.css";
 import imagelogo from "./imagelogo/FrogFind.png";
 import { useState } from "react";
 
 export default function ChangePassword() {
   const [formData, setFormData] = useState({
-    username: '',
-    oldPassword: '',
-    newPassword: '',
-    confirmNewPassword: ''
+    username: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
   });
   const [error, setError] = useState(null);
 
@@ -16,7 +17,7 @@ export default function ChangePassword() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -25,22 +26,26 @@ export default function ChangePassword() {
 
     // Check if new password and confirm new password match
     if (formData.newPassword !== formData.confirmNewPassword) {
-      setError('New password and confirm new password do not match.');
+      setError("New password and confirm new password do not match.");
       return;
     }
 
     // Send a request to the backend to change the password using Axios
-    axios.put('http://localhost:8888/api/v1/auth/changePassword', {
-      username: localStorage.getItem("username"),
-      oldPassword: formData.oldPassword,
-      newPassword: formData.newPassword
-    })
-      .then(response => {
-        console.log('Password change success:', response.data);
-        alert('Password successfully changed!');
+    axios
+      .put("v1/auth/changePassword", {
+        username: localStorage.getItem("username"),
+        oldPassword: formData.oldPassword,
+        newPassword: formData.newPassword,
       })
-      .catch(error => {
-        console.error('Error:', error.response ? error.response.data : error.message);
+      .then((response) => {
+        console.log("Password change success:", response.data);
+        alert("Password successfully changed!");
+      })
+      .catch((error) => {
+        console.error(
+          "Error:",
+          error.response ? error.response.data : error.message
+        );
         setError(error.response ? error.response.data : error.message);
       });
   };
@@ -48,13 +53,15 @@ export default function ChangePassword() {
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
       <div className="row border rounder-5 p-3 bg-white shadow box-area">
-        <button
-          type="submit"
-          className="btn btn-lg login w-100 fs-6 font-text"
-          style={{ backgroundColor: "orangered", color: "white" }}
-        >
-          <a href="/student">Back to dashboard</a>
-        </button>
+        <Link to="/student" style={{ width: "100%" }}>
+          <button
+            type="submit"
+            className="btn btn-lg login w-100 fs-6 font-text"
+            style={{ backgroundColor: "orangered", color: "white" }}
+          >
+            Back to dashboard
+          </button>
+        </Link>
         <form onSubmit={handleSubmit}>
           <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
             <div className="featured-image mb-3">
@@ -102,7 +109,7 @@ export default function ChangePassword() {
                   onChange={handleInputChange}
                 />
               </div>
-              {error && <div style={{ color: 'red' }}>{error}</div>}
+              {error && <div style={{ color: "red" }}>{error}</div>}
             </div>
             <div className="input-group mb-3">
               <button
@@ -116,6 +123,6 @@ export default function ChangePassword() {
           </div>
         </form>
       </div>
-    </div >
+    </div>
   );
 }
