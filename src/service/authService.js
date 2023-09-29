@@ -6,7 +6,6 @@ const login = async (userData) => {
     localStorage.setItem("token", JSON.stringify(res.data.token));
     localStorage.setItem("role", res.data.role);
     localStorage.setItem("username", res.data.username);
-    console.log(res.data.username);
   }
   return res.data;
 };

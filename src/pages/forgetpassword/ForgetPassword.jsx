@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./ForgetPassword.css";
 import imagelogo from "./imagelogo/FrogFind.png";
 import axios from "../../service/axios";
+import { Link } from "react-router-dom";
 export default function ForgetPassword() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -41,15 +42,15 @@ export default function ForgetPassword() {
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
       <div className="row border rounder-5 p-3 bg-white shadow box-area">
-        <button
-          type="submit"
-          className="btn btn-lg login w-100 fs-6 font-text"
-          style={{ backgroundColor: "orangered", color: "white" }}
-        >
-          <a href="/login" style={{ textDecoration: "none" }}>
+        <Link to="/login" style={{ width: "100%" }}>
+          <button
+            type="submit"
+            className="btn btn-lg login w-100 fs-6 font-text"
+            style={{ backgroundColor: "orangered", color: "white" }}
+          >
             Back to login
-          </a>
-        </button>
+          </button>
+        </Link>
         <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
           <div className="featured-image mb-3">
             <img

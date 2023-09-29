@@ -6,6 +6,7 @@ import infoImg1 from "./images/info-1.jpg";
 import infoImg2 from "./images/info-2.jpg";
 import infoImg3 from "./images/info-3.jpg";
 import DropdownFAQ from "./DropdownFAQ";
+import { Link } from "react-router-dom";
 export default function LandingPage() {
   return (
     <>
@@ -31,9 +32,9 @@ export default function LandingPage() {
       <nav className="navbar navbar-light bg-light static-top">
         <div className="container">
           <img src={logo} />
-          <a className="btn btn-orange" href="/login">
+          <Link className="btn btn-orange" to="login">
             Login
-          </a>
+          </Link>
         </div>
       </nav>
 

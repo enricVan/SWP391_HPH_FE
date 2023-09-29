@@ -1,4 +1,4 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +26,9 @@ export function LoginPage() {
       username: values.name,
       password: values.password,
     };
-    dispatch(login(userData));
+    dispatch(login(userData)).then(() => {
+      navigate("/student");
+    });
   }
   useEffect(() => {
     if (isSuccess || user) {
@@ -85,7 +87,7 @@ export function LoginPage() {
                   <div></div>
                   <div className="forget">
                     <small>
-                      <a href="/forgetPassword">Forget Password?</a>
+                      <Link to="/forgetPassword">Forget Password?</Link>
                     </small>
                   </div>
                 </div>
@@ -117,7 +119,7 @@ export function LoginPage() {
 
             <div className="row">
               <small>
-                Do not have account?<a href="/signup">Sign Up</a>
+                Do not have account?<Link to="/signup">Sign Up</Link>
               </small>
             </div>
           </div>

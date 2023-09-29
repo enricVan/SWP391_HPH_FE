@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import ListItem from "@mui/material/ListItem";
 import { Avatar } from "@mui/material";
 import Item from "../../../constants/Item";
@@ -40,11 +40,7 @@ export default function Home() {
                 return (
                   <>
                     <ListItem key={item.newsId}>
-                      <Link
-                        href={`news/detail/${item.newsId}`}
-                        underline="none"
-                        width={"100%"}
-                      >
+                      <Link to={`../news/detail/${item.newsId}`}>
                         {item.title}
                       </Link>
                     </ListItem>
