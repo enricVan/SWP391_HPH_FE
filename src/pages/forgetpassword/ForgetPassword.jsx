@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./ForgetPassword.css";
 import imagelogo from "./imagelogo/FrogFind.png";
-import axios from "axios";
+import axios from "../../service/axios";
 export default function ForgetPassword() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
