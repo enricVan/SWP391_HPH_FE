@@ -13,7 +13,7 @@ import {
   styled,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../../../service/axios";
 const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -33,9 +33,7 @@ export default function News() {
   const [searchTitle, setSearchTitle] = useState("");
   const fetchData = async () => {
     const res = await axios.get(
-      `http://localhost:8888/api/v1/admin/news?title=${searchTitle}&page=${
-        currentPage - 1
-      }`
+      `v1/admin/news?title=${searchTitle}&page=${currentPage - 1}`
     );
     setNews(res.data.content);
     setTotalPages(res.data.totalPages);
@@ -67,7 +65,7 @@ export default function News() {
       <Grid container p={"8px"} spacing={1}>
         {news.map((item, index) => {
           return (
-            <Grid item xs={6} my={2}>
+            <Grid item xs={6} my={2} key={item.newsId}>
               <Card sx={{ width: "100%", height: "100%" }}>
                 <StyledLink to={`detail/${item.newsId}`}>
                   <CardActionArea>

@@ -9,14 +9,12 @@ import { Avatar } from "@mui/material";
 import Item from "../../../constants/Item";
 import student from "../../../data/student.json";
 import avatar from "../../../assets/image/avatar.jpeg";
-import axios from "axios";
+import axios from "../../../service/axios";
 
 export default function Home() {
   const [news, setNews] = React.useState([]);
   const fetchData = async () => {
-    const res = await axios.get(
-      "http://localhost:8888/api/v1/admin/news?page=0"
-    );
+    const res = await axios.get("v1/admin/news?page=0");
     setNews(res.data.content);
   };
   React.useEffect(() => {
@@ -41,7 +39,7 @@ export default function Home() {
               {news.map((item, index) => {
                 return (
                   <>
-                    <ListItem key={index}>
+                    <ListItem key={item.newsId}>
                       <Link
                         href={`news/detail/${item.newsId}`}
                         underline="none"

@@ -21,7 +21,7 @@ import {
   Select,
   Snackbar,
 } from "@mui/material";
-import axios from "axios";
+import axios from "../../../service//axios";
 import { useEffect, useState } from "react";
 export default function Request() {
   const [open, setOpen] = useState(false);
@@ -51,29 +51,23 @@ export default function Request() {
       },
       requestContent: inputText,
     };
-    axios
-      .post("http://localhost:8888/api/v1/admin/studentRequest", request)
-      .then(() => {
-        setOpen(!open);
-        setInputText("");
-        setSnackBarOpen({ ...snackBarOpen, successOpen: true });
-        setReload(!reload);
-      });
+    axios.post("v1/admin/studentRequest", request).then(() => {
+      setOpen(!open);
+      setInputText("");
+      setSnackBarOpen({ ...snackBarOpen, successOpen: true });
+      setReload(!reload);
+    });
   };
   const handleChange = (e) => {
     setRequestTypeId(e.target.value);
     console.log(e.target.value);
   };
   const fetchData = async () => {
-    const res1 = await axios.get(
-      "http://localhost:8888/api/v1/admin/studentRequest"
-    );
+    const res1 = await axios.get("v1/admin/studentRequest");
     if (res1 && res1.data) {
       setRequests(res1.data);
     }
-    const res2 = await axios.get(
-      "http://localhost:8888/api/v1/admin/studentRequestType"
-    );
+    const res2 = await axios.get("v1/admin/studentRequestType");
     if (res2 && res2.data) {
       setTypes(res2.data);
     }

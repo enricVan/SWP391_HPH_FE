@@ -1,40 +1,40 @@
 import { useState } from "react";
 import "./Signup.css";
 import imagelogo from "./imagelogo/FrogFind.png";
-import axios from "axios";
+import axios from "../../service/axios";
 export default function Signup() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
-    setErrorMessage('');
+    setErrorMessage("");
   };
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
-    setErrorMessage('');
+    setErrorMessage("");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8888/api/v1/auth/register', {
+      const response = await axios.post("v1/auth/register", {
         username,
-        email
+        email,
       });
 
-      console.log('Signup successfully:', response.data);
-      setErrorMessage('Signup successfully.');
+      console.log("Signup successfully:", response.data);
+      setErrorMessage("Signup successfully.");
     } catch (error) {
-      console.error('Signup fail:', error);
+      console.error("Signup fail:", error);
 
       if (error.response && error.response.status === 401) {
-        setErrorMessage('Invalid username or email.');
+        setErrorMessage("Invalid username or email.");
       } else {
-        setErrorMessage('An error occurred. Please try again later.');
+        setErrorMessage("An error occurred. Please try again later.");
       }
     }
   };
@@ -46,7 +46,9 @@ export default function Signup() {
           className="btn btn-lg login w-100 fs-6 font-text"
           style={{ backgroundColor: "orangered", color: "white" }}
         >
-          <a href="/login" style={{textDecoration: "none"}}>Back to login</a>
+          <a href="/login" style={{ textDecoration: "none" }}>
+            Back to login
+          </a>
         </button>
         <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
           <div className="featured-image mb-3">
@@ -83,7 +85,7 @@ export default function Signup() {
                 />
               </div>
             </div>
-            {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
             <div className="input-group mb-3">
               <button
                 type="submit"
@@ -105,8 +107,7 @@ export default function Signup() {
               <small>Send new password to Gmail</small>
             </button>
           </div> */}
-
       </div>
-    </div >
+    </div>
   );
 }

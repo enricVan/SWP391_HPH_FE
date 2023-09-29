@@ -91,6 +91,7 @@ export function LoginPage() {
                 </div>
                 <div className="input-group mb-3">
                   <button
+                    onSubmit={handleSubmit}
                     type="submit"
                     className="btn btn-lg login w-100 fs-6 font-text"
                     style={{ backgroundColor: "orangered", color: "white" }}
