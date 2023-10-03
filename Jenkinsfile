@@ -23,6 +23,7 @@ pipeline {
         CLUSTER_NAME = "haikn2-cicd-${BUILD_ENV}-cluster"
         PROJECT_ID = 'knhfrdevops'
         LOCATION = 'asia-east2-a'
+        NAMESPACE = 'hph'
     }
 
     stages {
@@ -91,6 +92,8 @@ pipeline {
                 expression { params.BUILD_ENV != 'prod' }
             }
             steps {
+                sh 'kubectl create namespace ${NAMESPACE}'
+                sh 'kubectl config set-context --current --namespace=${NAMESPACE}'
                 sh 'bash k8s/script/run.sh deployment ${BUILD_ENV}'
                 sh 'bash k8s/script/run.sh service ${BUILD_ENV}'
             }
