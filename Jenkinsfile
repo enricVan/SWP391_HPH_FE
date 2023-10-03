@@ -92,10 +92,12 @@ pipeline {
                 expression { params.BUILD_ENV != 'prod' }
             }
             steps {
-                try {
-                    sh 'kubectl create namespace ${NAMESPACE}'
-                } catch (Exception e) {
-                    echo "Caught exception: ${e.message}"
+                script {
+                    try {
+                        sh 'kubectl create namespace ${NAMESPACE}'
+                    } catch (Exception e) {
+                        echo "Caught exception: ${e.message}"
+                    }
                 }
                 sh 'kubectl config set-context --current --namespace=${NAMESPACE}'
                 sh 'bash k8s/script/run.sh deployment ${BUILD_ENV}'
