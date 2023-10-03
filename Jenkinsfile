@@ -18,7 +18,7 @@ pipeline {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('gcloud-creds')
         GOOGLE_CLOUD_KEYFILE_JSON = credentials('gcloud-creds')
         DOCKERHUB_CREDS = credentials('dockerhub')
-        DOCKER_IMAGE_NAME = 'quachuoiscontainer/hph_be'
+        DOCKER_IMAGE_NAME = 'quachuoiscontainer/hph_fe'
         DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
         CLUSTER_NAME = "haikn2-cicd-${BUILD_ENV}-cluster"
         PROJECT_ID = 'knhfrdevops'
@@ -86,10 +86,13 @@ pipeline {
             }
         }
 
-        stage('Deploy to GKE ${BUILD_ENV}') {
+        stage('Deploy to Google Kubernetes Engine') {
+            when {
+                expression { params.BUILD_ENV != 'prod' }
+            }
             steps {
-                sh 'bash k8s/run.sh service ${BUILD_ENV}'
-                sh 'kubectl cluster-info'
+                sh 'bash k8s/script/run.sh deployment ${BUILD_ENV}'
+                sh 'bash k8s/script/run.sh service ${BUILD_ENV}'
             }
         }
 
@@ -99,6 +102,8 @@ pipeline {
             }
             steps {
                 input message: 'Deploy to production? Confirm deployment.', ok: 'Deploy'
+                sh 'bash k8s/script/run.sh deployment ${BUILD_ENV}'
+                sh 'bash k8s/script/run.sh service ${BUILD_ENV}'
             }
         }
     }

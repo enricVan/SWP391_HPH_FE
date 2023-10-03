@@ -1,18 +1,23 @@
-FROM node:18 AS build-stage
+FROM nginx:latest
 
-WORKDIR /app
+ENV NGINX_DOMAIN hph.quachuoitrenmay.online
 
-COPY package.json package-lock.json ./
+WORKDIR /usr/share/nginx/html
 
-RUN npm install
+RUN rm -rf ./*
 
-COPY . .
+COPY dist/ ./
 
-RUN npm run build
+RUN echo 'server {' > /etc/nginx/conf.d/default.conf && \
+    echo '    listen 80;' >> /etc/nginx/conf.d/default.conf && \
+    echo "    server_name $NGINX_DOMAIN;" >> /etc/nginx/conf.d/default.conf && \
+    echo '    location / {' >> /etc/nginx/conf.d/default.conf && \
+    echo '        root /usr/share/nginx/html;' >> /etc/nginx/conf.d/default.conf && \
+    echo '        index index.html;' >> /etc/nginx/conf.d/default.conf && \
+    echo '    }' >> /etc/nginx/conf.d/default.conf && \
+    echo '}' >> /etc/nginx/conf.d/default.conf
 
-FROM nginx:alpine AS production-stage
-
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+RUN nginx -t
 
 EXPOSE 80
 
