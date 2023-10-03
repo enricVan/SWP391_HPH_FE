@@ -7,13 +7,17 @@ import Topbar from "../../components/Topbar";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import BedIcon from "@mui/icons-material/Bed";
 import NightShelterIcon from "@mui/icons-material/NightShelter";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import AddHomeIcon from "@mui/icons-material/AddHome";
 import PaidIcon from "@mui/icons-material/Paid";
 import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
 const navItems = [
   {
     text: "Dashboard",
     icon: <SpaceDashboardIcon />,
+  },
+  {
+    text: "Room Type",
+    icon: <AddHomeIcon />,
   },
   {
     text: "Room",
@@ -30,10 +34,6 @@ const navItems = [
   {
     text: "Bed Payment",
     icon: <PaidIcon />,
-  },
-  {
-    text: "User",
-    icon: <AccountBoxIcon />,
   },
 ];
 function ManagerPage() {
@@ -52,7 +52,7 @@ function ManagerPage() {
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
             navItems={navItems}
-            trimPath={12}
+            trimPath={7}
           />
           <Box width={"100%"} height={"100%"}>
             <Topbar
