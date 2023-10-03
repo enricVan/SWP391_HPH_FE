@@ -10,6 +10,11 @@ import NightShelterIcon from "@mui/icons-material/NightShelter";
 import AddHomeIcon from "@mui/icons-material/AddHome";
 import PaidIcon from "@mui/icons-material/Paid";
 import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
+import RoomType from "./roomtype/RoomType";
+import Room from "./room/Room";
+import Bed from "./bed/Bed";
+import BedRequest from "./bedrequest/BedRequest";
+import BedPayment from "./bedpayment/BedPayment";
 const navItems = [
   {
     text: "Dashboard",
@@ -52,7 +57,7 @@ function ManagerPage() {
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
             navItems={navItems}
-            trimPath={7}
+            trimPath={9}
           />
           <Box width={"100%"} height={"100%"}>
             <Topbar
@@ -71,6 +76,11 @@ function ManagerPage() {
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="roomtype" element={<RoomType />} />
+          <Route path="room" element={<Room />} />
+          <Route path="bed" element={<Bed />} />
+          <Route path="bedrequest" element={<BedRequest />} />
+          <Route path="bedpayment" element={<BedPayment />} />
         </Route>
       </Routes>
     </>
