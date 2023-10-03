@@ -33,7 +33,7 @@ pipeline {
             }
         }
 
-        stage('Build with npm') {
+        stage('Build with NPM') {
             steps {
                 script {
                     sh 'npm i'
