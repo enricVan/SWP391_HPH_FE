@@ -6,11 +6,18 @@ import List from "@mui/material/List";
 import { Link } from "react-router-dom";
 import ListItem from "@mui/material/ListItem";
 import { Avatar } from "@mui/material";
-import Item from "../../../constants/Item";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
 import student from "../../../data/student.json";
 import avatar from "../../../assets/image/avatar.jpeg";
 import axios from "../../../service/axios";
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  color: theme.palette.text.secondary,
+}));
 export default function Home() {
   const [news, setNews] = React.useState([]);
   const fetchData = async () => {
