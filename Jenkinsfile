@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'my-node-18.18.0'
+        nodejs 'my-node-18.18.0'
     }
 
     options {
