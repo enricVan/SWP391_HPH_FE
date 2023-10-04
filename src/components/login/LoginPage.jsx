@@ -4,9 +4,6 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/authSlice";
 export function LoginPage() {
-  if (localStorage.getItem("token")) {
-    return <Navigate to="/student" replace></Navigate>;
-  }
   const dispatch = useDispatch();
   const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
@@ -26,14 +23,22 @@ export function LoginPage() {
       username: values.name,
       password: values.password,
     };
-    dispatch(login(userData)).then(() => {
-      navigate("/student");
-    });
+    dispatch(login(userData));
   }
   useEffect(() => {
-    if (isSuccess || user) {
-      const role = localStorage.getItem("role");
-      role === "STUDENT" ? navigate("/student") : navigate("/admin");
+    if (localStorage.getItem("token")) {
+      console.log(user.role.name);
+      switch (user.role.name) {
+        case "STUDENT":
+          navigate("/student");
+          break;
+        case "MANAGER":
+          navigate("/manager");
+          break;
+        case "ADMIN":
+          navigate("/headmanager");
+          break;
+      }
     }
   }, [user, isError, isSuccess, message, dispatch, navigate]);
   return (

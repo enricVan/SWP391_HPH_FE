@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import student from "../../../data/student.json";
 import avatar from "../../../assets/image/avatar.jpeg";
-import axios from "../../../service/axios";
+import { privateAxios } from "../../../service/axios";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Home() {
   const [news, setNews] = React.useState([]);
   const fetchData = async () => {
-    const res = await axios.get("v1/admin/news?page=0");
+    const res = await privateAxios.get("v1/admin/news?page=0");
     setNews(res.data.content);
   };
   React.useEffect(() => {
