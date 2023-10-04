@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Box, Paper } from "@mui/material";
 import { useParams } from "react-router-dom";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import axios from "../../../service/axios";
+import { privateAxios } from "../../../service/axios";
 export default function NewsDetail() {
   const [file, setFile] = useState(null);
   const [newsDetail, setNewsDetail] = useState(null);
   let { id } = useParams();
   const fetchData = async () => {
-    const res = await axios.get(`v1/admin/news/detail/${id}`);
+    const res = await privateAxios.get(`v1/admin/news/detail/${id}`);
     setNewsDetail(res.data);
   };
   useEffect(() => {
