@@ -14,18 +14,18 @@ export default function BasicTable({ users }) {
         <TableHead sx={{ bgcolor: "orangered" }}>
           <TableRow>
             <TableCell>User ID</TableCell>
-            <TableCell align="right">Role</TableCell>
-            <TableCell align="right">Username</TableCell>
-            <TableCell align="right">Fullname</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Gender</TableCell>
-            <TableCell align="right">Date Of Birth</TableCell>
-            <TableCell align="right">Phone</TableCell>
-            <TableCell align="right">Address</TableCell>
-            <TableCell align="right">Avatar Image</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">Created At</TableCell>
-            <TableCell align="right">Updated At</TableCell>
+            <TableCell align="center">Role</TableCell>
+            <TableCell align="center">Username</TableCell>
+            {/* <TableCell align="center">Fullname</TableCell>
+            <TableCell align="center">Email</TableCell>
+            <TableCell align="center">Gender</TableCell>
+            <TableCell align="center">Date Of Birth</TableCell>
+            <TableCell align="center">Phone</TableCell>
+            <TableCell align="center">Address</TableCell>
+            <TableCell align="center">Avatar Image</TableCell> */}
+            <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Created At</TableCell>
+            <TableCell align="center">Updated At</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,19 +34,19 @@ export default function BasicTable({ users }) {
               key={user.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell align="right">{user.userId}</TableCell>
-              <TableCell align="right">{user.role.roleName}</TableCell>
-              <TableCell align="right">{user.username}</TableCell>
-              <TableCell align="right">{user.fullName}</TableCell>
-              <TableCell align="right">{user.email}</TableCell>
-              <TableCell align="right">{user.gender}</TableCell>
-              <TableCell align="right">{user.dateOfBirth}</TableCell>
-              <TableCell align="right">{user.phone}</TableCell>
-              <TableCell align="right">{user.address}</TableCell>
-              <TableCell align="right">{user.avatarImage}</TableCell>
-              <TableCell align="right">{user.status}</TableCell>
-              <TableCell align="right">{user.createdAt}</TableCell>
-              <TableCell align="right">{user.updatedAt}</TableCell>
+              <TableCell align="center">{user.userId}</TableCell>
+              <TableCell align="center">{user.role.roleName}</TableCell>
+              <TableCell align="center">{user.username}</TableCell>
+              {/* <TableCell align="center">{user.fullName}</TableCell>
+              <TableCell align="center">{user.email}</TableCell>
+              <TableCell align="center">{user.gender}</TableCell>
+              <TableCell align="center">{user.dateOfBirth}</TableCell>
+              <TableCell align="center">{user.phone}</TableCell>
+              <TableCell align="center">{user.address}</TableCell>
+              <TableCell align="center">{user.avatarImage}</TableCell> */}
+              <TableCell align="center">{user.status}</TableCell>
+              <TableCell align="center">{user.createdAt}</TableCell>
+              <TableCell align="center">{user.updatedAt}</TableCell>
             </TableRow>
           ))}
         </TableBody>

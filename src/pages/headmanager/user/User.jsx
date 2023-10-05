@@ -15,7 +15,7 @@ function User() {
 
   const fetchData = async () => {
     const res = await axios.get(
-      `v1/user/search?partialUsername=${partialUsername}`
+      `v1/admin/user/search?partialUsername=${partialUsername}`
     );
     if (res && res.data) {
       console.log(res.data);

@@ -26,16 +26,14 @@ export function LoginPage() {
       username: values.name,
       password: values.password,
     };
-    dispatch(login(userData)).then(() => {
-      navigate("/student");
-    });
+    dispatch(login(userData));
   }
   useEffect(() => {
-    if (isSuccess || user) {
-      const role = localStorage.getItem("role");
-      role === "STUDENT" ? navigate("/student") : navigate("/admin");
-    }
-  }, [user, isError, isSuccess, message, dispatch, navigate]);
+    // if (isSuccess || user) {
+    //   const role = localStorage.getItem("role");
+    //   role === "STUDENT" ? navigate("/student") : navigate("/headmanager");
+    // }
+  }, [user, isError, isSuccess, message, dispatch]);
   return (
     <>
       <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
