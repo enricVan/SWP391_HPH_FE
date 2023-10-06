@@ -20,6 +20,7 @@ import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
+
 const navItems = [
   {
     text: "Home",
@@ -51,12 +52,10 @@ const navItems = [
   },
 ];
 function StudentPage() {
-  if (
-    localStorage.getItem("role") !== "STUDENT" ||
-    !localStorage.getItem("token")
-  ) {
-    return <Navigate to="/login" replace />;
-  }
+  // const { user } = useSelector((state) => state.auth);
+  // if (user.role.name !== "STUDENT" || !localStorage.getItem("token")) {
+  //   return <Navigate to="/login" replace />;
+  // }
   const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (

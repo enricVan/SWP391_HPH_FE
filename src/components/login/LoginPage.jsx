@@ -1,12 +1,9 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/authSlice";
 export function LoginPage() {
-  if (localStorage.getItem("token")) {
-    return <Navigate to="/student" replace></Navigate>;
-  }
   const dispatch = useDispatch();
   const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
@@ -29,11 +26,11 @@ export function LoginPage() {
     dispatch(login(userData));
   }
   useEffect(() => {
-    // if (isSuccess || user) {
-    //   const role = localStorage.getItem("role");
-    //   role === "STUDENT" ? navigate("/student") : navigate("/headmanager");
-    // }
-  }, [user, isError, isSuccess, message, dispatch]);
+    if (isSuccess || user) {
+      const role = localStorage.getItem("role");
+      role === "STUDENT" ? navigate("/student") : navigate("/headmanager");
+    }
+  }, [user, isError, isSuccess, message, dispatch, navigate]);
   return (
     <>
       <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">

@@ -13,7 +13,7 @@ import {
   styled,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import axios from "../../../service/axios";
+import { privateAxios } from "../../../service/axios";
 const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -32,7 +32,7 @@ export default function News() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTitle, setSearchTitle] = useState("");
   const fetchData = async () => {
-    const res = await axios.get(
+    const res = await privateAxios.get(
       `v1/admin/news?title=${searchTitle}&page=${currentPage - 1}`
     );
     setNews(res.data.content);
