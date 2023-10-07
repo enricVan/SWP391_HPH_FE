@@ -27,8 +27,8 @@ export function LoginPage() {
   }
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      console.log(user.role.name);
-      switch (user.role.name) {
+      const role = localStorage.getItem("role");
+      switch (role) {
         case "STUDENT":
           navigate("/student");
           break;
