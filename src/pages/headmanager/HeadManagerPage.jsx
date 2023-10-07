@@ -5,7 +5,6 @@ import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
 import User from "./user/User";
-import UserDetail from "./user/UserDetail";
 
 const navItems = [{ text: "User", icon: <ManageAccountsIcon /> }];
 
@@ -37,7 +36,6 @@ function HeadManagerPage() {
       <Route element={<Layout />}>
         <Route path="/" />
         <Route path="user" element={<User />} />
-        <Route path="user/userdetail/:id" element={<UserDetail />} />
       </Route>
     </Routes>
   );

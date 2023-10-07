@@ -1,56 +1,176 @@
 /* eslint-disable react/prop-types */
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import { useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import Searchbar from "../../../components/Searchbar";
+import SearchIcon from "@mui/icons-material/Search";
+import { Box } from "@mui/system";
+import Switch from "@mui/material/Switch";
+import { privateAxios } from "../../../service/axios";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import UserDetails from "./UserDetails";
 
-export default function BasicTable({ users }) {
+const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
+
+const StatusToggle = ({ value, onStatusChange }) => {
   return (
-    <TableContainer component={Paper} sx={{ padding: "15px" }}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead sx={{ bgcolor: "orangered" }}>
-          <TableRow>
-            <TableCell>User ID</TableCell>
-            <TableCell align="center">Role</TableCell>
-            <TableCell align="center">Username</TableCell>
-            {/* <TableCell align="center">Fullname</TableCell>
-            <TableCell align="center">Email</TableCell>
-            <TableCell align="center">Gender</TableCell>
-            <TableCell align="center">Date Of Birth</TableCell>
-            <TableCell align="center">Phone</TableCell>
-            <TableCell align="center">Address</TableCell>
-            <TableCell align="center">Avatar Image</TableCell> */}
-            <TableCell align="center">Status</TableCell>
-            <TableCell align="center">Created At</TableCell>
-            <TableCell align="center">Updated At</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((user) => (
-            <TableRow
-              key={user.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="center">{user.userId}</TableCell>
-              <TableCell align="center">{user.role.roleName}</TableCell>
-              <TableCell align="center">{user.username}</TableCell>
-              {/* <TableCell align="center">{user.fullName}</TableCell>
-              <TableCell align="center">{user.email}</TableCell>
-              <TableCell align="center">{user.gender}</TableCell>
-              <TableCell align="center">{user.dateOfBirth}</TableCell>
-              <TableCell align="center">{user.phone}</TableCell>
-              <TableCell align="center">{user.address}</TableCell>
-              <TableCell align="center">{user.avatarImage}</TableCell> */}
-              <TableCell align="center">{user.status}</TableCell>
-              <TableCell align="center">{user.createdAt}</TableCell>
-              <TableCell align="center">{user.updatedAt}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <span>Inactive</span>
+      <Switch checked={value} onChange={() => onStatusChange(!value)} />
+      <span>Active</span>
+    </div>
+  );
+};
+
+const updateStatusInDatabase = async (userId, newStatus, reload, setReload) => {
+  try {
+    const response = await privateAxios.put(`v1/admin/user/${userId}`, {
+      status: newStatus,
+    });
+
+    console.log(newStatus, response);
+    setReload(!reload);
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+};
+
+export default function DataTable({ users, reload, setReload }) {
+  const columns = [
+    { field: "id", headerName: "ID", width: 60 },
+    {
+      field: "username",
+      headerName: "Username",
+      width: 180,
+    },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 360,
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated At",
+      width: 360,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 180,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <StatusToggle
+          value={params.value === "active"}
+          onStatusChange={(newValue) => {
+            const updatedStatus = newValue ? "active" : "inactive";
+            const confirmation = window.confirm(
+              `Do you want to change the status to ${updatedStatus} for ID ${params.row.id}?`
+            );
+            if (confirmation) {
+              updateStatusInDatabase(
+                params.row.id,
+                updatedStatus,
+                reload,
+                setReload
+              );
+            }
+          }}
+        />
+      ),
+    },
+    {
+      field: "details",
+      headerName: "View Details",
+      width: 150,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <RemoveRedEyeIcon
+          style={{ cursor: "pointer", color: "blue" }}
+          onClick={() => handleViewDetailsClick(params.row.id)}
+        />
+      ),
+    },
+  ];
+
+  const [userDetails, setUserDetails] = useState(null);
+
+  const [isUserDetailsOpen, setIsUserDetailsOpen] = useState(false);
+
+  const openUserDetailsPopup = () => {
+    setIsUserDetailsOpen(true);
+  };
+
+  const closeUserDetailsPopup = () => {
+    setIsUserDetailsOpen(false);
+  };
+
+  const handleViewDetailsClick = async (userId) => {
+    try {
+      const response = await privateAxios.get(`v1/admin/user/${userId}`);
+      const userData = await response.data;
+      console.log(userData);
+      setUserDetails(userData);
+      openUserDetailsPopup(); // Open the user details popup
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filterUsers = () => {
+    return users.filter((user) =>
+      user.username.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  };
+
+  const rows = filterUsers();
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  return (
+    <div style={{ height: "580px", width: "100%" }}>
+      <Box flex>
+        <Search sx={{ display: "inline-block" }}>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+            placeholder="Search by username…"
+            inputProps={{ "aria-label": "search" }}
+            sx={{
+              border: "5px solid orangered",
+              borderRadius: "30px",
+              marginBottom: "10px",
+            }}
+          />
+        </Search>
+      </Box>
+
+      <div>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+        />
+      </div>
+      {userDetails && (
+        <UserDetails
+          open={isUserDetailsOpen}
+          handleClose={closeUserDetailsPopup}
+          userDetails={userDetails}
+        />
+      )}
+    </div>
   );
 }
