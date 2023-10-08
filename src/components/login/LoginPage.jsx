@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,6 +39,7 @@ export function LoginPage() {
           navigate("/headmanager");
           break;
       }
+
     }
   }, [user, isError, isSuccess, message, dispatch, navigate]);
   return (
