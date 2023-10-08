@@ -28,6 +28,7 @@ export function LoginPage() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const role = localStorage.getItem("role");
+      console.log(role);
       switch (role) {
         case "STUDENT":
           navigate("/student");
@@ -39,7 +40,6 @@ export function LoginPage() {
           navigate("/headmanager");
           break;
       }
-
     }
   }, [user, isError, isSuccess, message, dispatch, navigate]);
   return (

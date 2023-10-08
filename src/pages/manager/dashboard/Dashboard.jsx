@@ -33,14 +33,13 @@ export default function Dashboard() {
   };
   return (
     <Box p={2}>
-      <Grid container spacing={2}>
-        {Array.from(Array(4)).map((_, index) => (
-          <Grid xs={4} key={index}>
-            <BasicCard></BasicCard>
-          </Grid>
-        ))}
-      </Grid>
+      {/*   <Grid container spacing={2}>
+    //     {Array.from(Array(4)).map((_, index) => (
+    //       <Grid xs={4} key={index}>
+    //         <BasicCard></BasicCard>
+    //       </Grid>
+    //     ))}
+    //   </Grid> */}
     </Box>
   );
-
 }
