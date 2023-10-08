@@ -20,7 +20,7 @@ import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+
 const navItems = [
   {
     text: "Home",

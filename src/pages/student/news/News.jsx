@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import SearchIcon from "@mui/icons-material/Search";
@@ -63,7 +63,7 @@ export default function News() {
         </Search>
       </Box>
       <Grid container p={"8px"} spacing={1}>
-        {news.map((item, index) => {
+        {news.map((item) => {
           return (
             <Grid item xs={6} my={2} key={item.newsId}>
               <Card sx={{ width: "100%", height: "100%" }}>

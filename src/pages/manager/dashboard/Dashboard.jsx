@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Unstable_Grid2";
 export default function Dashboard() {
   const BasicCard = () => {
     return (
@@ -31,15 +31,5 @@ export default function Dashboard() {
       </Card>
     );
   };
-  return (
-    <Box p={2}>
-      <Grid container spacing={2}>
-        {Array.from(Array(4)).map((_, index) => (
-          <Grid xs={4}>
-            <BasicCard></BasicCard>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
-  );
+  return <Box p={2}></Box>;
 }

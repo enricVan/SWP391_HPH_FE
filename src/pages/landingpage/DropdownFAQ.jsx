@@ -1,32 +1,53 @@
-import Dropdown from "react-bootstrap/Dropdown";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function DropdownFAQ() {
   const customStyle = {
     width: "100%",
     textAlign: "left",
-    backgroundColor: "#F58C4D",
+    backgroundColor: "#fff",
     margin: "20px 0px",
+    border: "1px solid #F58C4D",
+    borderRadius: "10px",
+    padding: "10px",
   };
 
-  const menuStyle = {
-    pointerEvents: "none",
+  const faqStyle = {
+    backgroundColor: "#F58C4D",
+    color: "#fff",
+    padding: "12px",
+    fontWeight: "bold",
+    fontSize: "1.5rem",
   };
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getFaq = async (API_URL) => {
+      try {
+        const response = await axios.get(API_URL);
+        setData(response.data);
+        console.log(data);
+      } catch (error) {
+        console.error("Lỗi khi gọi API:" + error);
+      }
+    };
+
+    getFaq("http://localhost:8888/api/v1/admin/faq");
+  }, []);
 
   return (
     <>
-      <div className="container">
-        <Dropdown alignRight={false}>
-          <Dropdown.Toggle
-            variant="success"
-            id="dropdown-basic"
-            style={customStyle}
-          >
-            1. Khi ở KTX cần lưu ý điều gì?
-          </Dropdown.Toggle>
+      {data.map((item) => (
+        // eslint-disable-next-line react/jsx-key
+        <div className="container">
+          <div className="faq-title" style={{ ...customStyle, ...faqStyle }}>
+            {item.faqId}. {item.title}
+          </div>
 
-          <Dropdown.Menu style={{ ...menuStyle, ...customStyle }}>
-            <div className="dropdown-item">
-              <h6>Ký túc xá có một số điều cần lưu ý khi ở như sau:</h6>
+          <div style={{ ...customStyle }}>
+            <div className="faq-content">
+              <h6>{item.subTitle}</h6>
               <div className="text-wrap">
                 <ul>
                   <li>Không được nuôi vật nuôi, thú cưng (chó, mèo,...).</li>
@@ -50,53 +71,19 @@ function DropdownFAQ() {
                 </h6>
               </div>
             </div>
-          </Dropdown.Menu>
-        </Dropdown>
-
-        <Dropdown alignRight={false}>
-          <Dropdown.Toggle
-            variant="success"
-            id="dropdown-basic"
-            style={customStyle}
-          >
-            2. Điểm uy tín là gì?
-          </Dropdown.Toggle>
-
-          <Dropdown.Menu style={{ ...menuStyle, ...customStyle }}>
-            <div className="dropdown-item">
-              <div className="text-wrap">
-                <h6>
-                  Điểm uy tín (Credibility in FPT Dormitory - CFD score) là một
-                  trong những yếu tố để tạo ra môi trường KTX văn minh và lành
-                  mạnh hơn
-                </h6>
-                <ul>
-                  <li>
-                    Điểm uy tín là tiêu chí để đánh giá ý thức của sinh viên khi
-                    sử dụng dịch vụ ký túc xá.
-                  </li>
-                  <li>
-                    Điểm uy tín thay đổi dựa theo những hành vi, hoạt động và sự
-                    đóng góp của sinh viên trong suốt thời gian ở ký túc xá.
-                  </li>
-                  <li>
-                    Điểm uy tín sẽ được tăng, giảm tương ứng theo các quy định
-                    đã được đề ra trong nội quy KTX.
-                  </li>
-                  <li>
-                    Điểm uy tín là một trong những tiêu chí được dùng để xét
-                    duyệt xem sinh viên có được sử dụng ký túc xá trong kỳ hay
-                    không.
-                  </li>
-                  <li>Giữ gìn vệ sinh chung và đổ rác trước 9 giờ sáng.</li>
-                </ul>
-              </div>
-            </div>
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
+          </div>
+        </div>
+      ))}
     </>
   );
 }
 
 export default DropdownFAQ;
+
+// {data.map((item) => (
+//   <div key={item.faqId}>
+//     <h1 key={item.title}>{item.title}</h1>
+//     <h2 key={item.subTitle}>{item.subTitle}</h2>
+//     <h3 key={item.content}>{item.content}</h3>
+//   </div>
+// ))}
