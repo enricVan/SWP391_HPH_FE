@@ -30,7 +30,7 @@ export default function SideBar({
     navigate("/");
   };
   const { pathname } = useLocation();
-  const [active, setActive] = useState(navItems[0].text);
+  const [active, setActive] = useState(navItems[0].text.toLowerCase());
   const navigate = useNavigate();
   useEffect(() => {
     setActive(pathname.substring(trimPath));
@@ -92,13 +92,16 @@ export default function SideBar({
             >
               {navItems.map(({ text, icon }) => {
                 const lcText = text.toLowerCase().replace(/ /g, "");
+                // console.log(lcText);
+                // console.log(active);
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       sx={{
-                        backgroundColor: active.includes(lcText)
-                          ? "orangered"
-                          : "",
+                        backgroundColor:
+                          active === lcText || active.startsWith(lcText + "/")
+                            ? "orangered"
+                            : "",
                       }}
                       onClick={() => {
                         navigate(`${lcText}`);

@@ -26,9 +26,20 @@ export function LoginPage() {
     dispatch(login(userData));
   }
   useEffect(() => {
-    if (isSuccess || user) {
+    if (localStorage.getItem("token")) {
       const role = localStorage.getItem("role");
-      role === "STUDENT" ? navigate("/student") : navigate("/headmanager");
+      switch (role) {
+        case "STUDENT":
+          navigate("/student");
+          break;
+        case "MANAGER":
+          navigate("/manager");
+          break;
+        case "ADMIN":
+          navigate("/headmanager");
+          break;
+      }
+
     }
   }, [user, isError, isSuccess, message, dispatch, navigate]);
   return (

@@ -31,5 +31,16 @@ export default function Dashboard() {
       </Card>
     );
   };
-  return <Box p={2}></Box>;
+  return (
+    <Box p={2}>
+      <Grid container spacing={2}>
+        {Array.from(Array(4)).map((_, index) => (
+          <Grid xs={4} key={index}>
+            <BasicCard></BasicCard>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+
 }
