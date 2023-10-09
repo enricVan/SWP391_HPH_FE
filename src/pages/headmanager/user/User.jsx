@@ -21,7 +21,6 @@ function User() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>User List</h1>
       <UserTable users={users} reload={reload} setReload={setReload} />
     </>
   );
