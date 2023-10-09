@@ -53,9 +53,12 @@ const navItems = [
 ];
 function StudentPage() {
   // const { user } = useSelector((state) => state.auth);
-  // if (user.role.name !== "STUDENT" || !localStorage.getItem("token")) {
-  //   return <Navigate to="/login" replace />;
-  // }
+  if (
+    localStorage.getItem("role") !== "STUDENT" ||
+    !localStorage.getItem("token")
+  ) {
+    return <Navigate to="/login" replace />;
+  }
   const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (
