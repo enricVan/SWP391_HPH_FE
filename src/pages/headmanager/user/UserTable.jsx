@@ -170,7 +170,7 @@ export default function DataTable({ users, reload, setReload }) {
 
   return (
     <div style={{ height: "580px", width: "100%" }}>
-      <Box flex sx={{ marginBottom: "20px", marginTop: "20px" }}>
+      <Box flex sx={{ margin: "25px" }}>
         <Search sx={{ display: "inline-block" }}>
           <SearchIconWrapper>
             <SearchIcon />
