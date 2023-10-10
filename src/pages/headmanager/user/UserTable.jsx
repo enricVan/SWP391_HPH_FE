@@ -44,20 +44,24 @@ export default function DataTable({ users, reload, setReload }) {
       width: 180,
     },
     {
+      field: "fullName",
+      headerName: "Full Name",
+      width: 180,
+    },
+    {
       field: "role",
       headerName: "Role",
       width: 180,
-      renderCell: (params) => <span>{params.value.name}</span>,
     },
     {
       field: "createdAt",
       headerName: "Created At",
-      width: 260,
+      width: 180,
     },
     {
       field: "updatedAt",
       headerName: "Updated At",
-      width: 260,
+      width: 180,
     },
     {
       field: "status",
@@ -130,8 +134,8 @@ export default function DataTable({ users, reload, setReload }) {
 
   const rolesSet = new Set();
   users.forEach((user) => {
-    if (user.role && user.role.name) {
-      rolesSet.add(user.role.name);
+    if (user.role) {
+      rolesSet.add(user.role);
     }
   });
 
@@ -146,15 +150,10 @@ export default function DataTable({ users, reload, setReload }) {
 
   const filterUsers = () => {
     return users.filter((user) => {
-      if (
-        selectedRole &&
-        user.role &&
-        user.role.name &&
-        selectedRole !== "All Roles"
-      ) {
+      if (selectedRole && user.role && selectedRole !== "All Roles") {
         return (
           user.username.toLowerCase().includes(searchQuery.toLowerCase()) &&
-          user.role.name === selectedRole
+          user.role === selectedRole
         );
       } else {
         return user.username.toLowerCase().includes(searchQuery.toLowerCase());
@@ -170,7 +169,7 @@ export default function DataTable({ users, reload, setReload }) {
 
   return (
     <div style={{ height: "580px", width: "100%" }}>
-      <Box flex sx={{ marginBottom: "20px", marginTop: "20px" }}>
+      <Box flex sx={{ margin: "25px" }}>
         <Search sx={{ display: "inline-block" }}>
           <SearchIconWrapper>
             <SearchIcon />
