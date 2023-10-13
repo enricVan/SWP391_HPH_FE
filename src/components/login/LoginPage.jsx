@@ -39,6 +39,9 @@ export function LoginPage() {
         case "ADMIN":
           navigate("/headmanager");
           break;
+        case "GUARD":
+          navigate("/guard");
+          break;
       }
     }
   }, [user, isError, isSuccess, message, dispatch, navigate]);

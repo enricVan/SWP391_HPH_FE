@@ -1,14 +1,20 @@
 import { Outlet, Route, Routes } from "react-router";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Box } from "@mui/system";
 import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
-import User from "./user/User";
+import News from "../student/news/News";
+import NewsDetail from "../student/news/NewsDetail";
+import ViewSchedule from "./schedule/ViewSchedule";
 
-const navItems = [{ text: "User", icon: <ManageAccountsIcon /> }];
+const navItems = [
+  { text: "News", icon: <NewspaperIcon /> },
+  { text: "View Schedule", icon: <AccessTimeIcon /> },
+];
 
-function HeadManagerPage() {
+function Guard() {
   const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (
@@ -18,7 +24,7 @@ function HeadManagerPage() {
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
             navItems={navItems}
-            trimPath={13}
+            trimPath={7}
           />
           <Box width={"100%"} height={"100%"}>
             <Topbar
@@ -35,10 +41,12 @@ function HeadManagerPage() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" />
-        <Route path="user" element={<User />} />
+        <Route path="news" element={<News />} />
+        <Route path="news/detail/:id" element={<NewsDetail />} />
+        <Route path="viewschedule" element={<ViewSchedule />} />
       </Route>
     </Routes>
   );
 }
 
-export default HeadManagerPage;
+export default Guard;
