@@ -4,7 +4,7 @@ import Home from "./home/Home";
 import News from "./news/News";
 import BedBooking from "./bedbooking/BedBooking";
 import BedPayment from "./bedpayment/BedPayment";
-import RoomAssignment from "./roomassignment/RoomAssignment";
+import BookedHistory from "./bookedhistory/BookedHistory";
 import PaymentHistory from "./paymenthistory/PaymentHistory";
 import Request from "./request/Request";
 import NewsDetail from "./news/NewsDetail";
@@ -20,6 +20,7 @@ import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const navItems = [
   {
@@ -39,7 +40,7 @@ const navItems = [
     icon: <PaymentIcon />,
   },
   {
-    text: "Room Assignment",
+    text: "Booked History",
     icon: <ListAltIcon />,
   },
   {
@@ -52,11 +53,8 @@ const navItems = [
   },
 ];
 function StudentPage() {
-  // const { user } = useSelector((state) => state.auth);
-  if (
-    localStorage.getItem("role") !== "STUDENT" ||
-    !localStorage.getItem("token")
-  ) {
+  const { user, isError, isSuccess } = useSelector((state) => state.user);
+  if (!user || user.role.name !== "STUDENT") {
     return <Navigate to="/login" replace />;
   }
   const Layout = () => {
@@ -91,7 +89,7 @@ function StudentPage() {
           <Route path="news/detail/:id" element={<NewsDetail />} />
           <Route path="bedbooking" element={<BedBooking />} />
           <Route path="bedpayment" element={<BedPayment />} />
-          <Route path="roomassignment" element={<RoomAssignment />} />
+          <Route path="bookedhistory" element={<BookedHistory />} />
           <Route path="paymenthistory" element={<PaymentHistory />} />
           <Route path="request" element={<Request />} />
         </Route>

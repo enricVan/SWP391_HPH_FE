@@ -14,3 +14,16 @@ privateAxios.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+// privateAxios.interceptors.response.use(
+//   function (response) {
+//     console.log(response);
+//     return response.data;
+//   },
+//   function (error) {
+//     // Any status codes that falls outside the range of 2xx cause this function to trigger
+//     // Do something with response error
+//     console.log(error.message);
+//     if (error) return error;
+//     return Promise.reject(error);
+//   }
+// );

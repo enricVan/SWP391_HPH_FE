@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/authSlice";
+import { getUserDetails } from "../../features/userSlice";
 export function LoginPage() {
   const dispatch = useDispatch();
-  const { user, isError, isSuccess, message } = useSelector(
+  const { token, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
+  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [values, setValues] = useState({
     name: "",
@@ -27,21 +29,21 @@ export function LoginPage() {
   }
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      const role = localStorage.getItem("role");
-      console.log(role);
-      switch (role) {
-        case "STUDENT":
-          navigate("/student");
-          break;
-        case "MANAGER":
-          navigate("/manager");
-          break;
-        case "ADMIN":
-          navigate("/headmanager");
-          break;
-      }
+      dispatch(getUserDetails()).then(() => {
+        switch (user.role.name) {
+          case "STUDENT":
+            navigate("/student");
+            break;
+          case "MANAGER":
+            navigate("/manager");
+            break;
+          case "ADMIN":
+            navigate("/headmanager");
+            break;
+        }
+      });
     }
-  }, [user, isError, isSuccess, message, dispatch, navigate]);
+  }, [token, isError, isSuccess, message, dispatch, navigate]);
   return (
     <>
       <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
