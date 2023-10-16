@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { privateAxios } from "../../../service/axios";
+import { useSelector } from "react-redux";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -35,18 +36,18 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 export default function BedBooking() {
   const [open, setOpen] = React.useState(false);
-
+  const { user } = useSelector((state) => state.user);
   const handleClickOpen = () => {
     const requestData = {
       bed: {
         bedId: selectedValue,
       },
       student: {
-        studentId: 2,
+        studentId: user.id,
       },
       semester: semester,
     };
-    privateAxios.post("v1/admin/bedRequest", requestData);
+    privateAxios.post("bedRequest", requestData);
     setOpen(true);
   };
   const handleClose = () => {
@@ -60,13 +61,13 @@ export default function BedBooking() {
   const [roomType, setRoomType] = useState("");
   const [isDisable, setIsDisable] = useState(true);
   const fetchData = async () => {
-    const res1 = await privateAxios.get("v1/admin/bed");
+    const res1 = await privateAxios.get("bed");
     const bedData = await res1;
     setBeds(res1.data);
-    const res2 = await privateAxios.get("v1/admin/roomType");
+    const res2 = await privateAxios.get("roomType");
     const roomData = await res2;
     settypes(roomData.data);
-    const res3 = await privateAxios.get("v1/admin/semester/nextSemester");
+    const res3 = await privateAxios.get("semester/nextSemester");
     const semesterData = await res3;
     setSemester(semesterData.data.semesterName);
   };

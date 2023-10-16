@@ -4,7 +4,8 @@ export const getUserDetails = createAsyncThunk(
   "user/getUserDetails",
   async (_, thunkAPI) => {
     try {
-      const res = await privateAxios.get("v1/admin/user/userdetails");
+      const res = await privateAxios.get("user/userdetails");
+      console.log(res.data);
       return res.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

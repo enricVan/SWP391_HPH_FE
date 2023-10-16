@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Home() {
   const [news, setNews] = React.useState([]);
   const fetchData = async () => {
-    const res = await privateAxios.get("v1/admin/news?page=0");
+    const res = await privateAxios.get("news?page=0");
     setNews(res.data.content);
   };
   React.useEffect(() => {

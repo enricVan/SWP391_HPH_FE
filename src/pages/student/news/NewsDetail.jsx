@@ -8,7 +8,7 @@ export default function NewsDetail() {
   const [newsDetail, setNewsDetail] = useState(null);
   let { id } = useParams();
   const fetchData = async () => {
-    const res = await privateAxios.get(`v1/admin/news/detail/${id}`);
+    const res = await privateAxios.get(`news/detail/${id}`);
     setNewsDetail(res.data);
   };
   useEffect(() => {
