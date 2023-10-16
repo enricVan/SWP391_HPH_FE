@@ -63,7 +63,7 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
           className="textPrimary"
           onClick={() => {
             (async () => {
-              const res = await privateAxios.get(`v1/admin/roomType/${id}`);
+              const res = await privateAxios.get(`roomType/${id}`);
               const apiData = await res.data;
               setRoomType(apiData);
             })().then(() => {
@@ -78,7 +78,7 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
           onClick={() => {
             if (confirm(`Room Type ID ${id} will be delete?`)) {
               (async () => {
-                privateAxios.delete(`v1/admin/roomType/${id}`);
+                privateAxios.delete(`roomType/${id}`);
               })().then(() => {
                 setReload(!reload);
               });
@@ -99,7 +99,7 @@ export default function RoomType() {
   const [roomTypes, setroomTypes] = React.useState([]);
   const columns = createColumns(setEditOpen, setRoomType, reload, setReload);
   const fetchData = async () => {
-    const res = await privateAxios.get("v1/admin/roomType");
+    const res = await privateAxios.get("roomType");
     const apiData = await res.data;
     setroomTypes(apiData);
   };

@@ -33,7 +33,7 @@ function DropdownFAQ() {
       }
     };
 
-    getFaq("http://localhost:8888/api/v1/admin/faq");
+    getFaq("http://localhost:8888/api/v1/faq");
   }, []);
 
   return (

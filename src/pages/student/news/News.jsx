@@ -33,7 +33,7 @@ export default function News() {
   const [searchTitle, setSearchTitle] = useState("");
   const fetchData = async () => {
     const res = await privateAxios.get(
-      `v1/admin/news?title=${searchTitle}&page=${currentPage - 1}`
+      `news?title=${searchTitle}&page=${currentPage - 1}`
     );
     setNews(res.data.content);
     setTotalPages(res.data.totalPages);
