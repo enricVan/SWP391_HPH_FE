@@ -7,7 +7,7 @@ function User() {
   const [users, setUsers] = useState([]);
   const [reload, setReload] = useState(false);
   const fetchData = async () => {
-    const res = await privateAxios.get(`v1/admin/user`);
+    const res = await privateAxios.get(`user`);
     if (res && res.data) {
       console.log(res.data);
       setUsers(res.data);

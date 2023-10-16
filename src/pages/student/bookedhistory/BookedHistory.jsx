@@ -26,7 +26,7 @@ export default function BookedHistory() {
   const [bookedList, setBookedList] = React.useState([]);
   const fetchData = async () => {
     try {
-      const res = await privateAxios.get(`v1/admin/bedRequest/user/${user.id}`);
+      const res = await privateAxios.get(`bedRequest/user/${user.id}`);
       console.log(res.data);
       setBookedList[res.data];
     } catch (error) {
@@ -56,7 +56,7 @@ export default function BookedHistory() {
           <TableBody>
             {bookedList.map((bookedRequest) => (
               <TableRow
-                key={bookedRequest.id}
+                key={bookedRequest.bookedRequestId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">

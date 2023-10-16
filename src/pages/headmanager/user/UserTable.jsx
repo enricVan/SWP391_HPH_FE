@@ -24,7 +24,7 @@ const StatusToggle = ({ value, onStatusChange }) => {
 
 const updateStatusInDatabase = async (userId, newStatus, reload, setReload) => {
   try {
-    const response = await privateAxios.put(`v1/admin/user/${userId}`, {
+    const response = await privateAxios.put(`user/${userId}`, {
       status: newStatus,
     });
 
@@ -115,7 +115,7 @@ export default function DataTable({ users, reload, setReload }) {
 
   const handleViewDetailsClick = async (userId) => {
     try {
-      const response = await privateAxios.get(`v1/admin/user/${userId}`);
+      const response = await privateAxios.get(`user/${userId}`);
       const userData = await response.data;
       console.log(userData);
       setUserDetails(userData);
