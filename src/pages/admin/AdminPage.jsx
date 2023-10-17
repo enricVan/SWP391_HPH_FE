@@ -5,14 +5,16 @@ import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
 import User from "./user/User";
-import RoomType from "../manager/roomtype/RoomType";
+import RoomType from "./roomtype/RoomType";
+import Room from "./room/Room";
 
 const navItems = [
   { text: "User", icon: <ManageAccountsIcon /> },
   { text: "Room Type", icon: <ManageAccountsIcon /> },
+  { text: "Room", icon: <ManageAccountsIcon /> },
 ];
 
-function HeadManagerPage() {
+function AdminPage() {
   const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (
@@ -22,7 +24,7 @@ function HeadManagerPage() {
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
             navItems={navItems}
-            trimPath={12}
+            trimPath={13}
           />
           <Box width={"100%"} height={"100%"}>
             <Topbar
@@ -41,9 +43,10 @@ function HeadManagerPage() {
         <Route path="/" />
         <Route path="user" element={<User />} />
         <Route path="roomtype" element={<RoomType />} />
+        <Route path="room" element={<Room />} />
       </Route>
     </Routes>
   );
 }
 
-export default HeadManagerPage;
+export default AdminPage;

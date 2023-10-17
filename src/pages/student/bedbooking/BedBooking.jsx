@@ -64,7 +64,7 @@ export default function BedBooking() {
     const res1 = await privateAxios.get("bed");
     const bedData = await res1;
     setBeds(res1.data);
-    const res2 = await privateAxios.get("roomType");
+    const res2 = await privateAxios.get("room-type");
     const roomData = await res2;
     settypes(roomData.data);
     const res3 = await privateAxios.get("semester/nextSemester");
@@ -82,7 +82,7 @@ export default function BedBooking() {
     }
   };
   const handleChange = (e) => {
-    setRoomType(e.target.value);
+    if (e.target.value) setRoomType(e.target.value);
   };
   return (
     <Box>

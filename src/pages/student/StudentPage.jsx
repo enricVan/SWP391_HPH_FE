@@ -20,7 +20,6 @@ import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 
 const navItems = [
   {
@@ -53,8 +52,8 @@ const navItems = [
   },
 ];
 function StudentPage() {
-  const { user, isError, isSuccess } = useSelector((state) => state.user);
-  if (!user || user.role !== "STUDENT") {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.role + "" !== "STUDENT") {
     return <Navigate to="/login" replace />;
   }
   const Layout = () => {
