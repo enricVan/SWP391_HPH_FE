@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/authSlice";
-import { getUserDetails } from "../../features/userSlice";
 export function LoginPage() {
   const dispatch = useDispatch();
   const { user, isError, isSuccess, message } = useSelector(
