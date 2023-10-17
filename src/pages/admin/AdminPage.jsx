@@ -5,6 +5,7 @@ import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
 import User from "./user/User";
+
 import RoomType from "./roomtype/RoomType";
 import Room from "./room/Room";
 
@@ -13,6 +14,7 @@ const navItems = [
   { text: "Room Type", icon: <ManageAccountsIcon /> },
   { text: "Room", icon: <ManageAccountsIcon /> },
 ];
+
 
 function AdminPage() {
   const Layout = () => {

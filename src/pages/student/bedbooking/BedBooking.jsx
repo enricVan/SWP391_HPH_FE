@@ -25,7 +25,6 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { privateAxios } from "../../../service/axios";
-import { useSelector } from "react-redux";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -36,7 +35,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 export default function BedBooking() {
   const [open, setOpen] = React.useState(false);
-  const { user } = useSelector((state) => state.user);
   const handleClickOpen = () => {
     const requestData = {
       bed: {
@@ -67,7 +65,7 @@ export default function BedBooking() {
     const res2 = await privateAxios.get("room-type");
     const roomData = await res2;
     settypes(roomData.data);
-    const res3 = await privateAxios.get("semester/nextSemester");
+    const res3 = await privateAxios.get("semester/next-semester");
     const semesterData = await res3;
     setSemester(semesterData.data.semesterName);
   };
