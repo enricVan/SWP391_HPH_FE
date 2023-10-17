@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,22 +28,14 @@ export function LoginPage() {
     dispatch(login(userData));
   }
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      dispatch(getUserDetails()).then(() => {
-        switch (user.role.name) {
-          case "STUDENT":
-            navigate("/student");
-            break;
-          case "MANAGER":
-            navigate("/manager");
-            break;
-          case "ADMIN":
-            navigate("/headmanager");
-            break;
-        }
-      });
+    if (localStorage.getItem("token") && !user) {
+      dispatch(getUserDetails());
     }
   }, [token, isError, isSuccess, message, dispatch, navigate]);
+  if (user) {
+    const path = "/" + user.role.toLowerCase();
+    return <Navigate to={path} replace />;
+  }
   return (
     <>
       <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">

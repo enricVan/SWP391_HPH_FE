@@ -54,7 +54,7 @@ const navItems = [
 ];
 function StudentPage() {
   const { user, isError, isSuccess } = useSelector((state) => state.user);
-  if (!user || user.role.name !== "STUDENT") {
+  if (!user || user.role !== "STUDENT") {
     return <Navigate to="/login" replace />;
   }
   const Layout = () => {

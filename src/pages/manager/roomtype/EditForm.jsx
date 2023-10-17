@@ -40,14 +40,14 @@ export default function EditForm({
   });
   const onSubmit = (data) => {
     (async () => {
-      await privateAxios.put("v1/admin/roomType", data);
+      await privateAxios.put("roomType", data);
     })().then(() => {
       setSnackBarOpen(true);
       setReload(!reload);
     });
   };
   //   const fetchData = async () => {
-  //     const res = await privateAxios.get(`v1/admin/roomType/${id}`);
+  //     const res = await privateAxios.get(`roomType/${id}`);
   //     const apiData = await res.data;
   //     setRoomType(apiData);
   //   };

@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import { logout, reset } from "../features/authSlice";
+import { userReset } from "../features/userSlice";
 import logo from "../assets/image/avatar-logo.jpg";
 const drawerWidth = 240;
 export default function SideBar({
@@ -27,6 +28,7 @@ export default function SideBar({
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
+    dispatch(userReset());
     navigate("/");
   };
   const { pathname } = useLocation();
