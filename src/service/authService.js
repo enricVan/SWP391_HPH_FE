@@ -1,5 +1,5 @@
 import axios from "./axios";
-const API_URL = "v1/auth/authenticate";
+const API_URL = "auth/authenticate";
 const login = async (userData) => {
   const res = await axios.post(API_URL, userData);
   if (res.data) {

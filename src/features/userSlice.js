@@ -19,7 +19,11 @@ const userSlice = createSlice({
     isError: false,
     isSuccess: false,
   },
-  reducers: {},
+  reducers: {
+    userReset: (state) => {
+      (state.isError = false), (state.isSuccess = false), (state.user = null);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUserDetails.fulfilled, (state, action) => {
@@ -31,5 +35,5 @@ const userSlice = createSlice({
       });
   },
 });
-export const {} = userSlice.actions;
+export const { userReset } = userSlice.actions;
 export default userSlice.reducer;

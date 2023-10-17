@@ -31,7 +31,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
   });
   const onSubmit = (data) => {
     (async () => {
-      await privateAxios.post("v1/admin/roomType", data);
+      await privateAxios.post("roomType", data);
     })().then(() => {
       setSnackBarOpen(true);
       reset();
