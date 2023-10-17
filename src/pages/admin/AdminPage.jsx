@@ -8,7 +8,7 @@ import User from "./user/User";
 
 const navItems = [{ text: "User", icon: <ManageAccountsIcon /> }];
 
-function HeadManagerPage() {
+function AdminPage() {
   const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (
@@ -41,4 +41,4 @@ function HeadManagerPage() {
   );
 }
 
-export default HeadManagerPage;
+export default AdminPage;
