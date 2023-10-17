@@ -17,27 +17,46 @@ const schema = yup
     roomTypeDescription: yup.string().required(),
   })
   .required();
-export default function AddForm({ open, setOpen, reload, setReload }) {
+export default function EditForm({
+  open,
+  setOpen,
+  roomType,
+  reload,
+  setReload,
+}) {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const {
     control,
+    register,
     handleSubmit,
     formState: { errors, isSubmitted },
     reset,
   } = useForm({
+    createdAt: "",
+    roomTypeId: 0,
     roomTypeName: "",
     roomTypeDescription: "",
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
+    console.log(data);
     (async () => {
-      await privateAxios.post("room-type", data);
+      await privateAxios.put(`room-type/${data.roomTypeId}`, data);
     })().then(() => {
       setSnackBarOpen(true);
-      reset();
       setReload(!reload);
     });
   };
+  //   const fetchData = async () => {
+  //     const res = await privateAxios.get(`roomType/${id}`);
+  //     const apiData = await res.data;
+  //     setRoomType(apiData);
+  //   };
+  //   useEffect(() => {
+  //     if (id) {
+  //       fetchData();
+  //     }
+  //   }, []);
   return (
     <Modal
       open={open}
@@ -57,13 +76,25 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
           }}
           component={Paper}
         >
-          <Typography align="center">New Room Type</Typography>
+          <Typography align="center">
+            Edit Room Type ID {roomType?.roomTypeId}
+          </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box>
+              <input
+                type="hidden"
+                defaultValue={roomType?.roomTypeId}
+                {...register("roomTypeId")}
+              ></input>
+              <input
+                type="hidden"
+                defaultValue={roomType?.createdAt}
+                {...register("createdAt")}
+              ></input>
               <Controller
                 name="roomTypeName"
                 control={control}
-                defaultValue={""}
+                defaultValue={roomType ? roomType.roomTypeName : ""}
                 render={({ field }) => (
                   <TextField
                     variant="standard"
@@ -78,7 +109,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
               <Controller
                 name="roomTypeDescription"
                 control={control}
-                defaultValue={""}
+                defaultValue={roomType ? roomType.roomTypeDescription : ""}
                 render={({ field }) => (
                   <TextField
                     {...field}
@@ -108,7 +139,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
                     ":hover": { bgcolor: "rgba(255,69,0,0.8)" },
                   }}
                 >
-                  ADD
+                  SAVE CHANGES
                 </Button>
               </div>
             </Box>
