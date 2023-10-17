@@ -12,7 +12,7 @@ import * as yup from "yup";
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
 import { InputLabel, MenuItem, Select } from "@mui/material";
-import FormControl from '@mui/material/FormControl';
+import FormControl from "@mui/material/FormControl";
 
 // const schema = yup
 //   .object({
@@ -35,14 +35,13 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
   } = useForm({
     defaultValues: {
       roomName: "",
-      roomPrice: "",
-      roomType: { roomType },
-      floor: "",
-      building: "",
+      roomPrice: 1,
+      roomType: roomType,
+      floor: 1,
+      building: building,
       // resolver: yupResolver(schema),
-    }
+    },
   });
-
 
   const fetchData1 = async () => {
     const res = await privateAxios.get("room-type");
@@ -59,7 +58,10 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
     console.log(event.target.value);
     setRoomtype(event.target.value);
   };
-
+  const handleChangeBuilding = (event) => {
+    console.log(event.target.value);
+    setBuilding(event.target.value);
+  };
   const fetchData2 = async () => {
     const res = await privateAxios.get("building");
     const apiData = await res.data;
@@ -70,11 +72,6 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
     fetchData2();
     console.log(roomtypes);
   }, [reload]);
-
-
-  const handleChangeBuilding = (event) => {
-    setBuilding(event.target.value);
-  };
 
   const onSubmit = (data) => {
     console.log(data);
@@ -139,6 +136,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
                   />
                 )}
               />
+
               <Controller
                 name="roomType"
                 control={control}
@@ -146,7 +144,9 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
                 render={({ field }) => (
                   <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
                     <>
-                      <InputLabel id="demo-simple-select-standard-label">Room Type</InputLabel>
+                      <InputLabel id="demo-simple-select-standard-label">
+                        Room Type
+                      </InputLabel>
                       <Select
                         {...field}
                         labelId="demo-simple-select-standard-label"
@@ -154,13 +154,15 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
                         value={roomType}
                         onChange={handleChangeRoomType}
                       >
-                        {
-                          roomtypes.map((item) => (
-                            <MenuItem value={item.roomTypeId} key={item.roomTypeId}>{item.roomTypeName}</MenuItem>
-                          ))
-                        }
+                        {roomtypes.map((item) => (
+                          <MenuItem
+                            value={item.roomTypeId}
+                            key={item.roomTypeId}
+                          >
+                            {item.roomTypeName}
+                          </MenuItem>
+                        ))}
                       </Select>
-
                     </>
                   </FormControl>
                 )}
@@ -185,23 +187,30 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
               <Controller
                 name="building"
                 control={control}
-                defaultValue={""}
+                defaultValue=""
                 render={({ field }) => (
                   <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
-                    <InputLabel id="demo-simple-select-standard-label">Building</InputLabel>
-                    <Select
-                      {...field}
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      value={building}
-                      onChange={handleChangeBuilding}
-                    >
-                      {
-                        buildings.map((item) => (
-                          <MenuItem value={item.buildingId} key={item.buildingId}>{item.buildingName}</MenuItem>
-                        ))
-                      }
-                    </Select>
+                    <>
+                      <InputLabel id="demo-simple-select-standard-label">
+                        Building
+                      </InputLabel>
+                      <Select
+                        {...field}
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={building}
+                        onChange={handleChangeBuilding}
+                      >
+                        {buildings.map((item) => (
+                          <MenuItem
+                            value={item.buildingId}
+                            key={item.buildingId}
+                          >
+                            {item.buildingName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
                   </FormControl>
                 )}
               />
@@ -214,7 +223,6 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
                   width: "100%",
                 }}
               >
-
                 <Button
                   type="submit"
                   sx={{
@@ -249,6 +257,6 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
           </Box>
         </ClickAwayListener>
       </>
-    </Modal >
+    </Modal>
   );
 }
