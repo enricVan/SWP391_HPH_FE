@@ -8,7 +8,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
-import { useSelector } from "react-redux";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -22,7 +21,6 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 export default function BookedHistory() {
-  const { user } = useSelector((state) => state.user);
   const [bookedList, setBookedList] = React.useState([]);
   const fetchData = async () => {
     try {
