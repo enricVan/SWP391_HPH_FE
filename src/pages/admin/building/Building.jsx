@@ -91,7 +91,6 @@ const createColumns = (setEditOpen, setBuilding, reload, setReload) => [
     },
   },
 ];
-
 export default function Building() {
   const [reload, setReload] = React.useState(false);
   const [building, setBuilding] = React.useState(null);
