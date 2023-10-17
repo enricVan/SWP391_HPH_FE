@@ -6,8 +6,9 @@ import LandingPage from "./pages/landingpage/LandingPage";
 import ForgetPassword from "./pages/forgetpassword/ForgetPassword";
 import Signup from "./pages/signup/Signup";
 import ManagerPage from "./pages/manager/ManagerPage";
-import HeadManagerPage from "./pages/headmanager/HeadManagerPage";
 import Guard from "./pages/guard/Guard";
+import AdminPage from "./pages/admin/AdminPage";
+
 function App() {
   return (
     <>
@@ -18,8 +19,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/forgetPassword" element={<ForgetPassword />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/headmanager/*" element={<HeadManagerPage />} />
         <Route path="/guard/*" element={<Guard />} />
+        <Route path="/admin/*" element={<AdminPage />} />
       </Routes>
     </>
   );

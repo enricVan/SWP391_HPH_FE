@@ -1,14 +1,16 @@
 import axios from "./axios";
-const API_URL = "v1/auth/authenticate";
+const API_URL = "auth/authenticate";
 const login = async (userData) => {
   const res = await axios.post(API_URL, userData);
   if (res.data) {
     localStorage.setItem("token", JSON.stringify(res.data.access_token));
+    localStorage.setItem("user", JSON.stringify(res.data.user));
   }
-  return res.data.access_token;
+  return res.data.user;
 };
 const logout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("user");
 };
 const authService = {
   login,
