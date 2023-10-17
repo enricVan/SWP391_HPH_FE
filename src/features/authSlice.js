@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../service/authService";
-const token = JSON.parse(localStorage.getItem("token"));
+const user = JSON.parse(localStorage.getItem("user"));
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
@@ -18,7 +18,7 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    token: token ? token : null,
+    user: user ? user : null,
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -40,16 +40,16 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.token = action.payload;
+        state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.token = null;
+        state.user = null;
       })
       .addCase(logout.fulfilled, (state) => {
-        state.token = null;
+        state.user = null;
       });
   },
 });

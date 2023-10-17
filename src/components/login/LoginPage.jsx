@@ -6,10 +6,9 @@ import { login } from "../../features/authSlice";
 import { getUserDetails } from "../../features/userSlice";
 export function LoginPage() {
   const dispatch = useDispatch();
-  const { token, isError, isSuccess, message } = useSelector(
+  const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
-  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [values, setValues] = useState({
     name: "",
@@ -28,14 +27,11 @@ export function LoginPage() {
     dispatch(login(userData));
   }
   useEffect(() => {
-    if (localStorage.getItem("token") && !user) {
-      dispatch(getUserDetails());
+    if (user) {
+      const path = "/" + user.role.toLowerCase();
+      navigate(path);
     }
-  }, [token, isError, isSuccess, message, dispatch, navigate]);
-  if (user) {
-    const path = "/" + user.role.toLowerCase();
-    return <Navigate to={path} replace />;
-  }
+  }, [user, isError, isSuccess, message, dispatch, navigate]);
   return (
     <>
       <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
