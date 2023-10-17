@@ -9,22 +9,28 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
-const schema = yup
-  .object({
-    roomTypeName: yup.string().required(),
-    roomTypeDescription: yup.string().required(),
-  })
-  .required();
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+// const schema = yup
+//   .object({
+//     roomName: yup.string().required(),
+//     roomDescription: yup.string().required(),
+//   })
+//   .required();
 export default function EditForm({
   open,
   setOpen,
-  roomType,
+  room,
   reload,
   setReload,
 }) {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [buildings, setBuildings] = useState([]);
+  const [roomType, setRoomtype] = useState(1);
+  const [building, setBuilding] = useState(1);
+  const [roomtypes, setRoomtypes] = useState([]);
+
   const {
     control,
     register,
@@ -33,29 +39,64 @@ export default function EditForm({
     reset,
   } = useForm({
     createdAt: "",
-    roomTypeId: 0,
-    roomTypeName: "",
-    roomTypeDescription: "",
-    resolver: yupResolver(schema),
+    roomId: 0,
+    roomName: "",
+    roomType: 1,
+    building: 1,
+    roomPrice: 0,
+    floor: 1,
+    // resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
+    console.log(data);
     (async () => {
-      await privateAxios.put("roomType", data);
+      await privateAxios.put(`room/${data.roomId}`, data);
     })().then(() => {
       setSnackBarOpen(true);
       setReload(!reload);
     });
   };
   //   const fetchData = async () => {
-  //     const res = await privateAxios.get(`roomType/${id}`);
+  //     const res = await privateAxios.get(`room/${id}`);
   //     const apiData = await res.data;
-  //     setRoomType(apiData);
+  //     setroom(apiData);
   //   };
   //   useEffect(() => {
   //     if (id) {
   //       fetchData();
   //     }
   //   }, []);
+
+  const fetchData1 = async () => {
+    const res = await privateAxios.get("room-type");
+    const apiData = await res.data;
+    console.log(res.data);
+    setRoomtypes(apiData);
+  };
+  useEffect(() => {
+    fetchData1();
+    console.log(roomtypes);
+  }, [reload]);
+
+  const handleChangeRoomType = (event) => {
+    console.log(event.target.value);
+    setRoomtype(event.target.value);
+  };
+  const handleChangeBuilding = (event) => {
+    console.log(event.target.value);
+    setBuilding(event.target.value);
+  };
+  const fetchData2 = async () => {
+    const res = await privateAxios.get("building");
+    const apiData = await res.data;
+    console.log(res.data);
+    setBuildings(apiData);
+  };
+  useEffect(() => {
+    fetchData2();
+    console.log(roomtypes);
+  }, [reload]);
+
   return (
     <Modal
       open={open}
@@ -76,49 +117,128 @@ export default function EditForm({
           component={Paper}
         >
           <Typography align="center">
-            Edit Room Type ID {roomType?.roomTypeId}
+            Edit Room ID {room?.roomId}
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box>
               <input
                 type="hidden"
-                defaultValue={roomType?.roomTypeId}
-                {...register("roomTypeId")}
+                defaultValue={room?.roomId}
+                {...register("roomId")}
               ></input>
               <input
                 type="hidden"
-                defaultValue={roomType?.createdAt}
+                defaultValue={room?.createdAt}
                 {...register("createdAt")}
               ></input>
               <Controller
-                name="roomTypeName"
+                name="roomName"
                 control={control}
-                defaultValue={roomType ? roomType.roomTypeName : ""}
+                defaultValue={room ? room.roomName : ""}
                 render={({ field }) => (
                   <TextField
                     variant="standard"
                     label="Name"
                     fullWidth
                     {...field}
-                    error={errors.roomTypeName ? true : false}
-                    helperText={errors.roomTypeName?.message}
+                    error={errors.roomName ? true : false}
+                    helperText={errors.roomName?.message}
                   />
                 )}
               />
               <Controller
-                name="roomTypeDescription"
+                name="roomPrice"
                 control={control}
-                defaultValue={roomType ? roomType.roomTypeDescription : ""}
+                defaultValue={room ? room.roomPrice : ""}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Description"
+                    label="Room Price"
                     sx={{ mt: 3 }}
                     fullWidth
                     multiline
-                    error={errors.roomTypeDescription ? true : false}
-                    helperText={errors.roomTypeDescription?.message}
+                    error={errors.roomPrice ? true : false}
+                    helperText={errors.roomPrice?.message}
                   />
+                )}
+              />
+
+              <Controller
+                name="roomType"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
+                    <>
+                      <InputLabel id="demo-simple-select-standard-label">
+                        Room Type
+                      </InputLabel>
+                      <Select
+                        {...field}
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={roomType}
+                        onChange={handleChangeRoomType}
+                      >
+                        {roomtypes.map((item) => (
+                          <MenuItem
+                            value={item.roomTypeId}
+                            key={item.roomTypeId}
+                          >
+                            {item.roomTypeName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
+                  </FormControl>
+                )}
+              />
+
+              <Controller
+                name="floor"
+                control={control}
+                defaultValue={room ? room.floor : ""}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Floor"
+                    sx={{ mt: 3 }}
+                    fullWidth
+                    multiline
+                    error={errors.floor ? true : false}
+                    helperText={errors.floor?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="building"
+                control={control}
+                // defaultValue={room ? room.building.buildingId : ""}
+                defaultValue=""
+                render={({ field }) => (
+                  <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
+                    <>
+                      <InputLabel id="demo-simple-select-standard-label">
+                        Building
+                      </InputLabel>
+                      <Select
+                        {...field}
+                        labelId="demo-simple-select-standard-label"
+                        id="demo-simple-select-standard"
+                        value={building}
+                        onChange={handleChangeBuilding}
+                      >
+                        {buildings.map((item) => (
+                          <MenuItem
+                            value={item.buildingId}
+                            key={item.buildingId}
+                          >
+                            {item.buildingName}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
+                  </FormControl>
                 )}
               />
               <div

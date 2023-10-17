@@ -39,8 +39,9 @@ export default function EditForm({
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
+    console.log(data);
     (async () => {
-      await privateAxios.put("roomType", data);
+      await privateAxios.put(`room-type/${data.roomTypeId}`, data);
     })().then(() => {
       setSnackBarOpen(true);
       setReload(!reload);
