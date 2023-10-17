@@ -63,7 +63,7 @@ const createColumns = (setEditOpen, setBuilding, reload, setReload) => [
           className="textPrimary"
           onClick={() => {
             (async () => {
-              const res = await privateAxios.get(building/${id});
+              const res = await privateAxios.get(`building/${id}`);
               const apiData = await res.data;
               setBuilding(apiData);
               console.log(apiData);
@@ -77,9 +77,9 @@ const createColumns = (setEditOpen, setBuilding, reload, setReload) => [
           icon={<DeleteIcon />}
           label="Delete"
           onClick={() => {
-            if (confirm(Building ID ${id} will be delete?)) {
+            if (confirm(`Building ID ${id} will be delete?`)) {
               (async () => {
-                privateAxios.delete(building/${id});
+                privateAxios.delete(`building/${id}`);
               })().then(() => {
                 setReload(!reload);
               });

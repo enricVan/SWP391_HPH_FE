@@ -41,7 +41,7 @@ export default function EditForm({
   const onSubmit = (data) => {
     console.log(data);
     (async () => {
-      await privateAxios.put(building/${data.buildingId}, data);
+      await privateAxios.put(`building/${data.buildingId}`, data);
     })().then(() => {
       setSnackBarOpen(true);
       setReload(!reload);
