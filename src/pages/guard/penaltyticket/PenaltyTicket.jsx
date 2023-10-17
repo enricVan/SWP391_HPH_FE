@@ -13,7 +13,9 @@ import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
 import Searchbar from "../../../components/Searchbar";
 import AddIcon from "@mui/icons-material/Add";
-import { Button, Modal, TextField } from "@mui/material";
+import { Button, Modal, SnackbarContent, TextField } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { Snackbar } from "@mui/material";
 const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 
 function BasicTable({ data }) {
@@ -95,8 +97,145 @@ function PenaltyTicket() {
     setPage(newPage - 1);
   };
 
+  // State for managing the form data in the modal
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    status: "Pending",
+    createdByGuardId: "",
+    studentId: "",
+  });
+
+  const handleFormChange = (event) => {
+    // Update the form data when the user enters data in the modal
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userId = user.id;
+
+  // Sử dụng useState để lưu thông tin của Guard
+  const [guardInfo, setGuardInfo] = useState(null);
+
+  // State để lưu danh sách sinh viên và giá trị được chọn
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState("");
+
+  useEffect(() => {
+    // Gọi API để lấy danh sách tất cả sinh viên
+    const fetchStudents = async () => {
+      try {
+        const response = await privateAxios.get("student");
+        setStudents(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchStudents();
+  }, []);
+
+  const handleStudentChange = (event) => {
+    const selectedStudent = event.target.value;
+    setSelectedStudent(selectedStudent);
+    setFormData({
+      ...formData,
+      studentId: selectedStudent,
+    });
+  };
+
+  useEffect(() => {
+    const fetchGuardInfo = async () => {
+      try {
+        const response = await privateAxios.get(
+          `guard/get-guard-by-userid/${userId}`
+        );
+        setGuardInfo(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchGuardInfo();
+  }, [userId]);
+
+  // Quản lí thông báo bằng Snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // Trạng thái mở hay đóng Snackbar
+  const [snackbarMessage, setSnackbarMessage] = useState(""); // Nội dung thông báo trong Snackbar
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // Mức độ quan trọng của thông báo (success, error, warning, info, ...)
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+
+    // Đặt một hẹn giờ để tự động đóng Snackbar sau 5 giây
+    setTimeout(() => {
+      setSnackbarOpen(false);
+    }, 5000); // 5000 milliseconds = 5 giây
+  };
+
+  // const handleCloseSnackbar = (event, reason) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setSnackbarOpen(false);
+  // };
+
+  //End
+
+  if (guardInfo) {
+    // Update formData with createdByGuardId
+    formData.createdByGuardId = guardInfo.guardId;
+  }
+
+  // Function to handle adding a ticket
+  const handleAddTicket = async () => {
+    try {
+      console.log(formData);
+      // Make a POST request to create a new Penalty Ticket using the formData
+      const response = await privateAxios.post("penalty-ticket", formData);
+
+      // Check if the request was successful
+      if (response.status === 200) {
+        // Close the modal
+        handleClose();
+
+        // Refresh the data by fetching all Penalty Tickets
+        fetchData(page, pageSize, searchTerm);
+
+        // Show a success message in the Snackbar
+        showSnackbar("Ticket added successfully", "success");
+      } else {
+        // Show an error message in the Snackbar
+        showSnackbar("Failed to add ticket", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      // Handle any errors that may occur during the request
+    }
+  };
+
   return (
     <div style={{ margin: "1.5rem" }}>
+      {/* Snackbar start */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000} // Thời gian tự động đóng Snackbar (6 giây)
+        // onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <SnackbarContent
+          sx={{
+            backgroundColor: snackbarSeverity === "success" ? "green" : "red",
+          }}
+          message={snackbarMessage}
+        />
+      </Snackbar>
+
+      {/* Snackbar end */}
+
       {/* Add pop-up start */}
       <Modal
         open={open}
@@ -119,15 +258,71 @@ function PenaltyTicket() {
             Add New Penalty Ticket
           </h3>
           <TextField
+            name="title"
             label="Title"
             variant="outlined"
             fullWidth
             sx={{
               marginTop: "0.3rem",
             }}
+            onChange={handleFormChange}
           />
+          <TextField
+            name="content"
+            label="Content"
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={4}
+            sx={{
+              marginTop: "0.3rem",
+            }}
+            onChange={handleFormChange}
+          />
+          <TextField
+            name="status"
+            label="Status"
+            variant="outlined"
+            fullWidth
+            sx={{
+              marginTop: "0.3rem",
+            }}
+            value={"Pending"}
+            readOnly
+          />
+          {guardInfo && (
+            <TextField
+              label="Created By Guard ID"
+              name="createdByGuardId"
+              variant="outlined"
+              fullWidth
+              value={guardInfo.guardId}
+              sx={{
+                marginTop: "0.3rem",
+              }}
+              readOnly
+            />
+          )}
+          <TextField
+            select
+            name="studentId"
+            label="Student"
+            variant="outlined"
+            fullWidth
+            sx={{
+              marginTop: "0.3rem",
+            }}
+            value={selectedStudent}
+            onChange={handleStudentChange}
+          >
+            {students.map((student) => (
+              <MenuItem key={student.studentId} value={student.studentId}>
+                {student.studentId}
+              </MenuItem>
+            ))}
+          </TextField>
           <Button
-            onClick={handleClose}
+            onClick={handleAddTicket}
             sx={{
               marginTop: "1rem",
               color: "#FFF",
@@ -143,8 +338,7 @@ function PenaltyTicket() {
           </Button>
         </div>
       </Modal>
-
-      {/* Add pop-up end*/}
+      {/* Add pop-up end */}
 
       <h1 style={{ textAlign: "center" }}>Penalty Ticket</h1>
 
