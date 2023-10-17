@@ -5,8 +5,12 @@ import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
 import User from "./user/User";
+import RoomType from "../manager/roomtype/RoomType";
 
-const navItems = [{ text: "User", icon: <ManageAccountsIcon /> }];
+const navItems = [
+  { text: "User", icon: <ManageAccountsIcon /> },
+  { text: "Room Type", icon: <ManageAccountsIcon /> },
+];
 
 function HeadManagerPage() {
   const Layout = () => {
@@ -36,6 +40,7 @@ function HeadManagerPage() {
       <Route element={<Layout />}>
         <Route path="/" />
         <Route path="user" element={<User />} />
+        <Route path="roomtype" element={<RoomType />} />
       </Route>
     </Routes>
   );

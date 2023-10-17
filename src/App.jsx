@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/forgetPassword" element={<ForgetPassword />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/headmanager/*" element={<HeadManagerPage />} />
+        <Route path="/admin/*" element={<HeadManagerPage />} />
       </Routes>
     </>
   );
