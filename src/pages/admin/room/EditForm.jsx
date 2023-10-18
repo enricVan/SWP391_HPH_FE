@@ -14,7 +14,7 @@ import { privateAxios } from "../../../service/axios";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 const schema = yup
   .object({
-    roomName: yup.string().nonNullable.required(),
+    roomName: yup.string().matches(/^[RL]\d{3}$/, 'Room name must start with R or L followed by three numbers').required(),
     roomType: yup.number().required(),
     building: yup.number().required(),
     roomPrice: yup.number().min(1).required(),
@@ -33,6 +33,7 @@ export default function EditForm({
   const [roomType, setRoomtype] = useState(1);
   const [building, setBuilding] = useState(1);
   const [roomtypes, setRoomtypes] = useState([]);
+  const room1 = {room};
 
   const {
     control,
@@ -41,13 +42,15 @@ export default function EditForm({
     formState: { errors, isSubmitted },
     reset,
   } = useForm({
-    createdAt: "",
-    roomId: 0,
-    roomName: "",
-    roomType: 1,
-    building: 1,
-    roomPrice: 0,
-    floor: 1,
+    defaultValues: {
+      createdAt: "",
+      roomId: room1.roomId,
+      roomName: room1.roomName,
+      roomType: 1,
+      building: 1,
+      roomPrice: room1.roomPrice,
+      floor: room1.floor,
+    },
     resolver: yupResolver(schema),
   });
 
@@ -278,7 +281,7 @@ export default function EditForm({
               onClose={(reason) => {
                 setSnackBarOpen(false);
               }}
-              message="Add New Room Type Success!"
+              message="Update Room Success!"
               ContentProps={{
                 sx: {
                   bgcolor: "green",
