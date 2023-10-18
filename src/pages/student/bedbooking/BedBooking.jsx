@@ -33,6 +33,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
+const user = JSON.parse(localStorage.getItem("user"));
 export default function BedBooking() {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -43,9 +44,11 @@ export default function BedBooking() {
       student: {
         studentId: user.id,
       },
-      semester: semester,
+      semester: {
+        semesterId: semester.semesterId,
+      },
     };
-    privateAxios.post("bedRequest", requestData);
+    privateAxios.post("bed-request", requestData);
     setOpen(true);
   };
   const handleClose = () => {
@@ -67,7 +70,7 @@ export default function BedBooking() {
     settypes(roomData.data);
     const res3 = await privateAxios.get("semester/next-semester");
     const semesterData = await res3;
-    setSemester(semesterData.data.semesterName);
+    setSemester(semesterData.data);
   };
   useEffect(() => {
     fetchData();
@@ -80,7 +83,8 @@ export default function BedBooking() {
     }
   };
   const handleChange = (e) => {
-    if (e.target.value) setRoomType(e.target.value);
+    if (e.target.value === "All") setRoomType("");
+    else setRoomType(e.target.value);
   };
   return (
     <Box>
@@ -91,11 +95,11 @@ export default function BedBooking() {
           <Select
             id="select"
             label="Room Type"
-            value={roomType}
+            value={roomType === "" ? "All" : roomType}
             labelId="roomType-label"
             onChange={handleChange}
           >
-            <MenuItem value="">All</MenuItem>
+            <MenuItem value="All">All</MenuItem>
             {types.map((type) => {
               return (
                 <MenuItem key={type.roomTypeId} value={type.roomTypeId}>
@@ -131,7 +135,7 @@ export default function BedBooking() {
           variant="h5"
           color={"orangered"}
         >
-          Semester: {semester}
+          Semester: {semester.semesterName}
         </Typography>
       </Box>
       <Box padding={1}>
@@ -142,7 +146,7 @@ export default function BedBooking() {
                 <TableCell>ID</TableCell>
                 <TableCell align="center">Bed</TableCell>
                 <TableCell align="center">Room</TableCell>
-                <TableCell align="center">Dorm</TableCell>
+                <TableCell align="center">Building</TableCell>
                 <TableCell align="center">Floor</TableCell>
                 <TableCell align="center">Price&nbsp;(VND)</TableCell>
                 <TableCell align="center"></TableCell>
@@ -167,9 +171,11 @@ export default function BedBooking() {
                     </TableCell>
                     <TableCell align="center">{bed.bedName}</TableCell>
                     <TableCell align="center">{bed.room.roomName}</TableCell>
-                    <TableCell align="center">{bed.room.belongDom}</TableCell>
+                    <TableCell align="center">
+                      {bed.room.building.buildingName}
+                    </TableCell>
                     <TableCell align="center">{bed.room.floor}</TableCell>
-                    <TableCell align="center">{bed.price}</TableCell>
+                    <TableCell align="center">{bed.room.roomPrice}</TableCell>
                     <TableCell align="center">
                       <Radio
                         checked={selectedValue === bed.bedId}
@@ -223,8 +229,11 @@ export default function BedBooking() {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Link to={"/student/bedpayment"} style={{ textDecoration: "none" }}>
-            <Button autoFocus>Check Your Payment Bill</Button>
+          <Link
+            to={"/student/bookedhistory"}
+            style={{ textDecoration: "none" }}
+          >
+            <Button autoFocus>Check Your Booked History</Button>
           </Link>
         </DialogActions>
       </BootstrapDialog>
