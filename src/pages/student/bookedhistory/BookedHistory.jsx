@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,49 +9,75 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
 import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
   FormControl,
+  Grid,
   IconButton,
   InputLabel,
   MenuItem,
+  Pagination,
   Select,
+  Typography,
 } from "@mui/material";
 import { Remove, RemoveRedEye } from "@mui/icons-material";
 
-const statusList = ["All", "pending", "approved", "rejected"];
+const statusList = ["pending", "approved", "rejected"];
 const user = JSON.parse(localStorage.getItem("user"));
 export default function BookedHistory() {
-  const [bookedList, setBookedList] = React.useState([]);
-  const [status, setStatus] = React.useState(statusList[0]);
+  const [bookedList, setBookedList] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [status, setStatus] = useState("");
+  const [reload, setReload] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleChange = (e) => {
+    if (e.target.value === "All") setStatus("");
+    else setStatus(e.target.value);
+  };
+  const handleCanelBooking = (id) => {
+    if (confirm(`Room Type ID ${id} will be delete?`)) {
+      (async () => {
+        await privateAxios.delete(`bed-request/${id}`);
+        await fetchData();
+      })();
+    }
+    console.log(id);
+  };
   const fetchData = async () => {
     try {
-      const res = await privateAxios.get(`bed-request/user/${user.id}`);
+      const res = await privateAxios.get(
+        `bed-request/user/${user.id}?status=${status}&page=${currentPage - 1}`
+      );
       console.log(res.data);
-      setBookedList(res.data);
+      setBookedList(res.data.data);
+      setTotalPages(res.data.totalPages);
     } catch (error) {
       console.log(error);
     }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [currentPage, status, reload]);
   return (
     <Box padding={1}>
       <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
         <h1 style={{ marginLeft: "8px" }}>Bed Booked History</h1>
         <FormControl sx={{ minWidth: 120, m: 1 }}>
-          <InputLabel id="roomType-label">Room Type</InputLabel>
+          <InputLabel id="roomType-label">Status</InputLabel>
           <Select
             id="select"
-            label="Room Type"
-            value={status}
+            label="Status"
+            value={status === "" ? "All" : status}
             labelId="roomType-label"
             onChange={handleChange}
           >
             <MenuItem value="All">All</MenuItem>
-            {types.map((type) => {
+            {statusList.map((type) => {
               return (
-                <MenuItem key={type.roomTypeId} value={type.roomTypeId}>
-                  {type.roomTypeName}
+                <MenuItem key={type} value={type.toLowerCase()}>
+                  {type.toLowerCase()}
                 </MenuItem>
               );
             })}
@@ -84,15 +110,22 @@ export default function BookedHistory() {
                 <TableCell>{bookedRequest.price}</TableCell>
                 <TableCell>{bookedRequest.createdAt}</TableCell>
                 <TableCell>
-                  {bookedRequest.updatedAt ? bookedRequest.updatedAt : "N/A"}
+                  {bookedRequest.status === "Approved"
+                    ? bookedRequest.updatedAt
+                    : "N/A"}
                 </TableCell>
                 <TableCell>{bookedRequest.status}</TableCell>
                 <TableCell>
-                  <IconButton>
+                  <IconButton onClick={() => setOpen(true)}>
                     <RemoveRedEye />
                   </IconButton>
                   {bookedRequest.status === "pending" && (
-                    <IconButton>
+                    <IconButton
+                      // data-itemID={bookedRequest.bedRequestId}
+                      onClick={() =>
+                        handleCanelBooking(bookedRequest.bedRequestId)
+                      }
+                    >
                       <Remove />
                     </IconButton>
                   )}
@@ -102,6 +135,43 @@ export default function BookedHistory() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Pagination
+        color="primary"
+        count={totalPages}
+        page={currentPage}
+        onChange={(e, value) => {
+          setCurrentPage(value);
+        }}
+        sx={{
+          justifyContent: "center",
+          "& .MuiPagination-ul": {
+            justifyContent: "center",
+          },
+          "&& .Mui-selected": {
+            bgcolor: "orangered",
+          },
+          "& .MuiPaginationItem-root:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
+          },
+          "&& .Mui-selected:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
+          },
+          my: 4,
+        }}
+      />
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Booked Details</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              Bed:
+            </Grid>
+            <Grid item xs={9}>
+              asdf
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 }
