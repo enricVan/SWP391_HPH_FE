@@ -94,6 +94,8 @@ export default function SideBar({
             >
               {navItems.map(({ text, icon }) => {
                 const lcText = text.toLowerCase().replace(/ /g, "");
+                console.log(lcText);
+                console.log(active);
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
