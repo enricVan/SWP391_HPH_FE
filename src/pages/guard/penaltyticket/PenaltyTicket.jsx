@@ -192,6 +192,7 @@ function PenaltyTicket() {
 
   // Function to handle adding a ticket
   const handleAddTicket = async () => {
+
     // Check if the fields are empty
     if (
       !formData.title.trim() ||
