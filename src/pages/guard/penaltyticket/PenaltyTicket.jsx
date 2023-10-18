@@ -68,7 +68,7 @@ function PenaltyTicket() {
 
   const [data, setData] = useState({ content: [], totalPages: 0, number: 0 });
   const [page, setPage] = useState(0);
-  const pageSize = 2; // Kích thước trang
+  const pageSize = 3; // Kích thước trang
 
   const [searchTerm, setSearchTerm] = useState(""); // Thêm trường tìm kiếm
 
@@ -192,6 +192,11 @@ function PenaltyTicket() {
 
   // Function to handle adding a ticket
   const handleAddTicket = async () => {
+    if (!formData.title || !formData.content || !formData.studentId) {
+      // Show an error message in the Snackbar if any of the fields contain only whitespace
+      showSnackbar("Please fill in all required fields.", "error");
+      return;
+    }
     try {
       console.log(formData);
       // Make a POST request to create a new Penalty Ticket using the formData
