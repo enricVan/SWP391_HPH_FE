@@ -74,7 +74,7 @@ export default function SideBar({
                         marginBottom: 0,
                       }}
                     >
-                      name
+                      Name
                     </Typography>
                     <Typography paragraph>RollNumber: --</Typography>
                   </Box>
