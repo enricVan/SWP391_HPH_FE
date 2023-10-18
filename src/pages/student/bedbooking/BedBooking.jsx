@@ -229,8 +229,11 @@ export default function BedBooking() {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Link to={"/student/bedpayment"} style={{ textDecoration: "none" }}>
-            <Button autoFocus>Check Your Payment Bill</Button>
+          <Link
+            to={"/student/bookedhistory"}
+            style={{ textDecoration: "none" }}
+          >
+            <Button autoFocus>Check Your Booked History</Button>
           </Link>
         </DialogActions>
       </BootstrapDialog>

@@ -51,7 +51,7 @@ export default function Request() {
       },
       requestContent: inputText,
     };
-    privateAxios.post("studentRequest", request).then(() => {
+    privateAxios.post("request-application", request).then(() => {
       setOpen(!open);
       setInputText("");
       setSnackBarOpen({ ...snackBarOpen, successOpen: true });
@@ -63,11 +63,11 @@ export default function Request() {
     console.log(e.target.value);
   };
   const fetchData = async () => {
-    const res1 = await privateAxios.get("studentRequest");
+    const res1 = await privateAxios.get("request-application");
     if (res1 && res1.data) {
       setRequests(res1.data);
     }
-    const res2 = await privateAxios.get("studentRequestType");
+    const res2 = await privateAxios.get("request-application-type");
     if (res2 && res2.data) {
       setTypes(res2.data);
     }
@@ -107,14 +107,14 @@ export default function Request() {
           <TableBody>
             {requests.map((request) => (
               <TableRow
-                key={request.requestId}
+                key={request.requestApplicationId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {request.requestId}
+                  {request.requestApplicationId}
                 </TableCell>
                 <TableCell>
-                  {request.studentRequestType.requestTypeName}
+                  {request.requestApplicationType.requestApplicationTypeName}
                 </TableCell>
                 <TableCell sx={{ whiteSpace: "pre" }}>
                   {request.createdAt}
@@ -129,13 +129,13 @@ export default function Request() {
                 </TableCell>
                 <TableCell
                   sx={{
-                    ...(request.status === "pending" && {
+                    ...(request.status === "Pending" && {
                       color: "#ccb01c",
                     }),
-                    ...(request.status === "denied" && {
+                    ...(request.status === "Denied" && {
                       color: "red",
                     }),
-                    ...(request.status === "approved" && {
+                    ...(request.status === "Resolved" && {
                       color: "green",
                     }),
                   }}
@@ -162,10 +162,10 @@ export default function Request() {
               {types.map((type) => {
                 return (
                   <MenuItem
-                    key={type.studentRequestTypeId}
-                    value={type.studentRequestTypeId}
+                    key={type.requestApplicationTypeId}
+                    value={type.requestApplicationTypeName}
                   >
-                    {type.requestTypeName}
+                    {type.requestApplicationTypeName}
                   </MenuItem>
                 );
               })}

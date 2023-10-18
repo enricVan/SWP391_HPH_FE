@@ -94,7 +94,7 @@ export default function BookedHistory() {
               <TableCell>Created Date</TableCell>
               <TableCell>Returned Date</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>View</TableCell>
+              <TableCell>Setting</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -116,9 +116,9 @@ export default function BookedHistory() {
                 </TableCell>
                 <TableCell>{bookedRequest.status}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => setOpen(true)}>
+                  {/* <IconButton onClick={() => setOpen(true)}>
                     <RemoveRedEye />
-                  </IconButton>
+                  </IconButton> */}
                   {bookedRequest.status === "pending" && (
                     <IconButton
                       // data-itemID={bookedRequest.bedRequestId}
