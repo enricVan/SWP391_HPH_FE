@@ -13,8 +13,8 @@ import { useState } from "react";
 import { privateAxios } from "../../../service/axios";
 const schema = yup
   .object({
-    roomTypeName: yup.string().required(),
-    roomTypeDescription: yup.string().required(),
+    buildingName: yup.string().required(),
+    numberFloor: yup.string().required(),
   })
   .required();
 export default function AddForm({ open, setOpen, reload, setReload }) {
@@ -25,13 +25,13 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
     formState: { errors, isSubmitted },
     reset,
   } = useForm({
-    roomTypeName: "",
-    roomTypeDescription: "",
+    buildingName: "",
+    numberFloor: "",
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
     (async () => {
-      await privateAxios.post("room-type", data);
+      await privateAxios.post("building", data);
     })().then(() => {
       setSnackBarOpen(true);
       reset();
@@ -57,11 +57,11 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
           }}
           component={Paper}
         >
-          <Typography align="center">New Room Type</Typography>
+          <Typography align="center">New Building</Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box>
               <Controller
-                name="roomTypeName"
+                name="buildingName"
                 control={control}
                 defaultValue={""}
                 render={({ field }) => (
@@ -70,24 +70,24 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
                     label="Name"
                     fullWidth
                     {...field}
-                    error={errors.roomTypeName ? true : false}
-                    helperText={errors.roomTypeName?.message}
+                    error={errors.buildingName ? true : false}
+                    helperText={errors.buildingName?.message}
                   />
                 )}
               />
               <Controller
-                name="roomTypeDescription"
+                name="numberFloor"
                 control={control}
                 defaultValue={""}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Description"
+                    label="Floor"
                     sx={{ mt: 3 }}
                     fullWidth
                     multiline
-                    error={errors.roomTypeDescription ? true : false}
-                    helperText={errors.roomTypeDescription?.message}
+                    error={errors.numberFloor ? true : false}
+                    helperText={errors.numberFloor?.message}
                   />
                 )}
               />
@@ -105,7 +105,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
                     width: "60%",
                     bgcolor: "orangered",
                     color: "white",
-                    ":hover": { bgcolor: "rgba(255,69,0,0.8)" },
+                    ":hover": { bgcolor: "rgba(255,69,0,0.😎" },
                   }}
                 >
                   ADD
@@ -123,7 +123,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
               onClose={(reason) => {
                 setSnackBarOpen(false);
               }}
-              message="Add New Room Type Success!"
+              message="Add New Building Success!"
               ContentProps={{
                 sx: {
                   bgcolor: "green",

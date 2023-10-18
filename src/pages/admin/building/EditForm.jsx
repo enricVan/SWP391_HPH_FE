@@ -13,31 +13,50 @@ import { useState } from "react";
 import { privateAxios } from "../../../service/axios";
 const schema = yup
   .object({
-    roomTypeName: yup.string().required(),
-    roomTypeDescription: yup.string().required(),
+    buildingName: yup.string().required(),
+    numberFloor: yup.string().required(),
   })
   .required();
-export default function AddForm({ open, setOpen, reload, setReload }) {
+export default function EditForm({
+  open,
+  setOpen,
+  building,
+  reload,
+  setReload,
+}) {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const {
     control,
+    register,
     handleSubmit,
     formState: { errors, isSubmitted },
     reset,
   } = useForm({
-    roomTypeName: "",
-    roomTypeDescription: "",
+    createdAt: "",
+    buildingId: 0,
+    buildingName: "",
+    floorNumber: "",
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
+    console.log(data);
     (async () => {
-      await privateAxios.post("room-type", data);
+      await privateAxios.put(`building/${data.buildingId}`, data);
     })().then(() => {
       setSnackBarOpen(true);
-      reset();
       setReload(!reload);
     });
   };
+  //   const fetchData = async () => {
+  //     const res = await privateAxios.get(roomType/${id});
+  //     const apiData = await res.data;
+  //     setRoomType(apiData);
+  //   };
+  //   useEffect(() => {
+  //     if (id) {
+  //       fetchData();
+  //     }
+  //   }, []);
   return (
     <Modal
       open={open}
@@ -57,37 +76,49 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
           }}
           component={Paper}
         >
-          <Typography align="center">New Room Type</Typography>
+          <Typography align="center">
+            Edit Building ID {building?.buildingId}
+          </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box>
+              <input
+                type="hidden"
+                defaultValue={building?.buildingId}
+                {...register("buildingId")}
+              ></input>
+              {/* <input
+                type="hidden"
+                defaultValue={roomType?.createdAt}
+                {...register("createdAt")}
+              ></input> */}
               <Controller
-                name="roomTypeName"
+                name="buildingName"
                 control={control}
-                defaultValue={""}
+                defaultValue={building ? building.buildingName : ""}
                 render={({ field }) => (
                   <TextField
                     variant="standard"
                     label="Name"
                     fullWidth
                     {...field}
-                    error={errors.roomTypeName ? true : false}
-                    helperText={errors.roomTypeName?.message}
+                    error={errors.buildingName ? true : false}
+                    helperText={errors.buildingName?.message}
                   />
                 )}
               />
               <Controller
-                name="roomTypeDescription"
+                name="numberFloor"
                 control={control}
-                defaultValue={""}
+                defaultValue={building ? building.numberFloor : ""}
                 render={({ field }) => (
                   <TextField
                     {...field}
-                    label="Description"
+                    label="Number Floor"
                     sx={{ mt: 3 }}
                     fullWidth
                     multiline
-                    error={errors.roomTypeDescription ? true : false}
-                    helperText={errors.roomTypeDescription?.message}
+                    error={errors.numberFloor ? true : false}
+                    helperText={errors.numberFloor?.message}
                   />
                 )}
               />
@@ -105,10 +136,10 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
                     width: "60%",
                     bgcolor: "orangered",
                     color: "white",
-                    ":hover": { bgcolor: "rgba(255,69,0,0.8)" },
+                    ":hover": { bgcolor: "rgba(255,69,0,0.😎" },
                   }}
                 >
-                  ADD
+                  SAVE CHANGES
                 </Button>
               </div>
             </Box>
@@ -123,7 +154,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
               onClose={(reason) => {
                 setSnackBarOpen(false);
               }}
-              message="Add New Room Type Success!"
+              message="Add New Building Success!"
               ContentProps={{
                 sx: {
                   bgcolor: "green",

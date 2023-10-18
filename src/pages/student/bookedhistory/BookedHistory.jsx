@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { Remove, RemoveRedEye } from "@mui/icons-material";
 
+
 const statusList = ["pending", "approved", "rejected"];
 const user = JSON.parse(localStorage.getItem("user"));
 export default function BookedHistory() {

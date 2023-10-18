@@ -10,16 +10,16 @@ import AddIcon from "@mui/icons-material/Add";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
 
-const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
+const createColumns = (setEditOpen, setBuilding, reload, setReload) => [
   {
-    field: "roomTypeId",
+    field: "buildingId",
     headerName: "ID",
     disableColumnMenu: true,
     flex: 0.3,
     sortable: false,
   },
   {
-    field: "roomTypeName",
+    field: "buildingName",
     headerName: "Name",
     editable: true,
     disableColumnMenu: true,
@@ -27,8 +27,8 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
     sortable: false,
   },
   {
-    field: "roomTypeDescription",
-    headerName: "description",
+    field: "numberFloor",
+    headerName: "Number Floor",
     editable: true,
     disableColumnMenu: true,
     flex: 1,
@@ -63,9 +63,10 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
           className="textPrimary"
           onClick={() => {
             (async () => {
-              const res = await privateAxios.get(`room-type/${id}`);
+              const res = await privateAxios.get(`building/${id}`);
               const apiData = await res.data;
-              setRoomType(apiData);
+              setBuilding(apiData);
+              console.log(apiData);
             })().then(() => {
               setEditOpen(true);
             });
@@ -76,9 +77,9 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
           icon={<DeleteIcon />}
           label="Delete"
           onClick={() => {
-            if (confirm(`Room Type ID ${id} will be delete?`)) {
+            if (confirm(`Building ID ${id} will be delete?`)) {
               (async () => {
-                privateAxios.delete(`room-type/${id}`);
+                privateAxios.delete(`building/${id}`);
               })().then(() => {
                 setReload(!reload);
               });
@@ -90,22 +91,21 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
     },
   },
 ];
-
-export default function RoomType() {
+export default function Building() {
   const [reload, setReload] = React.useState(false);
-  const [roomType, setRoomType] = React.useState(null);
+  const [building, setBuilding] = React.useState(null);
   const [addOpen, setAddOpen] = React.useState(false);
   const [editOpen, setEditOpen] = React.useState(false);
-  const [roomTypes, setroomTypes] = React.useState([]);
-  const columns = createColumns(setEditOpen, setRoomType, reload, setReload);
+  const [buildings, setbuildings] = React.useState([]);
+  const columns = createColumns(setEditOpen, setBuilding, reload, setReload);
   const fetchData = async () => {
-    const res = await privateAxios.get("room-type");
+    const res = await privateAxios.get("building");
     const apiData = await res.data;
-    setroomTypes(apiData);
+    setbuildings(apiData);
   };
   React.useEffect(() => {
     fetchData();
-    console.log(roomTypes);
+    console.log(buildings);
   }, [reload]);
   return (
     <>
@@ -127,8 +127,8 @@ export default function RoomType() {
                 lineHeight: "normal !important",
               },
             }}
-            getRowId={(row) => row.roomTypeId}
-            rows={roomTypes}
+            getRowId={(row) => row.buildingId}
+            rows={buildings}
             columns={columns}
             initialState={{
               pagination: {
@@ -148,7 +148,7 @@ export default function RoomType() {
       <EditForm
         open={editOpen}
         setOpen={setEditOpen}
-        roomType={roomType}
+        building={building}
         reload={reload}
         setReload={setReload}
       />
