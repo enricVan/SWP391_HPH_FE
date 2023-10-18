@@ -74,9 +74,11 @@ export default function SideBar({
                         marginBottom: 0,
                       }}
                     >
-                      LongVH
+                      {/* LongVH */}
                     </Typography>
-                    <Typography paragraph>RollNumber: HE172788</Typography>
+                    <Typography paragraph>
+                      {/* RollNumber: HE172788 */}
+                    </Typography>
                   </Box>
                 </>
               )}
@@ -92,8 +94,6 @@ export default function SideBar({
             >
               {navItems.map(({ text, icon }) => {
                 const lcText = text.toLowerCase().replace(/ /g, "");
-                console.log(lcText);
-                console.log(active);
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton

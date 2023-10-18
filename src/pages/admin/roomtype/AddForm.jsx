@@ -13,8 +13,8 @@ import { useState } from "react";
 import { privateAxios } from "../../../service/axios";
 const schema = yup
   .object({
-    roomTypeName: yup.string().required(),
-    roomTypeDescription: yup.string().required(),
+    roomTypeName: yup.string().nonNullable().required(),
+    roomTypeDescription: yup.string().nonNullable().required(),
   })
   .required();
 export default function AddForm({ open, setOpen, reload, setReload }) {

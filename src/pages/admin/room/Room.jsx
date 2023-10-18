@@ -10,16 +10,16 @@ import AddIcon from "@mui/icons-material/Add";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
 
-const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
+const createColumns = (setEditOpen, setroom, reload, setReload) => [
   {
-    field: "roomTypeId",
+    field: "roomId",
     headerName: "ID",
     disableColumnMenu: true,
     flex: 0.3,
     sortable: false,
   },
   {
-    field: "roomTypeName",
+    field: "roomName",
     headerName: "Name",
     editable: true,
     disableColumnMenu: true,
@@ -27,12 +27,42 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
     sortable: false,
   },
   {
-    field: "roomTypeDescription",
-    headerName: "description",
+    field: "roomPrice",
+    headerName: "Room Price",
     editable: true,
     disableColumnMenu: true,
     flex: 1,
     sortable: false,
+  },
+  {
+    field: "roomType",
+    headerName: "Room Type",
+    editable: true,
+    disableColumnMenu: true,
+    flex: 1,
+    sortable: false,
+    renderCell: (params) =>{
+      return <>{params.value.roomTypeName}</>
+    }
+  },
+  {
+    field: "floor",
+    headerName: "Floor",
+    editable: true,
+    disableColumnMenu: true,
+    flex: 1,
+    sortable: false,
+  },
+  {
+    field: "building",
+    headerName: "Building",
+    editable: true,
+    disableColumnMenu: true,
+    flex: 1,
+    sortable: false,
+    renderCell: (params) =>{
+      return <>{params.value.buildingName}</>
+    }
   },
   {
     field: "createdAt",
@@ -63,9 +93,10 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
           className="textPrimary"
           onClick={() => {
             (async () => {
-              const res = await privateAxios.get(`room-type/${id}`);
+              const res = await privateAxios.get(`room/${id}`);
               const apiData = await res.data;
-              setRoomType(apiData);
+              setroom(apiData);
+              console.log(apiData);
             })().then(() => {
               setEditOpen(true);
             });
@@ -78,7 +109,7 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
           onClick={() => {
             if (confirm(`Room Type ID ${id} will be delete?`)) {
               (async () => {
-                privateAxios.delete(`room-type/${id}`);
+                privateAxios.delete(`room/${id}`);
               })().then(() => {
                 setReload(!reload);
               });
@@ -91,21 +122,22 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
   },
 ];
 
-export default function RoomType() {
+export default function room() {
   const [reload, setReload] = React.useState(false);
-  const [roomType, setRoomType] = React.useState(null);
+  const [room, setroom] = React.useState(null);
   const [addOpen, setAddOpen] = React.useState(false);
   const [editOpen, setEditOpen] = React.useState(false);
-  const [roomTypes, setroomTypes] = React.useState([]);
-  const columns = createColumns(setEditOpen, setRoomType, reload, setReload);
+  const [rooms, setrooms] = React.useState([]);
+  const columns = createColumns(setEditOpen, setroom, reload, setReload);
   const fetchData = async () => {
-    const res = await privateAxios.get("room-type");
+    const res = await privateAxios.get("room");
     const apiData = await res.data;
-    setroomTypes(apiData);
+    console.log(res.data);
+    setrooms(apiData);
   };
   React.useEffect(() => {
     fetchData();
-    console.log(roomTypes);
+    console.log(rooms);
   }, [reload]);
   return (
     <>
@@ -127,8 +159,8 @@ export default function RoomType() {
                 lineHeight: "normal !important",
               },
             }}
-            getRowId={(row) => row.roomTypeId}
-            rows={roomTypes}
+            getRowId={(row) => row.roomId}
+            rows={rooms}
             columns={columns}
             initialState={{
               pagination: {
@@ -148,7 +180,7 @@ export default function RoomType() {
       <EditForm
         open={editOpen}
         setOpen={setEditOpen}
-        roomType={roomType}
+        room={room}
         reload={reload}
         setReload={setReload}
       />

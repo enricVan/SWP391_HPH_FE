@@ -66,6 +66,7 @@ const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
               const res = await privateAxios.get(`room-type/${id}`);
               const apiData = await res.data;
               setRoomType(apiData);
+              console.log(apiData);
             })().then(() => {
               setEditOpen(true);
             });

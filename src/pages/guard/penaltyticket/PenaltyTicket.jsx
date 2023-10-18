@@ -192,8 +192,14 @@ function PenaltyTicket() {
 
   // Function to handle adding a ticket
   const handleAddTicket = async () => {
-    if (!formData.title || !formData.content || !formData.studentId) {
-      // Show an error message in the Snackbar if any of the fields contain only whitespace
+
+    // Check if the fields are empty
+    if (
+      !formData.title.trim() ||
+      !formData.content.trim() ||
+      !formData.studentId.trim()
+    ) {
+      // Show an error message in the Snackbar if any of the fields are empty
       showSnackbar("Please fill in all required fields.", "error");
       return;
     }

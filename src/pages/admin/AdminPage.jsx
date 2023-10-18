@@ -5,8 +5,19 @@ import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
 import User from "./user/User";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 
-const navItems = [{ text: "User", icon: <ManageAccountsIcon /> }];
+import RoomType from "./roomtype/RoomType";
+import Room from "./room/Room";
+import Building from "./building/Building";
+
+const navItems = [
+  { text: "User", icon: <ManageAccountsIcon /> },
+  { text: "Building", icon: <ApartmentIcon /> },
+
+  { text: "Room Type", icon: <ManageAccountsIcon /> },
+  { text: "Room", icon: <ManageAccountsIcon /> },
+];
 
 function AdminPage() {
   const Layout = () => {
@@ -36,6 +47,9 @@ function AdminPage() {
       <Route element={<Layout />}>
         <Route path="/" />
         <Route path="user" element={<User />} />
+        <Route path="building" element={<Building />} />
+        <Route path="roomtype" element={<RoomType />} />
+        <Route path="room" element={<Room />} />
       </Route>
     </Routes>
   );
