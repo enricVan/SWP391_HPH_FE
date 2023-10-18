@@ -16,14 +16,14 @@ import FormControl from "@mui/material/FormControl";
 
 const schema = yup
   .object({
-    roomName: yup.string().required(),
+    roomName: yup.string().nonNullable.required(),
     roomType: yup.number().required(),
     building: yup.number().required(),
     roomPrice: yup.number().min(1).required(),
     floor: yup.number().min(1).max(5).required(),
   })
   .required();
-  
+
 export default function AddForm({ open, setOpen, reload, setReload }) {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [buildings, setBuildings] = useState([]);

@@ -14,7 +14,7 @@ import { privateAxios } from "../../../service/axios";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 const schema = yup
   .object({
-    roomName: yup.string().required(),
+    roomName: yup.string().nonNullable.required(),
     roomType: yup.number().required(),
     building: yup.number().required(),
     roomPrice: yup.number().min(1).required(),
