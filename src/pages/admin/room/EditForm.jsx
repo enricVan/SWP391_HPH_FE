@@ -12,12 +12,15 @@ import * as yup from "yup";
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-// const schema = yup
-//   .object({
-//     roomName: yup.string().required(),
-//     roomDescription: yup.string().required(),
-//   })
-//   .required();
+const schema = yup
+  .object({
+    roomName: yup.string().nonNullable.required(),
+    roomType: yup.number().required(),
+    building: yup.number().required(),
+    roomPrice: yup.number().min(1).required(),
+    floor: yup.number().min(1).max(5).required(),
+  })
+  .required();
 export default function EditForm({
   open,
   setOpen,
@@ -45,17 +48,9 @@ export default function EditForm({
     building: 1,
     roomPrice: 0,
     floor: 1,
-    // resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
   });
-  const onSubmit = (data) => {
-    console.log(data);
-    (async () => {
-      await privateAxios.put(`room/${data.roomId}`, data);
-    })().then(() => {
-      setSnackBarOpen(true);
-      setReload(!reload);
-    });
-  };
+
   //   const fetchData = async () => {
   //     const res = await privateAxios.get(`room/${id}`);
   //     const apiData = await res.data;
@@ -96,6 +91,16 @@ export default function EditForm({
     fetchData2();
     console.log(roomtypes);
   }, [reload]);
+
+  const onSubmit = (data) => {
+    console.log(data);
+    (async () => {
+      await privateAxios.put(`room/${data.roomId}`, data);
+    })().then(() => {
+      setSnackBarOpen(true);
+      setReload(!reload);
+    });
+  };
 
   return (
     <Modal
@@ -166,7 +171,7 @@ export default function EditForm({
               <Controller
                 name="roomType"
                 control={control}
-                defaultValue=""
+                defaultValue={room ? room.roomType.roomTypeId : ""}
                 render={({ field }) => (
                   <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
                     <>
@@ -213,8 +218,8 @@ export default function EditForm({
               <Controller
                 name="building"
                 control={control}
-                // defaultValue={room ? room.building.buildingId : ""}
-                defaultValue=""
+                defaultValue={room ? room.building.buildingId : ""}
+                // defaultValue=""
                 render={({ field }) => (
                   <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
                     <>

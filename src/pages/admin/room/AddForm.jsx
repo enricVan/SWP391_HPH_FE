@@ -14,12 +14,16 @@ import { privateAxios } from "../../../service/axios";
 import { InputLabel, MenuItem, Select } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 
-// const schema = yup
-//   .object({
-//     roomName: yup.string().required(),
-//     roomDescription: yup.string().required(),
-//   })
-//   .required();
+const schema = yup
+  .object({
+    roomName: yup.string().nonNullable.required(),
+    roomType: yup.number().required(),
+    building: yup.number().required(),
+    roomPrice: yup.number().min(1).required(),
+    floor: yup.number().min(1).max(5).required(),
+  })
+  .required();
+
 export default function AddForm({ open, setOpen, reload, setReload }) {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [buildings, setBuildings] = useState([]);
@@ -39,7 +43,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
       roomType: roomType,
       floor: 1,
       building: building,
-      // resolver: yupResolver(schema),
+      resolver: yupResolver(schema),
     },
   });
 
