@@ -46,8 +46,8 @@ export default function Request() {
       student: {
         studentId: 1,
       },
-      studentRequestType: {
-        studentRequestTypeId: requestTypeId,
+      requestApplicationType: {
+        requestApplicationTypeId: requestTypeId,
       },
       requestContent: inputText,
     };
@@ -163,7 +163,7 @@ export default function Request() {
                 return (
                   <MenuItem
                     key={type.requestApplicationTypeId}
-                    value={type.requestApplicationTypeName}
+                    value={type.requestApplicationTypeId}
                   >
                     {type.requestApplicationTypeName}
                   </MenuItem>

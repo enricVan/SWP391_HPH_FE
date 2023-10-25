@@ -14,6 +14,7 @@ import { privateAxios } from "../../../service/axios";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 const schema = yup
   .object({
+
     roomName: yup.string().matches(/^[RL]\d{3}$/, 'Room name must start with R or L followed by three numbers').required(),
     roomType: yup.number().required(),
     building: yup.number().required(),
@@ -21,13 +22,7 @@ const schema = yup
     floor: yup.number().min(1).max(5).required(),
   })
   .required();
-export default function EditForm({
-  open,
-  setOpen,
-  room,
-  reload,
-  setReload,
-}) {
+export default function EditForm({ open, setOpen, room, reload, setReload }) {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [buildings, setBuildings] = useState([]);
   const [roomType, setRoomtype] = useState(1);
@@ -124,9 +119,7 @@ export default function EditForm({
           }}
           component={Paper}
         >
-          <Typography align="center">
-            Edit Room ID {room?.roomId}
-          </Typography>
+          <Typography align="center">Edit Room ID {room?.roomId}</Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box>
               <input

@@ -23,10 +23,9 @@ import {
 } from "@mui/material";
 import { Remove, RemoveRedEye } from "@mui/icons-material";
 
-
 const statusList = ["pending", "approved", "rejected"];
-const user = JSON.parse(localStorage.getItem("user"));
 export default function BookedHistory() {
+  const user = JSON.parse(localStorage.getItem("user"));
   const [bookedList, setBookedList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,6 +50,7 @@ export default function BookedHistory() {
       const res = await privateAxios.get(
         `bed-request/user/${user.id}?status=${status}&page=${currentPage - 1}`
       );
+      console.log(res.config.url);
       console.log(res.data);
       setBookedList(res.data.data);
       setTotalPages(res.data.totalPages);
@@ -120,7 +120,7 @@ export default function BookedHistory() {
                   {/* <IconButton onClick={() => setOpen(true)}>
                     <RemoveRedEye />
                   </IconButton> */}
-                  {bookedRequest.status === "pending" && (
+                  {bookedRequest.status.toLowerCase() === "pending" && (
                     <IconButton
                       // data-itemID={bookedRequest.bedRequestId}
                       onClick={() =>
