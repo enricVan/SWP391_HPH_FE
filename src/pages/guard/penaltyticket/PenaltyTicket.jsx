@@ -14,8 +14,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import Searchbar from "../../../components/Searchbar";
 import AddIcon from "@mui/icons-material/Add";
 import { Button, Modal, SnackbarContent, TextField } from "@mui/material";
-import { MenuItem } from "@mui/material";
 import { Snackbar } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
 const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 
 function BasicTable({ data }) {
@@ -86,7 +86,7 @@ function PenaltyTicket() {
   const handleSearchChange = (event) => {
     const newSearchTerm = event.target.value;
     setSearchTerm(newSearchTerm);
-    setPage(0); // Tự động chuyển về trang số 1
+    setPage(0);
   };
 
   useEffect(() => {
@@ -123,7 +123,7 @@ function PenaltyTicket() {
 
   // State để lưu danh sách sinh viên và giá trị được chọn
   const [students, setStudents] = useState([]);
-  const [selectedStudent, setSelectedStudent] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   useEffect(() => {
     // Gọi API để lấy danh sách tất cả sinh viên
@@ -138,12 +138,20 @@ function PenaltyTicket() {
     fetchStudents();
   }, []);
 
-  const handleStudentChange = (event) => {
-    const selectedStudent = event.target.value;
-    setSelectedStudent(selectedStudent);
+  // const handleStudentChange = (event) => {
+  //   const selectedStudent = event.target.value;
+  //   setSelectedStudent(selectedStudent);
+  //   setFormData({
+  //     ...formData,
+  //     studentId: selectedStudent,
+  //   });
+  // };
+
+  const handleStudentChange = (event, newValue) => {
+    setSelectedStudent(newValue);
     setFormData({
       ...formData,
-      studentId: selectedStudent,
+      studentId: newValue ? newValue.studentId : null,
     });
   };
 
@@ -192,12 +200,11 @@ function PenaltyTicket() {
 
   // Function to handle adding a ticket
   const handleAddTicket = async () => {
-
     // Check if the fields are empty
     if (
       !formData.title.trim() ||
       !formData.content.trim() ||
-      !formData.studentId.trim()
+      !formData.studentId
     ) {
       // Show an error message in the Snackbar if any of the fields are empty
       showSnackbar("Please fill in all required fields.", "error");
@@ -314,7 +321,7 @@ function PenaltyTicket() {
               readOnly
             />
           )}
-          <TextField
+          {/* <TextField
             select
             name="studentId"
             label="Student"
@@ -331,7 +338,26 @@ function PenaltyTicket() {
                 {student.studentId}
               </MenuItem>
             ))}
-          </TextField>
+          </TextField> */}
+          <Autocomplete
+            value={selectedStudent}
+            onChange={handleStudentChange}
+            options={students}
+            getOptionLabel={(option) => option.studentId.toString()}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                name="studentId"
+                label="Student"
+                variant="outlined"
+                fullWidth
+                sx={{
+                  marginTop: "0.3rem",
+                }}
+              />
+            )}
+          />
+
           <Button
             onClick={handleAddTicket}
             sx={{

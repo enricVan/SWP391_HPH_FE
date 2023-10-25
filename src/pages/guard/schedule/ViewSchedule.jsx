@@ -11,7 +11,7 @@ const events = [
     end: "2023-10-13T16:00:00",
   },
   {
-    title: "ĐM MÔN SWP",
+    title: "TRỰC DOM B",
     start: "2023-10-13T24:00:00",
     end: "2023-10-14T08:00:00",
   },
