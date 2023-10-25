@@ -16,7 +16,7 @@ import FormControl from "@mui/material/FormControl";
 
 const schema = yup
   .object({
-    roomName: yup.string().nonNullable.required(),
+    roomName: yup.string().nonNullable().required(),
     roomType: yup.number().required(),
     building: yup.number().required(),
     roomPrice: yup.number().min(1).required(),
