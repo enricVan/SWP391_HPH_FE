@@ -74,9 +74,11 @@ export default function SideBar({
                         marginBottom: 0,
                       }}
                     >
-                      Name
+                      {/* LongVH */}
                     </Typography>
-                    <Typography paragraph>RollNumber: --</Typography>
+                    <Typography paragraph>
+                      {/* RollNumber: HE172788 */}
+                    </Typography>
                   </Box>
                 </>
               )}

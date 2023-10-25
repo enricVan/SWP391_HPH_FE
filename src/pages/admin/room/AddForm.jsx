@@ -16,14 +16,13 @@ import FormControl from "@mui/material/FormControl";
 
 const schema = yup
   .object({
-    roomName: yup.string().nonNullable().required(),
+    roomName: yup.string().matches(/^[RL]\d{3}$/, 'Room name must start with R or L followed by three numbers').required(),
     roomType: yup.number().required(),
     building: yup.number().required(),
     roomPrice: yup.number().min(1).required(),
     floor: yup.number().min(1).max(5).required(),
   })
   .required();
-
 export default function AddForm({ open, setOpen, reload, setReload }) {
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [buildings, setBuildings] = useState([]);
@@ -43,8 +42,8 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
       roomType: roomType,
       floor: 1,
       building: building,
-      resolver: yupResolver(schema),
     },
+    resolver: yupResolver(schema),
   });
 
   const fetchData1 = async () => {
@@ -251,7 +250,7 @@ export default function AddForm({ open, setOpen, reload, setReload }) {
               onClose={(reason) => {
                 setSnackBarOpen(false);
               }}
-              message="Add New Room Type Success!"
+              message="Update Room Success!"
               ContentProps={{
                 sx: {
                   bgcolor: "green",
