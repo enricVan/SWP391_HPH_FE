@@ -1,6 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-
 function DropdownFAQ() {
   const customStyle = {
     width: "100%",
@@ -20,34 +17,20 @@ function DropdownFAQ() {
     fontSize: "1.5rem",
   };
 
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const getFaq = async (API_URL) => {
-      try {
-        const response = await axios.get(API_URL);
-        setData(response.data);
-        console.log(data);
-      } catch (error) {
-        console.error("Lỗi khi gọi API:" + error);
-      }
-    };
-
-    getFaq("http://localhost:8888/api/v1/faq");
-  }, []);
-
   return (
     <>
-      {data.map((item) => (
-        // eslint-disable-next-line react/jsx-key
-        <div className="container">
+      <div className="container">
+        {/* FAQ #1 */}
+        <div className="FAQ-1">
           <div className="faq-title" style={{ ...customStyle, ...faqStyle }}>
-            {item.faqId}. {item.title}
+            1. Khi ở KTX cần lưu ý điều gì?{" "}
           </div>
 
           <div style={{ ...customStyle }}>
             <div className="faq-content">
-              <h6>{item.subTitle}</h6>
+              <h6 style={{ fontWeight: "bolder" }}>
+                Ký túc xá có một số điều cần lưu ý khi ở như sau:
+              </h6>
               <div className="text-wrap">
                 <ul>
                   <li>Không được nuôi vật nuôi, thú cưng (chó, mèo,...).</li>
@@ -65,7 +48,7 @@ function DropdownFAQ() {
                   </li>
                   <li>Giữ gìn vệ sinh chung và đổ rác trước 9 giờ sáng.</li>
                 </ul>
-                <h6>
+                <h6 style={{ fontWeight: "bolder" }}>
                   Tất cả các lỗi vi phạm đều bị trừ dựa trên điểm uy tín dựa
                   trên mức độ lỗi vi phạm.
                 </h6>
@@ -73,7 +56,47 @@ function DropdownFAQ() {
             </div>
           </div>
         </div>
-      ))}
+
+        {/* FAQ #2 */}
+        <div className="FAQ-2">
+          <div className="faq-title" style={{ ...customStyle, ...faqStyle }}>
+            2. Làm thế nào để gửi yêu cầu tới Ban Quản lý KTX{" "}
+          </div>
+
+          <div style={{ ...customStyle }}>
+            <div className="faq-content">
+              <div className="text-wrap">
+                <ul>
+                  <li>
+                    Bước 1: Vào chức năng{" "}
+                    <span style={{ fontWeight: "bolder" }}>My Request</span>
+                  </li>
+                  <li>
+                    Bước 2: Bấm vào nút{" "}
+                    <span style={{ fontWeight: "bolder" }}>
+                      Create new request.{" "}
+                    </span>{" "}
+                    Chọn{" "}
+                    <span style={{ fontWeight: "bolder" }}>
+                      loại yêu cầu (Type request){" "}
+                    </span>
+                    thích hợp.
+                  </li>
+                  <li>
+                    Bước 3: Điền nội dung của yêu cầu ở phần{" "}
+                    <span style={{ fontWeight: "bolder" }}>Content</span>.
+                  </li>
+                  <li>
+                    Bước 4: Bấm vào nút{" "}
+                    <span style={{ fontWeight: "bolder" }}>Create request</span>
+                    .
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

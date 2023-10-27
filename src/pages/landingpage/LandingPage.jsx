@@ -64,7 +64,9 @@ export default function LandingPage() {
                   backgroundColor: "#F48120",
                 }}
               >
-                <h4 className="text-white">Thông tin KTX Đại Học FPT</h4>
+                <h4 className="text-white" style={{ fontWeight: "bold" }}>
+                  Thông tin KTX Đại Học FPT
+                </h4>
                 <p className="lead mb-0 text-white">
                   Thông tin{" "}
                   <a href="#dorm-info" className="text-white">
@@ -93,7 +95,9 @@ export default function LandingPage() {
                   backgroundColor: "#F48120",
                 }}
               >
-                <h4 className="text-white">Đăng kí sử dụng Ký túc xá</h4>
+                <h4 className="text-white" style={{ fontWeight: "bold" }}>
+                  Đăng kí sử dụng Ký túc xá
+                </h4>
                 <p className="lead mb-0 text-white">
                   Đăng kí{" "}
                   <a href="#" className="text-white">
@@ -122,7 +126,9 @@ export default function LandingPage() {
                   backgroundColor: "#F48120",
                 }}
               >
-                <h4 className="text-white">Các câu hỏi thường gặp</h4>
+                <h4 className="text-white" style={{ fontWeight: "bold" }}>
+                  Các câu hỏi thường gặp
+                </h4>
                 <p className="lead mb-0 text-white">
                   FAQ{" "}
                   <a href="#FAQ" className="text-white">
@@ -154,7 +160,11 @@ export default function LandingPage() {
           <div className="row mb-5">
             <h1
               className="text-center p-4"
-              style={{ fontFamily: "monospace", color: "#F48120" }}
+              style={{
+                fontFamily: "monospace",
+                color: "#F48120",
+                fontWeight: "bold",
+              }}
             >
               Thông tin Ký túc xá Đại Học FPT
             </h1>
@@ -271,6 +281,7 @@ export default function LandingPage() {
               fontFamily: "monospace",
               color: "#F48120",
               fontSize: "72px",
+              fontWeight: "bold",
             }}
           >
             FAQ
@@ -283,10 +294,19 @@ export default function LandingPage() {
       {/* Footer*/}
       <footer className="footer bg-light">
         <div className="container">
-          <div className="row">
+          <div className="row" style={{ textAlign: "center" }}>
             <hr style={{ borderColor: "#F48120", borderWidth: "4px" }} />
-            <div className="col-lg-3">
-              <h3>Hà Nội</h3>
+            <div className="col-lg-12">
+              <h3
+                style={{
+                  fontWeight: "bold",
+                  color: "#F48120",
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                }}
+              >
+                Hà Nội
+              </h3>
               <p>
                 {" "}
                 Khu Giáo dục và Đào tạo - Khu Công nghệ cao Hòa Lạc - KM29 Đại
@@ -295,33 +315,6 @@ export default function LandingPage() {
 
               <p>Điện thoại: 024 7300 1866</p>
 
-              <p>Email: daihocfpt@fpt.edu.vn</p>
-            </div>
-            <div className="col-lg-3">
-              <h3>Đà Nẵng</h3>
-              <p>
-                Khu đô thị công nghệ FPT Đà Nẵng, P. Hoà Hải, Q. Ngũ Hành Sơn,
-                TP. Đà Nẵng
-              </p>
-              <p>Điện thoại: 024 7300 1866</p>
-              <p>Email: daihocfpt@fpt.edu.vn</p>
-            </div>
-            <div className="col-lg-3">
-              <h3>Cần Thơ</h3>
-              <p>
-                Số 600 Đường Nguyễn Văn Cừ (nối dài), P. An Bình, Q. Ninh Kiều,
-                TP. Cần Thơ
-              </p>
-              <p>Điện thoại: 024 7300 1866</p>
-              <p>Email: daihocfpt@fpt.edu.vn</p>
-            </div>
-            <div className="col-lg-3">
-              <h3>Quy nhơn</h3>
-              <p>
-                Khu đô thị mới An Phú Thịnh, Phường Nhơn Bình & Phường Đống Đa,
-                TP. Quy Nhơn, Bình Định
-              </p>
-              <p>Điện thoại: 024 7300 1866/ 0256 7300 999</p>
               <p>Email: daihocfpt@fpt.edu.vn</p>
             </div>
           </div>
