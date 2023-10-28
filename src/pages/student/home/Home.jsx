@@ -45,14 +45,14 @@ export default function Home() {
             <List>
               {news.map((item, index) => {
                 return (
-                  <>
-                    <ListItem key={item.newsId}>
+                  <div key={item.newsId}>
+                    <ListItem>
                       <Link to={`../news/detail/${item.newsId}`}>
                         {item.title}
                       </Link>
                     </ListItem>
                     <p style={{ marginLeft: "16px" }}>{item.createdAt}</p>
-                  </>
+                  </div>
                 );
               })}
             </List>

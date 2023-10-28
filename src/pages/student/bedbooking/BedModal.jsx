@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -6,39 +7,42 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 import SingleBedIcon from "@mui/icons-material/SingleBed";
+import { privateAxios } from "../../../service/axios";
 
-const bedList = [
-  { id: 1, name: "Bed1", status: "vacant" },
-  { id: 2, name: "Bed2", status: "vacant" },
-  { id: 3, name: "Bed3", status: "vacant" },
-  { id: 4, name: "Bed4", status: "occupied" },
-  { id: 5, name: "Bed4", status: "occupied" },
-  { id: 6, name: "Bed4", status: "occupied" },
-];
-
-export default function Test() {
-  const [open, setOpen] = useState(false);
+export default function BedModal({
+  roomId,
+  open,
+  setOpen,
+  studentId,
+  semesterId,
+}) {
+  const [bedList, setBedList] = useState([]);
   const [selectedBed, setSelectedBed] = useState(null);
-
   const handleBedClick = (bed) => {
     if (bed.status !== "occupied") {
       setSelectedBed(bed);
     }
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = (bed) => {
     // Handle the confirmation action here
-    if (selectedBed) {
-      alert(`Confirmed: ${selectedBed.name}`);
+    if (selectedBed && confirm(`Confirmed Booking: ${selectedBed.bedName}?`)) {
+      privateAxios.post(
+        `bed-request?studentId=${studentId}&bedId=${bed.id}&semesterId=${semesterId}`
+      );
       // You can perform further actions here, e.g., submit data or update the state.
     }
   };
-
+  const fetchBed = async () => {
+    const res = await privateAxios.get(`room/${roomId}/beds`);
+    if (res.data) setBedList(res.data);
+  };
+  useEffect(() => {
+    fetchBed();
+  }, []);
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>Open Bed Modal</Button>
       <Modal open={open} onClose={() => setOpen(false)}>
         <Box
           sx={{
@@ -57,11 +61,16 @@ export default function Test() {
           <Grid container spacing={2} sx={{ xs: 12, md: 4 }}>
             {bedList.map((bed) => (
               <Grid item xs={12} md={3} textAlign={"center"} key={bed.id}>
-                {bed.name}
+                {bed.bedName}
                 <IconButton
                   sx={{
                     "& .MuiSvgIcon-root": {
-                      fill: bed.status === "vacant" ? "currentColor" : "red",
+                      fill:
+                        bed.status.toLowerCase() === "vacant"
+                          ? "currentColor"
+                          : bed.status.toLowerCase() === "reserved"
+                          ? "yellow"
+                          : "red",
                       width: "50px",
                       height: "50px",
                     },
@@ -86,7 +95,7 @@ export default function Test() {
           {selectedBed && (
             <div>
               <Typography variant="h6">
-                Selected Bed: {selectedBed.name}
+                Selected Bed: {selectedBed.bedName}
               </Typography>
               <Typography variant="body1">
                 Status: {selectedBed.status}
@@ -94,9 +103,9 @@ export default function Test() {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleConfirm}
+                onClick={() => handleConfirm(selectedBed)}
               >
-                Confirm
+                Book
               </Button>
             </div>
           )}
