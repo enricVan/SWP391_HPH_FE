@@ -8,6 +8,7 @@ export const privateAxios = axios.create({
 });
 privateAxios.interceptors.request.use(
   (config) => {
+    console.log(config.url);
     const token = JSON.parse(localStorage.getItem("token"));
     config.headers.Authorization = `Bearer ${token}`;
     return config;
@@ -20,10 +21,9 @@ privateAxios.interceptors.request.use(
 //     return response;
 //   },
 //   function (error) {
+//     console.log(error);
 //     // Any status codes that falls outside the range of 2xx cause this function to trigger
 //     // Do something with response error
-//     console.log(error.message);
-//     if (error) return error;
 //     return Promise.reject(error);
 //   }
 // );

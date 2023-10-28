@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
+import { privateAxios } from "../../../service/axios";
 const TAX_RATE = 0.07;
 
 function ccyFormat(num) {
@@ -38,6 +39,16 @@ const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 export default function BedPayment() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [paymentList, setPaymentList] = useState([]);
+  const fetchPayment = async () => {
+    const res = await privateAxios.get(`payment/${user.id}`);
+    setPaymentList(res.data.data);
+    console.log(res.data.data);
+  };
+  useEffect(() => {
+    fetchPayment();
+  }, []);
   return (
     <Box padding={1}>
       <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
@@ -48,41 +59,25 @@ export default function BedPayment() {
         <Table sx={{ minWidth: 700 }} aria-label="spanning table">
           <TableHead>
             <TableRow>
-              <TableCell align="center" colSpan={3}>
-                Details
-              </TableCell>
+              <TableCell>ID</TableCell>
+              <TableCell>For</TableCell>
+              <TableCell>Created Date</TableCell>
               <TableCell align="right">Price</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Desc</TableCell>
-              <TableCell align="right">Qty.</TableCell>
-              <TableCell align="right">Unit</TableCell>
-              <TableCell align="right">Sum</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.desc}>
-                <TableCell>{row.desc}</TableCell>
-                <TableCell align="right">{row.qty}</TableCell>
-                <TableCell align="right">{row.unit}</TableCell>
-                <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+            {paymentList.map((payment) => (
+              <TableRow key={payment.paymentId}>
+                <TableCell>{payment.paymentId}</TableCell>
+                <TableCell>{payment.status}</TableCell>
+                <TableCell>{payment.createdAt}</TableCell>
+                <TableCell align="right">{ccyFormat(payment.amount)}</TableCell>
               </TableRow>
             ))}
             <TableRow>
-              <TableCell rowSpan={3} />
-              <TableCell colSpan={2}>Subtotal</TableCell>
-              <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Tax</TableCell>
-              <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
-                0
-              )} %`}</TableCell>
-              <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell colSpan={2}>Total</TableCell>
+              <TableCell align="right" colSpan={3}>
+                Total
+              </TableCell>
               <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
             </TableRow>
           </TableBody>
