@@ -63,35 +63,35 @@ export default function EditForm({ open, setOpen, room, reload, setReload }) {
   const fetchData1 = async () => {
     const res = await privateAxios.get("room-type");
     const apiData = await res.data;
-    console.log(res.data);
+    // console.log(res.data);
     setRoomtypes(apiData);
   };
   useEffect(() => {
     fetchData1();
-    console.log(roomtypes);
+    // console.log(roomtypes);
   }, [reload]);
 
   const handleChangeRoomType = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setRoomtype(event.target.value);
   };
   const handleChangeBuilding = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setBuilding(event.target.value);
   };
   const fetchData2 = async () => {
     const res = await privateAxios.get("building");
     const apiData = await res.data;
-    console.log(res.data);
+    // console.log(res.data);
     setBuildings(apiData);
   };
   useEffect(() => {
     fetchData2();
-    console.log(roomtypes);
+    // console.log(roomtypes);
   }, [reload]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     (async () => {
       await privateAxios.put(`room/${data.roomId}`, data);
     })().then(() => {

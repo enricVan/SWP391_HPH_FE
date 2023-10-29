@@ -8,7 +8,9 @@ import Switch from "@mui/material/Switch";
 import { privateAxios } from "../../../service/axios";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import UserDetails from "./UserDetails";
-import { MenuItem, Select } from "@mui/material";
+import { Button, MenuItem, Select } from "@mui/material";
+import { AddCircleOutline } from "@mui/icons-material";
+import AddUser from "./AddUser";
 
 const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 
@@ -108,6 +110,7 @@ export default function DataTable({ users, reload, setReload }) {
   const [userDetails, setUserDetails] = useState(null);
 
   const [isUserDetailsOpen, setIsUserDetailsOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
 
   const openUserDetailsPopup = () => {
     setIsUserDetailsOpen(true);
@@ -187,6 +190,25 @@ export default function DataTable({ users, reload, setReload }) {
           />
         </Search>
 
+        <Button
+          onClick={() => {
+            setAddOpen(true)
+          }}
+          
+          startIcon={<AddCircleOutline />}
+          variant="contained"
+          sx={{
+            "& .MuiDataGrid-cell": {
+              whiteSpace: "normal !important",
+              lineHeight: "normal !important",
+            },
+            background: "orangered",
+            color: "white",
+            margin: "0 4vw",
+          }}>
+          Create new User
+        </Button>
+
         <Select
           value={selectedRole}
           onChange={handleRoleFilterChange}
@@ -220,6 +242,12 @@ export default function DataTable({ users, reload, setReload }) {
           userDetails={userDetails}
         />
       )}
+      <AddUser
+        open={addOpen}
+        setOpen={setAddOpen}
+        reload={reload}
+        setReload={setReload}
+      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import * as React from "react";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
@@ -9,10 +9,11 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import AddForm from "./AddForm";
 import EditForm from "./EditForm";
+import { useEffect, useState } from "react";
 
 const createColumns = (setEditOpen, setroom, reload, setReload) => [
   {
-    field: "roomId",
+    field: "Id",
     headerName: "ID",
     disableColumnMenu: true,
     flex: 0.3,
@@ -41,9 +42,9 @@ const createColumns = (setEditOpen, setroom, reload, setReload) => [
     disableColumnMenu: true,
     flex: 1,
     sortable: false,
-    renderCell: (params) =>{
-      return <>{params.value.roomTypeName}</>
-    }
+    // renderCell: (params) =>{
+    //   return <>{params.value.roomTypeName}</>
+    // }
   },
   {
     field: "floor",
@@ -60,9 +61,9 @@ const createColumns = (setEditOpen, setroom, reload, setReload) => [
     disableColumnMenu: true,
     flex: 1,
     sortable: false,
-    renderCell: (params) =>{
-      return <>{params.value.buildingName}</>
-    }
+    // renderCell: (params) =>{
+    //   return <>{params.value.buildingName}</>
+    // }
   },
   {
     field: "createdAt",
@@ -96,7 +97,7 @@ const createColumns = (setEditOpen, setroom, reload, setReload) => [
               const res = await privateAxios.get(`room/${id}`);
               const apiData = await res.data;
               setroom(apiData);
-              console.log(apiData);
+              // console.log(apiData);
             })().then(() => {
               setEditOpen(true);
             });
@@ -122,23 +123,26 @@ const createColumns = (setEditOpen, setroom, reload, setReload) => [
   },
 ];
 
-export default function room() {
-  const [reload, setReload] = React.useState(false);
-  const [room, setroom] = React.useState(null);
-  const [addOpen, setAddOpen] = React.useState(false);
-  const [editOpen, setEditOpen] = React.useState(false);
-  const [rooms, setrooms] = React.useState([]);
+export default function Room() {
+  const [reload, setReload] = useState(false);
+  const [room, setroom] = useState(null);
+  const [addOpen, setAddOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [rooms, setrooms] = useState([]);
   const columns = createColumns(setEditOpen, setroom, reload, setReload);
   const fetchData = async () => {
     const res = await privateAxios.get("room");
     const apiData = await res.data;
     console.log(res.data);
     setrooms(apiData);
+    // console.log(rooms)
   };
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
-    console.log(rooms);
+    console.log("this is rooms"+ rooms);
   }, [reload]);
+
+
   return (
     <>
       <Box p={2}>
@@ -159,7 +163,7 @@ export default function room() {
                 lineHeight: "normal !important",
               },
             }}
-            getRowId={(row) => row.roomId}
+            getRowId={(row) => row.id}
             rows={rooms}
             columns={columns}
             initialState={{
