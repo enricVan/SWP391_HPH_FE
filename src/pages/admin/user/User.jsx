@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
 import UserTable from "./UserTable";
+import AddUser from "./AddUser";
 
 function User() {
   const [users, setUsers] = useState([]);
   const [reload, setReload] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
   const fetchData = async () => {
     const res = await privateAxios.get(`user`);
     if (res && res.data) {

@@ -102,6 +102,7 @@ export default function Building() {
     const res = await privateAxios.get("building");
     const apiData = await res.data;
     setbuildings(apiData);
+    console.log(apiData)
   };
   React.useEffect(() => {
     fetchData();
