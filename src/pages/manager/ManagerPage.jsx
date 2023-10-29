@@ -5,40 +5,23 @@ import { Box } from "@mui/material";
 import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-import BedIcon from "@mui/icons-material/Bed";
-import NightShelterIcon from "@mui/icons-material/NightShelter";
-import AddHomeIcon from "@mui/icons-material/AddHome";
-import PaidIcon from "@mui/icons-material/Paid";
-import RoomPreferencesIcon from "@mui/icons-material/RoomPreferences";
-import RoomType from "./roomtype/RoomType";
+import BedroomChildIcon from "@mui/icons-material/BedroomChild";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Room from "./room/Room";
-import Bed from "./bed/Bed";
-import BedRequest from "./bedrequest/BedRequest";
-import BedPayment from "./bedpayment/BedPayment";
+import Student from "./student/Student";
+import StudentDetail from "./student/StudentDetails";
 const navItems = [
   {
     text: "Dashboard",
     icon: <SpaceDashboardIcon />,
   },
   {
-    text: "Room Type",
-    icon: <AddHomeIcon />,
-  },
-  {
     text: "Room",
-    icon: <RoomPreferencesIcon />,
+    icon: <BedroomChildIcon />,
   },
   {
-    text: "Bed",
-    icon: <BedIcon />,
-  },
-  {
-    text: "Bed Request",
-    icon: <NightShelterIcon />,
-  },
-  {
-    text: "Bed Payment",
-    icon: <PaidIcon />,
+    text: "Student",
+    icon: <AccountCircleIcon />,
   },
 ];
 function ManagerPage() {
@@ -76,11 +59,9 @@ function ManagerPage() {
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="roomtype" element={<RoomType />} />
           <Route path="room" element={<Room />} />
-          <Route path="bed" element={<Bed />} />
-          <Route path="bedrequest" element={<BedRequest />} />
-          <Route path="bedpayment" element={<BedPayment />} />
+          <Route path="student" element={<Student />} />
+          <Route path="student/:rollNumber" element={<StudentDetail />} />
         </Route>
       </Routes>
     </>
