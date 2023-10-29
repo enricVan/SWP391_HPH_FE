@@ -1,47 +1,29 @@
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Radio from "@mui/material/Radio";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import {
-  Button,
   Card,
   CardActionArea,
   CardContent,
   Divider,
   Grid,
-  Pagination,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import CloseIcon from "@mui/icons-material/Close";
-import {
   Typography,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+// import { styled } from "@mui/material/styles";
+// import { Typography, Dialog } from "@mui/material";
 import { privateAxios } from "../../../service/axios";
 import BedModal from "./BedModal";
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
+// const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+//   "& .MuiDialogContent-root": {
+//     padding: theme.spacing(2),
+//   },
+//   "& .MuiDialogActions-root": {
+//     padding: theme.spacing(1),
+//   },
+// }));
 
 export default function RoomChoosing() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -55,7 +37,7 @@ export default function RoomChoosing() {
   const [selectedRoomType, setSelectedRoomType] = useState("");
   const [roomList, setRoomList] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState("");
-  const [bedList, setBedList] = useState([]);
+  // const [bedList, setBedList] = useState([]);
 
   const fetchSemester = async () => {
     const res = await privateAxios.get("semester/next-semester");
@@ -83,10 +65,10 @@ export default function RoomChoosing() {
       setRoomList([]);
     }
   };
-  const fetchBed = async () => {
-    const res = await privateAxios.get(`room/${selectedRoom}/bed`);
-    if (res.data) setBedList(res.data);
-  };
+  // const fetchBed = async () => {
+  //   const res = await privateAxios.get(`room/${selectedRoom}/bed`);
+  //   if (res.data) setBedList(res.data);
+  // };
   useEffect(() => {
     fetchBuilding();
     fetchSemester();
