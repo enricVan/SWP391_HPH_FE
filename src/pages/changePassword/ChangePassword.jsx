@@ -89,6 +89,7 @@ export default function ChangePassword() {
                   onChange={handleInputChange}
                 />
               </div>
+              {error && <div style={{ color: "red" }}>{error}</div>}
               <div className="input-group mb-3">
                 <input
                   type="password"
@@ -109,7 +110,6 @@ export default function ChangePassword() {
                   onChange={handleInputChange}
                 />
               </div>
-              {error && <div style={{ color: "red" }}>{error}</div>}
             </div>
             <div className="input-group mb-3">
               <button
