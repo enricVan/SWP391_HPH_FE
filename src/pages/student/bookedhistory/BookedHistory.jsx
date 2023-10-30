@@ -8,18 +8,33 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
-import { Button, Pagination } from "@mui/material";
+
+import {
+  Button,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  Typography,
+} from "@mui/material";
+import { Remove, RemoveRedEye } from "@mui/icons-material";
+
 import Payment from "./Payment";
+import BedDetails from "./BedDetails";
 
 export default function BookedHistory() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [bookedList, setBookedList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedBedReq, setSelectedBedReq] = useState("");
+  const [selectedBedReq, setSelectedBedReq] = useState(null);
   const [status, setStatus] = useState("");
   const [reload, setReload] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openPayment, setOpenPayment] = useState(false);
+  const [openBedDetails, setOpenBedDetails] = useState(false);
   const handleChange = (e) => {
     if (e.target.value === "All") setStatus("");
     else setStatus(e.target.value);
@@ -80,7 +95,7 @@ export default function BookedHistory() {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Bed</TableCell>
+              <TableCell colSpan={1}>Bed</TableCell>
               <TableCell>Created Date</TableCell>
               <TableCell>Returned Date</TableCell>
               <TableCell>Status</TableCell>
@@ -96,7 +111,18 @@ export default function BookedHistory() {
                 <TableCell component="th" scope="row">
                   {bookedRequest.bedRequestId}
                 </TableCell>
-                <TableCell>{bookedRequest.bedName}</TableCell>
+                <TableCell>
+                  {bookedRequest.bedName}
+                  <IconButton
+                    onClick={() => {
+                      setSelectedBedReq(bookedRequest);
+                      setOpenBedDetails(true);
+                    }}
+                    variant="contained"
+                  >
+                    <RemoveRedEye />
+                  </IconButton>
+                </TableCell>
                 <TableCell>{bookedRequest.createdAt}</TableCell>
                 <TableCell>
                   {bookedRequest.status.toLowerCase() === "approved" ||
@@ -121,22 +147,12 @@ export default function BookedHistory() {
                   <Button
                     variant="contained"
                     onClick={() => {
-                      setSelectedBedReq(bookedRequest.bedRequestId);
-                      setOpen(true);
+                      setSelectedBedReq(bookedRequest);
+                      setOpenPayment(true);
                     }}
                   >
                     Payment
                   </Button>
-                  {/* {bookedRequest.status.toLowerCase() === "pending" && (
-                    <IconButton
-                      // data-itemID={bookedRequest.bedRequestId}
-                      onClick={() =>
-                        handleCanelBooking(bookedRequest.bedRequestId)
-                      }
-                    >
-                      <Remove />
-                    </IconButton>
-                  )} */}
                 </TableCell>
               </TableRow>
             ))}
@@ -167,8 +183,19 @@ export default function BookedHistory() {
           my: 4,
         }}
       />
-      {open && (
-        <Payment open={open} setOpen={setOpen} bedRequestId={selectedBedReq} />
+      {openPayment && (
+        <Payment
+          open={openPayment}
+          setOpen={setOpenPayment}
+          bedRequestId={selectedBedReq.bedRequestId}
+        />
+      )}
+      {openBedDetails && (
+        <BedDetails
+          open={openBedDetails}
+          setOpen={setOpenBedDetails}
+          bed={selectedBedReq}
+        />
       )}
     </Box>
   );

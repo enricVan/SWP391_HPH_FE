@@ -12,19 +12,8 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-// import { styled } from "@mui/material/styles";
-// import { Typography, Dialog } from "@mui/material";
 import { privateAxios } from "../../../service/axios";
 import BedModal from "./BedModal";
-// const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-//   "& .MuiDialogContent-root": {
-//     padding: theme.spacing(2),
-//   },
-//   "& .MuiDialogActions-root": {
-//     padding: theme.spacing(1),
-//   },
-// }));
-
 export default function RoomChoosing() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [open, setOpen] = useState(false);
@@ -66,10 +55,6 @@ export default function RoomChoosing() {
       setRoomList([]);
     }
   };
-  // const fetchBed = async () => {
-  //   const res = await privateAxios.get(`room/${selectedRoom}/bed`);
-  //   if (res.data) setBedList(res.data);
-  // };
   useEffect(() => {
     fetchBuilding();
     fetchSemester();
