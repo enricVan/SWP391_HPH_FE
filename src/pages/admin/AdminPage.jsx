@@ -4,13 +4,13 @@ import { Box } from "@mui/system";
 import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
-import User from "./user/User";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 
 import RoomType from "./roomtype/RoomType";
 import Room from "./room/Room";
 import Building from "./building/Building";
 import BedBooking from "./bedbooking/BedBooking";
+import User from "./user/User";
 
 const navItems = [
   { text: "User", icon: <ManageAccountsIcon /> },
