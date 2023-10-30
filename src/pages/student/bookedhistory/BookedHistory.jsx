@@ -9,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -22,6 +23,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Remove, RemoveRedEye } from "@mui/icons-material";
+import Payment from "./Payment";
 
 const statusList = ["pending", "approved", "rejected"];
 export default function BookedHistory() {
@@ -29,6 +31,7 @@ export default function BookedHistory() {
   const [bookedList, setBookedList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedBedReq, setSelectedBedReq] = useState("");
   const [status, setStatus] = useState("");
   const [reload, setReload] = useState(false);
   const [open, setOpen] = useState(false);
@@ -48,7 +51,9 @@ export default function BookedHistory() {
   const fetchData = async () => {
     try {
       const res = await privateAxios.get(
-        `bed-request/user/${user.id}?status=${status}&page=${currentPage - 1}`
+        `bed-request?studentRollNumber=${user.studentRollNumber}&page=${
+          currentPage - 1
+        }`
       );
       console.log(res.config.url);
       console.log(res.data);
@@ -60,12 +65,12 @@ export default function BookedHistory() {
   };
   useEffect(() => {
     fetchData();
-  }, [currentPage, status, reload]);
+  }, [currentPage, reload]);
   return (
     <Box padding={1}>
       <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
         <h1 style={{ marginLeft: "8px" }}>Bed Booked History</h1>
-        <FormControl sx={{ minWidth: 120, m: 1 }}>
+        {/* <FormControl sx={{ minWidth: 120, m: 1 }}>
           <InputLabel id="roomType-label">Status</InputLabel>
           <Select
             id="select"
@@ -83,7 +88,7 @@ export default function BookedHistory() {
               );
             })}
           </Select>
-        </FormControl>
+        </FormControl> */}
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -91,11 +96,10 @@ export default function BookedHistory() {
             <TableRow>
               <TableCell>ID</TableCell>
               <TableCell>Bed</TableCell>
-              <TableCell>Price</TableCell>
               <TableCell>Created Date</TableCell>
               <TableCell>Returned Date</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Setting</TableCell>
+              <TableCell>Payment</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -108,19 +112,37 @@ export default function BookedHistory() {
                   {bookedRequest.bedRequestId}
                 </TableCell>
                 <TableCell>{bookedRequest.bedName}</TableCell>
-                <TableCell>{bookedRequest.price}</TableCell>
                 <TableCell>{bookedRequest.createdAt}</TableCell>
                 <TableCell>
-                  {bookedRequest.status === "Approved"
+                  {bookedRequest.status.toLowerCase() === "approved" ||
+                  bookedRequest.status.toLowerCase() === "expired"
                     ? bookedRequest.updatedAt
                     : "N/A"}
                 </TableCell>
-                <TableCell>{bookedRequest.status}</TableCell>
+                <TableCell
+                  sx={{
+                    color:
+                      bookedRequest.status.toLowerCase() === "expired" ||
+                      bookedRequest.status.toLowerCase() === "rejected"
+                        ? "red"
+                        : bookedRequest.status === "pending"
+                        ? "#FFC300 "
+                        : "green",
+                  }}
+                >
+                  {bookedRequest.status.toUpperCase()}
+                </TableCell>
                 <TableCell>
-                  {/* <IconButton onClick={() => setOpen(true)}>
-                    <RemoveRedEye />
-                  </IconButton> */}
-                  {bookedRequest.status.toLowerCase() === "pending" && (
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      setSelectedBedReq(bookedRequest.bedRequestId);
+                      setOpen(true);
+                    }}
+                  >
+                    Payment
+                  </Button>
+                  {/* {bookedRequest.status.toLowerCase() === "pending" && (
                     <IconButton
                       // data-itemID={bookedRequest.bedRequestId}
                       onClick={() =>
@@ -129,7 +151,7 @@ export default function BookedHistory() {
                     >
                       <Remove />
                     </IconButton>
-                  )}
+                  )} */}
                 </TableCell>
               </TableRow>
             ))}
@@ -160,19 +182,9 @@ export default function BookedHistory() {
           my: 4,
         }}
       />
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Booked Details</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              Bed:
-            </Grid>
-            <Grid item xs={9}>
-              asdf
-            </Grid>
-          </Grid>
-        </DialogContent>
-      </Dialog>
+      {open && (
+        <Payment open={open} setOpen={setOpen} bedRequestId={selectedBedReq} />
+      )}
     </Box>
   );
 }

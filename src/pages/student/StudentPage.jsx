@@ -42,10 +42,10 @@ const navItems = [
     text: "Booked History",
     icon: <ListAltIcon />,
   },
-  {
-    text: "Payment History",
-    icon: <PaidIcon />,
-  },
+  // {
+  //   text: "Payment History",
+  //   icon: <PaidIcon />,
+  // },
   {
     text: "Request",
     icon: <ContactSupportIcon />,
@@ -89,7 +89,7 @@ function StudentPage() {
           <Route path="bedbooking" element={<BedBooking />} />
           <Route path="bedpayment" element={<BedPayment />} />
           <Route path="bookedhistory" element={<BookedHistory />} />
-          <Route path="paymenthistory" element={<PaymentHistory />} />
+          {/* <Route path="paymenthistory" element={<PaymentHistory />} /> */}
           <Route path="request" element={<Request />} />
         </Route>
         <Route path="profile" element={<StudentProfile />} />
