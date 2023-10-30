@@ -21,7 +21,7 @@ export default function BedModal({
   const [bedList, setBedList] = useState([]);
   const [selectedBed, setSelectedBed] = useState(null);
   const handleBedClick = (bed) => {
-    if (bed.status !== "occupied") {
+    if (bed.status.toLowerCase() === "vacant") {
       setSelectedBed(bed);
     }
   };
