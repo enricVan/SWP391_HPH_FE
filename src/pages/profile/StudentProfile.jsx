@@ -1,5 +1,5 @@
 import "./studentProfile.css";
-import avatar from "../../assets/image/avatar.jpeg";
+import avatar from "../../assets/image/avatar.png";
 export default function StudentProfile() {
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">

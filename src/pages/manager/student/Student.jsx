@@ -1,8 +1,6 @@
 import {
   Box,
   Grid,
-  Select,
-  MenuItem,
   Table,
   TableContainer,
   TableHead,
@@ -10,8 +8,6 @@ import {
   TableCell,
   TableBody,
   IconButton,
-  InputLabel,
-  FormControl,
 } from "@mui/material";
 import Searchbar from "../../../components/Searchbar";
 import SearchIcon from "@mui/icons-material/Search";
@@ -65,36 +61,23 @@ function Student() {
           </Search>
         </Box>
         {/* Search box end */}
-        <Grid container p={4} md={12} spacing={2}>
-          <Grid item md={4}>
-            <FormControl sx={{ width: "80%" }}>
-              <InputLabel id="building-label">Building</InputLabel>
-              <Select
-                labelId="building-label"
-                label="Building"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              >
-                <MenuItem value="all">OK</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item md={4}>
-            <FormControl sx={{ width: "80%" }}>
-              <InputLabel id="building-label">Building</InputLabel>
-              <Select
-                labelId="building-label"
-                label="Building"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              >
-                <MenuItem value="all">OK</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
 
+        <Grid container p={4} md={12} spacing={2}>
+          {/* Filter start */}
+          {/* <Grid item md={4}>
+            <FormControl sx={{ width: "80%" }}>
+              <InputLabel id="building-label">Building</InputLabel>
+              <Select
+                labelId="building-label"
+                label="Building"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                }}
+              >
+                <MenuItem value="all">OK</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid item md={4}>
             <FormControl sx={{ width: "80%" }}>
               <InputLabel id="building-label">Building</InputLabel>
@@ -109,6 +92,21 @@ function Student() {
               </Select>
             </FormControl>
           </Grid>
+          <Grid item md={4}>
+            <FormControl sx={{ width: "80%" }}>
+              <InputLabel id="building-label">Building</InputLabel>
+              <Select
+                labelId="building-label"
+                label="Building"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                }}
+              >
+                <MenuItem value="all">OK</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid> */}
+          {/* Filter end */}
         </Grid>
         <Grid item md={12}>
           <TableContainer>

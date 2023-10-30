@@ -10,6 +10,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Room from "./room/Room";
 import Student from "./student/Student";
 import StudentDetail from "./student/StudentDetails";
+import HotelIcon from "@mui/icons-material/Hotel";
 const navItems = [
   {
     text: "Dashboard",
@@ -22,6 +23,10 @@ const navItems = [
   {
     text: "Student",
     icon: <AccountCircleIcon />,
+  },
+  {
+    text: "Bed Request",
+    icon: <HotelIcon />,
   },
 ];
 function ManagerPage() {
@@ -62,6 +67,7 @@ function ManagerPage() {
           <Route path="room" element={<Room />} />
           <Route path="student" element={<Student />} />
           <Route path="student/:rollNumber" element={<StudentDetail />} />
+          <Route path="bedrequest" />
         </Route>
       </Routes>
     </>

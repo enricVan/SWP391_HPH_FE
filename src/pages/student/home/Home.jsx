@@ -9,7 +9,7 @@ import { Avatar } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import student from "../../../data/student.json";
-import avatar from "../../../assets/image/avatar.jpeg";
+import avatar from "../../../assets/image/avatar.png";
 import { privateAxios } from "../../../service/axios";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -43,7 +43,7 @@ export default function Home() {
           </Typography>
           <Item>
             <List>
-              {news.map((item, index) => {
+              {news.map((item) => {
                 return (
                   <div key={item.newsId}>
                     <ListItem>
