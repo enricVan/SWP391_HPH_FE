@@ -130,8 +130,12 @@ function Student() {
                     .map((student) => (
                       <TableRow key={student.studentId}>
                         <TableCell>{student.rollNumber}</TableCell>
-                        <TableCell>Tên</TableCell>
-                        <TableCell>Giới tính</TableCell>
+                        <TableCell>
+                          {student.rollNumber == "HE173334"
+                            ? "Văn Minh Tuấn"
+                            : "Vũ Hoàng Long"}
+                        </TableCell>
+                        <TableCell>Male</TableCell>
                         <TableCell>
                           <Link to={`${student.rollNumber}`}>
                             <IconButton>
