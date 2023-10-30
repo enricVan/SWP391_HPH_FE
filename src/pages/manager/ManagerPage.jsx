@@ -9,6 +9,7 @@ import BedroomChildIcon from "@mui/icons-material/BedroomChild";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Room from "./room/Room";
 import Student from "./student/Student";
+import BedRequest from "./bedrequest/BedRequest";
 import StudentDetail from "./student/StudentDetails";
 import HotelIcon from "@mui/icons-material/Hotel";
 const navItems = [
@@ -67,7 +68,7 @@ function ManagerPage() {
           <Route path="room" element={<Room />} />
           <Route path="student" element={<Student />} />
           <Route path="student/:rollNumber" element={<StudentDetail />} />
-          <Route path="bedrequest" />
+          <Route path="bedrequest" element={<BedRequest />} />
         </Route>
       </Routes>
     </>

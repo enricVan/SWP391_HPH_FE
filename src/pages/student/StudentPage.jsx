@@ -53,7 +53,7 @@ const navItems = [
 ];
 function StudentPage() {
   const user = JSON.parse(localStorage.getItem("user"));
-  if (!user || user.role + "" !== "STUDENT") {
+  if (!user || user.roleId !== 2) {
     return <Navigate to="/login" replace />;
   }
   const Layout = () => {
