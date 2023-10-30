@@ -76,7 +76,8 @@ export default function BedModal({
                       height: "50px",
                     },
                     cursor:
-                      bed.status === "occupied" || bed.status === "reserved"
+                      bed.status.toLowerCase() === "occupied" ||
+                      bed.status.toLowerCase() === "reserved"
                         ? "not-allowed"
                         : "pointer",
                     "&.selected": {
