@@ -10,6 +10,7 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import RoomType from "./roomtype/RoomType";
 import Room from "./room/Room";
 import Building from "./building/Building";
+import BedBooking from "./bedbooking/BedBooking";
 
 const navItems = [
   { text: "User", icon: <ManageAccountsIcon /> },
@@ -49,7 +50,7 @@ function AdminPage() {
         <Route path="user" element={<User />} />
         <Route path="building" element={<Building />} />
         <Route path="roomtype" element={<RoomType />} />
-        <Route path="room" element={<Room />} />
+        <Route path="room" element={<BedBooking />} />
       </Route>
     </Routes>
   );
