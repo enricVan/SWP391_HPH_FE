@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
 } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export default function Payment({ open, setOpen, bedRequestId }) {
   const [payment, setPayment] = useState({});
@@ -41,20 +42,30 @@ export default function Payment({ open, setOpen, bedRequestId }) {
           <Grid item xs={3}>
             Status:
           </Grid>
-          <Grid
-            item
-            xs={9}
-            sx={{
-              color:
-                payment.status === "expired"
-                  ? "red"
-                  : payment.status === "pending"
-                  ? "#FFC300 "
-                  : "green",
-            }}
-          >
-            {payment.status}
-            <Button></Button>
+          <Grid item xs={9}>
+            <span
+              style={{
+                color:
+                  payment.status === "expired"
+                    ? "red"
+                    : payment.status === "pending"
+                    ? "#FFC300 "
+                    : "green",
+              }}
+            >
+              {payment.status} &nbsp; &nbsp;
+            </span>
+            <IconButton
+              variant="contained"
+              sx={{
+                border: "1px solid green",
+                color: "#56E90D",
+                "&:hover": { color: "#088803" },
+                display: payment.status === "expired" ? "none" : "",
+              }}
+            >
+              <CheckCircleIcon />
+            </IconButton>
           </Grid>
           <Grid item xs={3}>
             Expiration Date:
