@@ -60,6 +60,7 @@ export default function RoomChoosing() {
       const res = await privateAxios.get(
         `room?buildingId=${selectedBuilding}&floor=${selectedFloor}&roomTypeId=${selectedRoomType}&status=vacant`
       );
+      console.log(res.data);
       setRoomList(res.data);
     } catch (error) {
       setRoomList([]);
@@ -89,6 +90,7 @@ export default function RoomChoosing() {
   useEffect(() => {
     if (selectedBuilding && selectedFloor && selectedRoomType) {
       fetchRoom();
+
       console.log(roomList);
     }
   }, [selectedFloor, selectedBuilding, selectedRoomType]);

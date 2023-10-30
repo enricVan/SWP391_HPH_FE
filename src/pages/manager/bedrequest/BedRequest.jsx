@@ -11,34 +11,17 @@ import { privateAxios } from "../../../service/axios";
 import { Button, Pagination } from "@mui/material";
 import Payment from "./Payment";
 
-export default function BookedHistory() {
-  const user = JSON.parse(localStorage.getItem("user"));
+export default function BedRequest() {
   const [bookedList, setBookedList] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedBedReq, setSelectedBedReq] = useState("");
-  const [status, setStatus] = useState("");
-  const [reload, setReload] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleChange = (e) => {
-    if (e.target.value === "All") setStatus("");
-    else setStatus(e.target.value);
-  };
-  const handleCanelBooking = (id) => {
-    if (confirm(`Room Type ID ${id} will be delete?`)) {
-      (async () => {
-        await privateAxios.delete(`bed-request/${id}`);
-        await fetchData();
-      })();
-    }
-    console.log(id);
-  };
+  const [selectedBedReq, setSelectedBedReq] = useState("");
+
   const fetchData = async () => {
     try {
       const res = await privateAxios.get(
-        `bed-request?studentRollNumber=${user.studentRollNumber}&page=${
-          currentPage - 1
-        }`
+        `bed-request?pageNo=${currentPage - 1}`
       );
       console.log(res.config.url);
       console.log(res.data);
@@ -50,11 +33,11 @@ export default function BookedHistory() {
   };
   useEffect(() => {
     fetchData();
-  }, [currentPage, reload]);
+  }, [currentPage]);
   return (
     <Box padding={1}>
       <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
-        <h1 style={{ marginLeft: "8px" }}>Bed Booked History</h1>
+        <h1 style={{ marginLeft: "8px" }}>Bed Request</h1>
         {/* <FormControl sx={{ minWidth: 120, m: 1 }}>
           <InputLabel id="roomType-label">Status</InputLabel>
           <Select
@@ -80,9 +63,14 @@ export default function BookedHistory() {
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
+              <TableCell>Student Rollnumber</TableCell>
               <TableCell>Bed</TableCell>
+              <TableCell>Semester</TableCell>
+              <TableCell>Dorm</TableCell>
+              <TableCell>Room</TableCell>
+              <TableCell>Room Type</TableCell>
               <TableCell>Created Date</TableCell>
-              <TableCell>Returned Date</TableCell>
+              <TableCell>Updated Date</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Payment</TableCell>
             </TableRow>
@@ -96,7 +84,12 @@ export default function BookedHistory() {
                 <TableCell component="th" scope="row">
                   {bookedRequest.bedRequestId}
                 </TableCell>
+                <TableCell>{bookedRequest.studentRollNumber}</TableCell>
                 <TableCell>{bookedRequest.bedName}</TableCell>
+                <TableCell>{bookedRequest.semesterName}</TableCell>
+                <TableCell>{bookedRequest.buildingName}</TableCell>
+                <TableCell>{bookedRequest.roomName}</TableCell>
+                <TableCell>{bookedRequest.roomTypeName}</TableCell>
                 <TableCell>{bookedRequest.createdAt}</TableCell>
                 <TableCell>
                   {bookedRequest.status.toLowerCase() === "approved" ||
@@ -127,6 +120,7 @@ export default function BookedHistory() {
                   >
                     Payment
                   </Button>
+
                   {/* {bookedRequest.status.toLowerCase() === "pending" && (
                     <IconButton
                       // data-itemID={bookedRequest.bedRequestId}
