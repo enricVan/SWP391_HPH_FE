@@ -37,9 +37,10 @@ const schema = yup
         floor: yup.number().min(1).max(5).required(),
     })
     .required();
+
 export default function AddUser({ open, setOpen, reload, setReload }) {
     const [snackBarOpen, setSnackBarOpen] = useState(false);
-    const [dob, setDob] = useState()
+    const [dob, setDob] = useState(null)
     const [roles, setRoles] = useState([]);
 
     const [gender, setGender] = useState(false);
@@ -60,7 +61,7 @@ export default function AddUser({ open, setOpen, reload, setReload }) {
             address: "",
             dob: "",
             role: 2
-          },
+        },
         resolver: yupResolver(schema),
     });
 
@@ -78,17 +79,12 @@ export default function AddUser({ open, setOpen, reload, setReload }) {
         // console.log(event.target.value);
         setRole(event.target.value);
     };
-    const handleChangeDob = (event) => {
-        // console.log(event.target.value);
-        setDob(event.target.value);
-    };
 
     const handleChangeGender = (event) => {
         setGender(event.target.value)
     }
 
-    const onSubmit = (data) => {
-        // console.log(data);
+    const onSubmit1 = (data) => {
         (async () => {
             await privateAxios.post("user", data);
         })().then(() => {
@@ -97,6 +93,7 @@ export default function AddUser({ open, setOpen, reload, setReload }) {
             setReload(!reload);
         });
     };
+    
     return (
         <Modal
             open={open}
@@ -104,228 +101,233 @@ export default function AddUser({ open, setOpen, reload, setReload }) {
                 setOpen(false);
             }}
         >
-            <>
-                <Box
-                    sx={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: "%",
-                        p: 4,
-                    }}
-                    component={Paper}
-                >
-                    <Typography align="center">New User</Typography>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Box>
-                            <Controller
-                                name="username"
-                                control={control}
-                                // defaultValue={""}
-                                render={({ field }) => (
-                                    <TextField
-                                        variant="standard"
-                                        label="Username"
-                                        fullWidth
-                                        {...field}
-                                        error={errors.username ? true : false}
-                                        helperText={errors.username?.message}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="fullname"
-                                control={control}
-                                defaultValue={""}
-                                render={({ field }) => (
-                                    <TextField
-                                        variant="standard"
-                                        label="Fullname"
-                                        fullWidth
-                                        {...field}
-                                        error={errors.fullname ? true : false}
-                                        helperText={errors.fullname?.message}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="email"
-                                control={control}
-                                defaultValue={""}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        label="Email"
-                                        sx={{ mt: 3 }}
-                                        fullWidth
-                                        multiline
-                                        error={errors.email ? true : false}
-                                        helperText={errors.email?.message}
-                                    />
-                                )}
-                            />
 
-                            <Controller
-                                name="gender"
-                                control={control}
-                                render={({ field }) => (
-                                    <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
-                                        <>
-                                            <InputLabel id="demo-simple-select-standard-label">
-                                                Gender
-                                            </InputLabel>
-                                            <Select
-                                                {...field}
-                                                labelId="demo-simple-select-standard-label"
-                                                id="demo-simple-select-standard"
-                                                value={gender}
-                                                onChange={handleChangeGender}
-                                            >
-                                                <MenuItem
-                                                    value={false}
-                                                    key={1}
-                                                >
-                                                    Female
-                                                </MenuItem>
-                                                <MenuItem
-                                                    value={true}
-                                                    key={2}
-                                                >
-                                                    Male
-                                                </MenuItem>
-                                            </Select>
-                                        </>
-                                    </FormControl>
-                                )}
-                            />
-                            <Controller
-                                name="phone"
-                                control={control}
-                                defaultValue={""}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        label="Phone"
-                                        sx={{ mt: 3 }}
-                                        fullWidth
-                                        multiline
-                                        error={errors.phone ? true : false}
-                                        helperText={errors.phone?.message}
-                                    />
-                                )}
-                            />
-                            <Controller
-                                name="address"
-                                control={control}
-                                defaultValue={""}
-                                render={({ field }) => (
-                                    <TextField
-                                        {...field}
-                                        label="Address"
-                                        sx={{ mt: 3 }}
-                                        fullWidth
-                                        multiline
-                                        error={errors.address ? true : false}
-                                        helperText={errors.address?.message}
-                                    />
-                                )}
-                            />
-
-                            <Controller
-                                name="dob"
-                                control={control}
-                                defaultValue={""}
-                                render={({ field }) => (
-
-                                    <LocalizationProvider dateAdapter={AdapterDayjs} >
-                                        <DemoContainer components={['DatePicker']}>
-                                            <DatePicker
-                                                {...field}
-                                                label="Date of birth"
-                                                sx={{ mt: 3 }}
-                                                fullWidth
-                                                multiline
-                                                error={errors.dob ? true : false}
-                                                helperText={errors.dob?.message}
-                                                onChange={handleChangeDob}
-                                            />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
-                                )}
-                            />
-                            <Controller
-                                name="role"
-                                control={control}
-                                render={({ field }) => (
-                                    <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
-                                        <>
-                                            <InputLabel id="demo-simple-select-standard-label">
-                                                Role
-                                            </InputLabel>
-                                            <Select
-                                                {...field}
-                                                labelId="demo-simple-select-standard-label"
-                                                id="demo-simple-select-standard"
-                                                value={role}
-                                                onChange={handleChooseRole}
-                                            >
-                                                {roles.map((item) => (
-                                                    <MenuItem
-                                                        value={item.id}
-                                                        key={item.id}
-                                                    >
-                                                        {item.roleName}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </>
-                                    </FormControl>
-                                )}
-                            />
-
-                            <div
-                                style={{
-                                    padding: "16px 4px 4px 4px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    width: "100%",
-                                }}
-                            >
-                                <Button
-                                    type="submit"
-                                    sx={{
-                                        width: "60%",
-                                        bgcolor: "orangered",
-                                        color: "white",
-                                        ":hover": { bgcolor: "rgba(255,69,0,0.8)" },
-                                    }}
-                                >
-                                    ADD USER
-                                </Button>
-                            </div>
-                        </Box>
-                    </form>
-                </Box>
-                <ClickAwayListener onClickAway={() => setSnackBarOpen(false)}>
-                    <Box sx={{ width: 500 }}>
-                        <Snackbar
-                            autoHideDuration={3000}
-                            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                            open={snackBarOpen}
-                            onClose={(reason) => {
-                                setSnackBarOpen(false);
-                            }}
-                            message="Update Room Success!"
-                            ContentProps={{
-                                sx: {
-                                    bgcolor: "green",
-                                },
-                            }}
+            <Box
+                sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "%",
+                    p: 4,
+                }}
+                component={Paper}
+            >
+                <Typography align="center">New User</Typography>
+                <form onSubmit={() => {
+                    handleSubmit(onSubmit1)
+                }}>
+                    <Box>
+                        <Controller
+                            name="username"
+                            control={control}
+                            // defaultValue={""}
+                            render={({ field }) => (
+                                <TextField
+                                    variant="standard"
+                                    label="Username"
+                                    fullWidth
+                                    {...field}
+                                    error={errors.username ? true : false}
+                                    helperText={errors.username?.message}
+                                />
+                            )}
                         />
+                        <Controller
+                            name="fullname"
+                            control={control}
+                            defaultValue={""}
+                            render={({ field }) => (
+                                <TextField
+                                    variant="standard"
+                                    label="Fullname"
+                                    fullWidth
+                                    {...field}
+                                    error={errors.fullname ? true : false}
+                                    helperText={errors.fullname?.message}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="email"
+                            control={control}
+                            defaultValue={""}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    label="Email"
+                                    sx={{ mt: 3 }}
+                                    fullWidth
+                                    multiline
+                                    error={errors.email ? true : false}
+                                    helperText={errors.email?.message}
+                                />
+                            )}
+                        />
+
+                        <Controller
+                            name="gender"
+                            control={control}
+                            render={({ field }) => (
+                                <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
+                                    <>
+                                        <InputLabel id="demo-simple-select-standard-label">
+                                            Gender
+                                        </InputLabel>
+                                        <Select
+                                            {...field}
+                                            labelId="demo-simple-select-standard-label"
+                                            id="demo-simple-select-standard"
+                                            value={gender}
+                                            onChange={handleChangeGender}
+                                        >
+                                            <MenuItem
+                                                value={false}
+                                                key={1}
+                                            >
+                                                Female
+                                            </MenuItem>
+                                            <MenuItem
+                                                value={true}
+                                                key={2}
+                                            >
+                                                Male
+                                            </MenuItem>
+                                        </Select>
+                                    </>
+                                </FormControl>
+                            )}
+                        />
+                        <Controller
+                            name="phone"
+                            control={control}
+                            defaultValue={""}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    label="Phone"
+                                    sx={{ mt: 3 }}
+                                    fullWidth
+                                    multiline
+                                    error={errors.phone ? true : false}
+                                    helperText={errors.phone?.message}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="address"
+                            control={control}
+                            defaultValue={""}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    label="Address"
+                                    sx={{ mt: 3 }}
+                                    fullWidth
+                                    multiline
+                                    error={errors.address ? true : false}
+                                    helperText={errors.address?.message}
+                                />
+                            )}
+                        />
+
+                        <Controller
+                            name="dob"
+                            control={control}
+                            defaultValue={""}
+                            render={({ field }) => (
+
+                                <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                    <DemoContainer components={['DatePicker']}>
+                                        <DatePicker
+                                            {...field}
+                                            label="Date of birth"
+                                            sx={{ mt: 3 }}
+                                            fullWidth
+                                            multiline
+                                            error={errors.dob ? true : false}
+                                            helperText={errors.dob?.message}
+                                            onChange={(date) => {
+                                                setDob(date);
+                                            }}
+                                        />
+                                    </DemoContainer>
+                                </LocalizationProvider>
+                            )}
+                        />
+                        <Controller
+                            name="role"
+                            control={control}
+                            render={({ field }) => (
+                                <FormControl fullWidth variant="standard" sx={{ mt: 3 }}>
+                                    <>
+                                        <InputLabel id="demo-simple-select-standard-label">
+                                            Role
+                                        </InputLabel>
+                                        <Select
+                                            {...field}
+                                            labelId="demo-simple-select-standard-label"
+                                            id="demo-simple-select-standard"
+                                            value={role}
+                                            onChange={handleChooseRole}
+                                        >
+                                            {roles.map((item) => (
+                                                <MenuItem
+                                                    value={item.id}
+                                                    key={item.id}
+                                                >
+                                                    {item.roleName}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </>
+                                </FormControl>
+                            )}
+                        />
+
+                        <div
+                            style={{
+                                padding: "16px 4px 4px 4px",
+                                display: "flex",
+                                justifyContent: "center",
+                                width: "100%",
+                            }}
+                        >
+                            <Button
+                                type="submit"
+                                sx={{
+                                    width: "60%",
+                                    bgcolor: "orangered",
+                                    color: "white",
+                                    ":hover": { bgcolor: "rgba(255,69,0,0.8)" },
+                                }}
+                                onClick={() => { console.log("test"); }}
+                            >
+                                ADD USER
+                            </Button>
+                        </div>
                     </Box>
-                </ClickAwayListener>
-            </>
+                </form>
+            </Box>
+            <ClickAwayListener onClickAway={() => setSnackBarOpen(false)}>
+                <Box sx={{ width: 500 }}>
+                    <Snackbar
+                        autoHideDuration={3000}
+                        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                        open={snackBarOpen}
+                        onClose={(reason) => {
+                            setSnackBarOpen(false);
+                        }}
+                        message="Update Room Success!"
+                        ContentProps={{
+                            sx: {
+                                bgcolor: "green",
+                            },
+                        }}
+                    />
+                </Box>
+            </ClickAwayListener>
+
         </Modal>
     );
 }
