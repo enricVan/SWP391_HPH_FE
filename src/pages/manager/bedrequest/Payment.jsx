@@ -22,6 +22,18 @@ export default function Payment({ open, setOpen, bedRequestId }) {
   useEffect(() => {
     fetchPayment();
   }, []);
+
+  const checkPaid = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    await privateAxios.put(
+      `payment/${payment.paymentId}/check?managerId=${user.managerId}`
+    );
+    window.location.reload();
+  };
+
+  const handleClickCheckPaid = () => {
+    checkPaid();
+  };
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle>Payment</DialogTitle>
@@ -51,6 +63,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
                     : payment.status === "pending"
                     ? "#FFC300 "
                     : "green",
+                textTransform: "uppercase",
               }}
             >
               {payment.status} &nbsp; &nbsp;
@@ -63,8 +76,10 @@ export default function Payment({ open, setOpen, bedRequestId }) {
                 "&:hover": { color: "#088803" },
                 display: payment.status === "expired" ? "none" : "",
               }}
+              disabled={payment.status === "paid"}
+              onClick={handleClickCheckPaid}
             >
-              <CheckCircleIcon />
+              <CheckCircleIcon sx={{ color: "#088803" }} />
             </IconButton>
           </Grid>
           <Grid item xs={3}>

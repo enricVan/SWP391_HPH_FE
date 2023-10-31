@@ -1,157 +1,203 @@
-import {
-  Box,
-  Grid,
-  Table,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  IconButton,
-} from "@mui/material";
-import Searchbar from "../../../components/Searchbar";
-import SearchIcon from "@mui/icons-material/Search";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useEffect, useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
-import { Link } from "react-router-dom";
+import {
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+} from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useNavigate } from "react-router-dom";
 
-const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
-
-function Student() {
+export default function Student() {
   const [students, setStudents] = useState([]);
-  const [searchText, setSearchText] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [buildingList, setBuildingList] = useState([]);
+  const [selectedBuilding, setSelectedBuilding] = useState("");
+  const [floorList, setFloorList] = useState("");
+  const [selectedFloor, setSelectedFloor] = useState("");
+  const [roomList, setRoomList] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState("");
+  const navigate = useNavigate();
 
-  const fetchStudents = async () => {
-    const res = await privateAxios.get("student");
-    setStudents(res.data);
+  const fetchBuilding = async () => {
+    const res = await privateAxios.get("building");
+    setBuildingList(res.data);
   };
 
-  useEffect(() => {
-    fetchStudents();
-  }, []);
-  return (
-    <Box p={2}>
-      <h1 style={{ marginLeft: "8px", textAlign: "center" }}>Student</h1>
-      <Grid container spacing={2}>
-        {/* Search box start */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "20px auto",
-            width: "80%",
-          }}
-        >
-          <Search sx={{ display: "inline-block" }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Search by Rollnumber…"
-              inputProps={{ "aria-label": "search" }}
-              sx={{
-                width: "400px",
-                border: "5px solid orangered",
-                borderRadius: "30px",
-              }}
-            />
-          </Search>
-        </Box>
-        {/* Search box end */}
+  const fetchFloor = async () => {
+    if (selectedBuilding) {
+      const res = await privateAxios.get(`building/${selectedBuilding}`);
+      setFloorList(res.data.floors);
+    }
+  };
 
-        <Grid container p={4} md={12} spacing={2}>
-          {/* Filter start */}
-          {/* <Grid item md={4}>
-            <FormControl sx={{ width: "80%" }}>
-              <InputLabel id="building-label">Building</InputLabel>
-              <Select
-                labelId="building-label"
-                label="Building"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
+  const fetchRoom = async () => {
+    if (selectedBuilding && selectedFloor) {
+      const res = await privateAxios.get(
+        `room?buildingId=${selectedBuilding}&floor=${selectedFloor}`
+      );
+      setRoomList(res.data);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const res = await privateAxios.get(
+        `student?pageNo=${
+          currentPage - 1
+        }&buildingId=${selectedBuilding}&floor=${selectedFloor}&roomId=${selectedRoom}`
+      );
+      console.log(res.config.url);
+      console.log(res.data);
+      setStudents(res.data.data);
+      setTotalPages(res.data.totalPages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchBuilding();
+    fetchFloor();
+    fetchRoom();
+    fetchData();
+  }, [currentPage, selectedBuilding, selectedFloor, selectedRoom]);
+
+  return (
+    <Box p={3}>
+      <Box>
+        <h1 style={{ textAlign: "center" }}>Student</h1>
+      </Box>
+      {/* Filter start */}
+      <Box display={"flex"} justifyContent={"center"} gap={2} mb={2}>
+        <FormControl sx={{ width: 250 }}>
+          <InputLabel id="building-label">Building</InputLabel>
+          <Select
+            labelId="building-label"
+            label="Building"
+            value={selectedBuilding}
+            onChange={(e) => {
+              setSelectedBuilding(e.target.value);
+            }}
+          >
+            {buildingList.map((building) => (
+              <MenuItem key={building.buildingId} value={building.buildingId}>
+                {building.buildingName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl sx={{ width: 250 }}>
+          <InputLabel id="floor-label">Floor</InputLabel>
+          <Select
+            labelId="floor-label"
+            label="Floor"
+            value={selectedFloor}
+            onChange={(e) => {
+              setSelectedFloor(e.target.value);
+              console.log(e.target.value);
+            }}
+          >
+            {floorList &&
+              floorList.map((floor) => (
+                <MenuItem key={floor} value={floor}>
+                  {floor}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+        <FormControl sx={{ width: 250 }}>
+          <InputLabel id="room-label">Room</InputLabel>
+          <Select
+            labelId="room-label"
+            label="Room"
+            value={selectedRoom}
+            onChange={(e) => {
+              setSelectedRoom(e.target.value);
+            }}
+          >
+            {roomList &&
+              roomList.map((room) => (
+                <MenuItem key={room.id} value={room.id}>
+                  {room.roomName}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
+      </Box>
+      {/* Filter end */}
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Student Rollnumber</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>View details</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {students.map((student) => (
+              <TableRow
+                key={student.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <MenuItem value="all">OK</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item md={4}>
-            <FormControl sx={{ width: "80%" }}>
-              <InputLabel id="building-label">Building</InputLabel>
-              <Select
-                labelId="building-label"
-                label="Building"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              >
-                <MenuItem value="all">OK</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item md={4}>
-            <FormControl sx={{ width: "80%" }}>
-              <InputLabel id="building-label">Building</InputLabel>
-              <Select
-                labelId="building-label"
-                label="Building"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              >
-                <MenuItem value="all">OK</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid> */}
-          {/* Filter end */}
-        </Grid>
-        <Grid item md={12}>
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Rollnumber</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Gender</TableCell>
-                  <TableCell>View Detail</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {students &&
-                  students
-                    .filter((student) =>
-                      student.rollNumber
-                        .toLowerCase()
-                        .includes(searchText.toLowerCase())
-                    )
-                    .map((student) => (
-                      <TableRow key={student.studentId}>
-                        <TableCell>{student.rollNumber}</TableCell>
-                        <TableCell>
-                          {student.rollNumber == "HE173334"
-                            ? "Văn Minh Tuấn"
-                            : "Vũ Hoàng Long"}
-                        </TableCell>
-                        <TableCell>Male</TableCell>
-                        <TableCell>
-                          <Link to={`${student.rollNumber}`}>
-                            <IconButton>
-                              <VisibilityIcon />
-                            </IconButton>
-                          </Link>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Grid>
-      </Grid>
+                <TableCell component="th" scope="row">
+                  {student.id}
+                </TableCell>
+                <TableCell>{student.rollNumber}</TableCell>
+                <TableCell>{student.userDto.fullName}</TableCell>
+                <TableCell>{student.userDto.email}</TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => {
+                      navigate(student.rollNumber);
+                    }}
+                  >
+                    <VisibilityIcon sx={{ color: "#FF4500" }} />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Pagination
+        color="primary"
+        count={totalPages}
+        page={currentPage}
+        onChange={(e, value) => {
+          setCurrentPage(value);
+        }}
+        sx={{
+          justifyContent: "center",
+          "& .MuiPagination-ul": {
+            justifyContent: "center",
+          },
+          "&& .Mui-selected": {
+            bgcolor: "orangered",
+          },
+          "& .MuiPaginationItem-root:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
+          },
+          "&& .Mui-selected:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
+          },
+          my: 4,
+        }}
+      />
     </Box>
   );
 }
-
-export default Student;

@@ -128,7 +128,7 @@ export default function BedModal({
                         : "green",
                   }}
                 >
-                  {selectedBed.status}
+                  &nbsp; &nbsp; &nbsp; {selectedBed.status.toUpperCase()}
                 </span>
               </Typography>
               {/* <Button
