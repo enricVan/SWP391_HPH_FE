@@ -32,9 +32,9 @@ export default function User() {
   const [openPayment, setOpenPayment] = useState(false);
   const [openUserDetails, setOpenUserDetails] = useState(false);
   const [partialName, setPartialName] = useState("");
-  const [roleId, setRoleId] = useState("");
+  const [roleId, setRoleId] = useState(0);
   const [roles, setRoles] = useState([]);
-  const [selectedStatus, SetSelectedStatus] = useState("");
+  const [selectedStatus, SetSelectedStatus] = useState("all");
 
   const fetchData = async () => {
     try {
@@ -79,6 +79,15 @@ export default function User() {
     fetchRoles();
   }, [])
 
+  // const deleteUser = async () => {
+  //   try {
+  //     const res = await privateAxios.delete('user')
+  //     setRoles(res.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
 
   return (
     <Box padding={1}>
@@ -104,7 +113,7 @@ export default function User() {
             label="Floor"
             value={roleId}
             onChange={(e) => {
-                setRoleId(e.target.value);
+              setRoleId(e.target.value);
             }}
           >
             <MenuItem key={1} value={0}>
@@ -112,7 +121,7 @@ export default function User() {
             </MenuItem>
             {roles &&
               roles.map((item, index) => (
-                <MenuItem key={index+1} value={item.id}>
+                <MenuItem key={index + 1} value={item.id}>
                   {item.roleName}
                 </MenuItem>
               ))}
@@ -166,15 +175,6 @@ export default function User() {
                 </TableCell>
                 <TableCell>
                   {item.studentRollNumber}
-                  <IconButton
-                    onClick={() => {
-                      setSelectedUser(item);
-                      setOpenUserDetails(true);
-                    }}
-                    variant="contained"
-                  >
-                    <RemoveRedEye />
-                  </IconButton>
                 </TableCell>
                 <TableCell>{item.username}</TableCell>
                 <TableCell>
@@ -191,6 +191,28 @@ export default function User() {
                 </TableCell>
                 <TableCell>
                   {item.createdAt}
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => {
+                      setSelectedUser(item);
+                      setOpenUserDetails(true);
+                    }}
+                    variant="contained"
+                  >
+                    <RemoveRedEye />
+                  </IconButton>
+                </TableCell>
+                <TableCell>
+                  <IconButton
+                    onClick={() => {
+                      setSelectedUser(item);
+                      setOpenUserDetails(true);
+                    }}
+                    variant="contained"
+                  >
+                    <RemoveRedEye />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
