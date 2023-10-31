@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
@@ -89,6 +90,7 @@ export default function SideBar({
                 "& .MuiListItemButton-root:hover": {
                   background: "rgba(255,69,0,0.8)",
                   transition: "0.1s",
+                  color: "#fff",
                 },
               }}
             >
@@ -101,6 +103,10 @@ export default function SideBar({
                         backgroundColor:
                           active === lcText || active.startsWith(lcText + "/")
                             ? "orangered"
+                            : "",
+                        color:
+                          active === lcText || active.startsWith(lcText + "/")
+                            ? "#fff"
                             : "",
                       }}
                       onClick={() => {

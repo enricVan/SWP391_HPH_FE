@@ -21,6 +21,26 @@ const events = [
 function ViewSchedule() {
   return (
     <Container style={{ marginBottom: "20px", marginTop: "20px" }}>
+      <div
+        style={{
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
+        }}
+      >
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          Your Schedule
+        </h1>
+      </div>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="timeGridWeek"

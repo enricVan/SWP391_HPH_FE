@@ -77,16 +77,26 @@ export default function Student() {
   return (
     <Box p={3}>
       <Box>
-        <h1
+        <div
           style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            color: "#ff5400",
-            textTransform: "uppercase",
+            backgroundColor: "#034EA2",
+            padding: "6px",
+            borderRadius: "15px",
+            marginBottom: "10px",
           }}
         >
-          Student
-        </h1>
+          <h1
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "#fff",
+              textTransform: "uppercase",
+              margin: "0",
+            }}
+          >
+            Student
+          </h1>
+        </div>
       </Box>
       {/* Filter start */}
       <Box display={"flex"} justifyContent={"center"} gap={2} mb={2}>

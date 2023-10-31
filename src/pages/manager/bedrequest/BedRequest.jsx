@@ -37,16 +37,26 @@ export default function BedRequest() {
   return (
     <Box padding={2}>
       <Box>
-        <h1
+        <div
           style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            color: "#ff5400",
-            textTransform: "uppercase",
+            backgroundColor: "#034EA2",
+            padding: "6px",
+            borderRadius: "15px",
+            marginBottom: "10px",
           }}
         >
-          Bed Request
-        </h1>
+          <h1
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "#fff",
+              textTransform: "uppercase",
+              margin: "0",
+            }}
+          >
+            Bed Request
+          </h1>
+        </div>
         {/* <FormControl sx={{ minWidth: 120, m: 1 }}>
           <InputLabel id="roomType-label">Status</InputLabel>
           <Select
@@ -117,6 +127,7 @@ export default function BedRequest() {
                         : bookedRequest.status === "pending"
                         ? "#FFC300 "
                         : "green",
+                    fontWeight: "bold",
                   }}
                 >
                   {bookedRequest.status.toUpperCase()}

@@ -377,7 +377,26 @@ function PenaltyTicket() {
       </Modal>
       {/* Add pop-up end */}
 
-      <h1 style={{ textAlign: "center" }}>Penalty Ticket</h1>
+      <div
+        style={{
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
+        }}
+      >
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          Penalty Ticket
+        </h1>
+      </div>
 
       <Box flex sx={{ margin: "1.5rem" }}>
         <Search sx={{ display: "inline-block" }}>

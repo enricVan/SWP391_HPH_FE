@@ -73,6 +73,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
                     ? "#FFC300 "
                     : "green",
                 textTransform: "uppercase",
+                fontWeight: "bold",
               }}
             >
               {payment.status} &nbsp; &nbsp;

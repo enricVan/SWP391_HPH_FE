@@ -13,7 +13,7 @@ import {
 import Button from "@mui/material/Button";
 import avatarLong from "../../../assets/image/avatar.png";
 import avatarTuan from "../../../assets/image/avatar-1.png";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
 
@@ -21,6 +21,7 @@ import { privateAxios } from "../../../service/axios";
 
 export default function StudentDetail() {
   const { rollNumber } = useParams();
+  const navigate = useNavigate();
   console.log(rollNumber);
   const [student, setStudent] = useState({});
   const fetchStudentData = async () => {
@@ -33,16 +34,26 @@ export default function StudentDetail() {
   }, []);
   return (
     <Box p={2}>
-      <h1
+      <div
         style={{
-          textAlign: "center",
-          fontWeight: "bold",
-          color: "#ff5400",
-          textTransform: "uppercase",
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
         }}
       >
-        Student Detail
-      </h1>
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          Student Detail
+        </h1>
+      </div>
       {/* Search box start */}
       {/* <Box flex>
         <Search sx={{ display: "inline-block" }}>
@@ -130,6 +141,9 @@ export default function StudentDetail() {
           <Button
             variant="contained"
             style={{ marginTop: "20px", marginBottom: "20px" }}
+            onClick={() => {
+              if (rollNumber) navigate("payment");
+            }}
           >
             View payment
           </Button>

@@ -9,7 +9,6 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
 import {
-  Button,
   FormControl,
   IconButton,
   InputLabel,
@@ -41,7 +40,9 @@ export default function User() {
       var res;
       if (roleId != 0) {
         res = await privateAxios.get(
-          `user?partialName=${partialName}&roleId=${roleId}&pageNo=${currentPage - 1}`
+          `user?partialName=${partialName}&roleId=${roleId}&pageNo=${
+            currentPage - 1
+          }`
         );
       } else {
         res = await privateAxios.get(
@@ -50,12 +51,14 @@ export default function User() {
       }
       console.log(res.config.url);
       console.log(res.data);
-      if (selectedStatus === 'all') {
+      if (selectedStatus === "all") {
         // If 'all', set users without filtering
         setUsers(res.data.data);
       } else {
         // If not 'all', filter the data to keep only items with status 'active'
-        const activeUsers = res.data.data.filter(item => item.status === selectedStatus);
+        const activeUsers = res.data.data.filter(
+          (item) => item.status === selectedStatus
+        );
         setUsers(activeUsers);
       }
       setTotalPages(res.data.totalPages);
@@ -69,15 +72,15 @@ export default function User() {
 
   const fetchRoles = async () => {
     try {
-      const res = await privateAxios.get('role')
-      setRoles(res.data)
+      const res = await privateAxios.get("role");
+      setRoles(res.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   useEffect(() => {
     fetchRoles();
-  }, [])
+  }, []);
 
   // const deleteUser = async () => {
   //   try {
@@ -88,12 +91,33 @@ export default function User() {
   //   }
   // }
 
-
   return (
     <Box padding={1}>
-      <Box display={"flex"} sx={{ justifyContent: "space-between" }} margin={"5vh 0"}>
-        <h1 style={{ marginLeft: "8px" }}>User Management</h1>
-      </Box>
+      <div
+        style={{
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
+        }}
+      >
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          User Management
+        </h1>
+      </div>
+      <Box
+        display={"flex"}
+        sx={{ justifyContent: "space-between" }}
+        margin={"5vh 0"}
+      ></Box>
       <Box display={"flex"} justifyContent={"center"} gap={2} mb={2}>
         <FormControl sx={{ width: 250 }}>
           <TextField
@@ -102,7 +126,7 @@ export default function User() {
             multiline
             value={partialName}
             onChange={(event) => {
-              setPartialName(event.target.value)
+              setPartialName(event.target.value);
             }}
           />
         </FormControl>
@@ -152,46 +176,54 @@ export default function User() {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: 'orangered' }}>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>ID</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Roll Number</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Username</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Fullname</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Email</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Status</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Created Date</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Returned Date</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Details</TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Delete</TableCell>
+            <TableRow sx={{ backgroundColor: "orangered" }}>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                ID
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Roll Number
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Username
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Fullname
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Email
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Status
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Created Date
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Returned Date
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Details
+              </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Delete
+              </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody >
+          <TableBody>
             {users.map((item) => (
-              <TableRow
-                key={item.id}
-              >
-                <TableCell component="th">
-                  {item.id}
-                </TableCell>
-                <TableCell>
-                  {item.studentRollNumber}
-                </TableCell>
+              <TableRow key={item.id}>
+                <TableCell component="th">{item.id}</TableCell>
+                <TableCell>{item.studentRollNumber}</TableCell>
                 <TableCell>{item.username}</TableCell>
-                <TableCell>
-                  {item.fullName}
-                </TableCell>
-                <TableCell>
-                  {item.email}
-                </TableCell>
-                <TableCell sx={{ color: item.status === 'active' ? 'green' : 'red' }}>
+                <TableCell>{item.fullName}</TableCell>
+                <TableCell>{item.email}</TableCell>
+                <TableCell
+                  sx={{ color: item.status === "active" ? "green" : "red" }}
+                >
                   {item.status.toUpperCase()}
                 </TableCell>
-                <TableCell>
-                  {item.updatedAt}
-                </TableCell>
-                <TableCell>
-                  {item.createdAt}
-                </TableCell>
+                <TableCell>{item.updatedAt}</TableCell>
+                <TableCell>{item.createdAt}</TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() => {

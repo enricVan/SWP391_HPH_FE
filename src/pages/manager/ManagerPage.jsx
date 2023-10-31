@@ -12,6 +12,9 @@ import Student from "./student/Student";
 import BedRequest from "./bedrequest/BedRequest";
 import StudentDetail from "./student/StudentDetails";
 import HotelIcon from "@mui/icons-material/Hotel";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import PaymentPage from "./payment/PaymentPage";
+import StudentPayment from "./student/StudentPayment";
 const navItems = [
   {
     text: "Dashboard",
@@ -29,14 +32,12 @@ const navItems = [
     text: "Bed Request",
     icon: <HotelIcon />,
   },
+  {
+    text: "Payment",
+    icon: <LocalAtmIcon />,
+  },
 ];
 function ManagerPage() {
-  //   if (
-  //     localStorage.getItem("role") !== "STUDENT" ||
-  //     !localStorage.getItem("token")
-  //   ) {
-  //     return <Navigate to="/login" replace />;
-  //   }
   const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (
@@ -69,6 +70,11 @@ function ManagerPage() {
           <Route path="student" element={<Student />} />
           <Route path="student/:rollNumber" element={<StudentDetail />} />
           <Route path="bedrequest" element={<BedRequest />} />
+          <Route path="payment" element={<PaymentPage />} />
+          <Route
+            path="student/:rollNumber/payment"
+            element={<StudentPayment />}
+          />
         </Route>
       </Routes>
     </>

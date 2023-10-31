@@ -97,18 +97,38 @@ export default function Room() {
       setOpen(true);
     }
   }, [selectedRoom]);
+
+  function formatPrice(price) {
+    // Chuyển đổi giá trị từ số sang chuỗi và đảm bảo rằng nó có đủ chữ số
+    price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    // Thêm " VND" vào cuối chuỗi
+    price = price + " VND";
+
+    return price;
+  }
   return (
     <Box p={2}>
-      <h1
+      <div
         style={{
-          textAlign: "center",
-          fontWeight: "bold",
-          color: "#ff5400",
-          textTransform: "uppercase",
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
         }}
       >
-        Room
-      </h1>
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          Room
+        </h1>
+      </div>
       <Typography
         flexGrow={1}
         display="flex"
@@ -202,7 +222,7 @@ export default function Room() {
               >
                 <CardContent>
                   <h3>{room.roomName}</h3>
-                  <p>{room.roomPrice}</p>
+                  <p>{formatPrice(room.roomPrice)}</p>
                 </CardContent>
               </CardActionArea>
             </Card>
