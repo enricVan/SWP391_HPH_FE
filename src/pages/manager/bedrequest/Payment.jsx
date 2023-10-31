@@ -36,7 +36,16 @@ export default function Payment({ open, setOpen, bedRequestId }) {
   };
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>Payment</DialogTitle>
+      <DialogTitle
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          color: "#ff5400",
+          textTransform: "uppercase",
+        }}
+      >
+        Payment
+      </DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={3}>

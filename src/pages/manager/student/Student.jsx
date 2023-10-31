@@ -77,7 +77,16 @@ export default function Student() {
   return (
     <Box p={3}>
       <Box>
-        <h1 style={{ textAlign: "center" }}>Student</h1>
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#ff5400",
+            textTransform: "uppercase",
+          }}
+        >
+          Student
+        </h1>
       </Box>
       {/* Filter start */}
       <Box display={"flex"} justifyContent={"center"} gap={2} mb={2}>
@@ -139,13 +148,19 @@ export default function Student() {
       {/* Filter end */}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
+          <TableHead sx={{ backgroundColor: "#FF5800" }}>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Student Rollnumber</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>View details</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>ID</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>
+                Student Rollnumber
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Name</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Room</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Bed</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Dormitary</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Room Type</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Email</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>View details</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -159,6 +174,10 @@ export default function Student() {
                 </TableCell>
                 <TableCell>{student.rollNumber}</TableCell>
                 <TableCell>{student.userDto.fullName}</TableCell>
+                <TableCell>{student.roomName}</TableCell>
+                <TableCell>{student.bedName}</TableCell>
+                <TableCell>{student.buildingName}</TableCell>
+                <TableCell>{student.roomTypeName}</TableCell>
                 <TableCell>{student.userDto.email}</TableCell>
                 <TableCell>
                   <IconButton

@@ -35,9 +35,18 @@ export default function BedRequest() {
     fetchData();
   }, [currentPage]);
   return (
-    <Box padding={1}>
-      <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
-        <h1 style={{ marginLeft: "8px" }}>Bed Request</h1>
+    <Box padding={2}>
+      <Box>
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#ff5400",
+            textTransform: "uppercase",
+          }}
+        >
+          Bed Request
+        </h1>
         {/* <FormControl sx={{ minWidth: 120, m: 1 }}>
           <InputLabel id="roomType-label">Status</InputLabel>
           <Select
@@ -60,19 +69,21 @@ export default function BedRequest() {
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
+          <TableHead sx={{ backgroundColor: "#FF5800" }}>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Student Rollnumber</TableCell>
-              <TableCell>Bed</TableCell>
-              <TableCell>Semester</TableCell>
-              <TableCell>Dorm</TableCell>
-              <TableCell>Room</TableCell>
-              <TableCell>Room Type</TableCell>
-              <TableCell>Created Date</TableCell>
-              <TableCell>Updated Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Payment</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>ID</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>
+                Student Rollnumber
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Bed</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Semester</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Dorm</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Room</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Room Type</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Created Date</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Updated Date</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Status</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Payment</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
