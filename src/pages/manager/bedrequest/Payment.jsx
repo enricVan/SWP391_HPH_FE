@@ -34,33 +34,45 @@ export default function Payment({ open, setOpen, bedRequestId }) {
   const handleClickCheckPaid = () => {
     checkPaid();
   };
+
+  function formatPrice(price) {
+    price = (price + "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    price = price + " VND";
+
+    return price;
+  }
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle
-        style={{
-          textAlign: "center",
-          fontWeight: "bold",
-          color: "#ff5400",
-          textTransform: "uppercase",
-        }}
-      >
-        Payment
+      <DialogTitle>
+        <div
+          style={{
+            backgroundColor: "#034EA2",
+            borderRadius: "8px",
+            padding: "5px",
+            fontWeight: "bold",
+            color: "#fff",
+            textAlign: "center",
+          }}
+        >
+          Payment
+        </div>
       </DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             ID:
           </Grid>
           <Grid item xs={9}>
             {payment.paymentId}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Amount:
           </Grid>
           <Grid item xs={9}>
-            {payment.amount} đ
+            {formatPrice(payment.amount)}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Status:
           </Grid>
           <Grid item xs={9}>
@@ -92,7 +104,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
               <CheckCircleIcon sx={{ color: "#088803" }} />
             </IconButton>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Expiration Date:
           </Grid>
           <Grid item xs={9}>

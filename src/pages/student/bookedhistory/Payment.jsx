@@ -13,7 +13,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
   };
 
   function formatPrice(price) {
-    price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    price = (price + "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
     price = price + " VND";
 
@@ -38,19 +38,19 @@ export default function Payment({ open, setOpen, bedRequestId }) {
       </DialogTitle>
       <DialogContent>
         <Grid m={0} container spacing={2}>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             ID:
           </Grid>
           <Grid item xs={8}>
             {payment.paymentId}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Amount:
           </Grid>
           <Grid item xs={8}>
             {formatPrice(payment.amount)}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Status:
           </Grid>
           <Grid
@@ -69,7 +69,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
           >
             {payment.status}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Expiration Date:
           </Grid>
           <Grid item xs={8}>

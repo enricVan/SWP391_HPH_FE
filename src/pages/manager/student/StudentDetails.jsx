@@ -54,28 +54,6 @@ export default function StudentDetail() {
           Student Detail
         </h1>
       </div>
-      {/* Search box start */}
-      {/* <Box flex>
-        <Search sx={{ display: "inline-block" }}>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            // onChange={(e) => {
-            //   setRollnumber(e.target.value);
-            // }}
-            placeholder="Search by Rollnumber…"
-            inputProps={{ "aria-label": "search" }}
-            sx={{
-              width: "400px",
-              border: "5px solid orangered",
-              borderRadius: "30px",
-            }}
-          />
-        </Search>
-      </Box> */}
-      {/* Search box end */}
-
       <Grid container spacing={4}>
         {/* Student Card start */}
         <Grid item xs={9} md={9}>
@@ -88,45 +66,61 @@ export default function StudentDetail() {
                 />
                 <Table>
                   <TableRow>
-                    <TableCell align="right">Roll Number</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bolder" }}>
+                      Roll Number
+                    </TableCell>
                     <TableCell align="right">{student.rollNumber}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="right">Name</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bolder" }}>
+                      Name
+                    </TableCell>
                     <TableCell align="right">
                       {student.userDto?.fullName}
                     </TableCell>
                   </TableRow>
 
                   <TableRow>
-                    <TableCell align="right">Parent Name</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bolder" }}>
+                      Parent Name
+                    </TableCell>
                     <TableCell align="right">{student.parentName}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="right">Gender</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bolder" }}>
+                      Gender
+                    </TableCell>
                     <TableCell align="right">
                       {student.userDto?.gender}
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="right">Date of birth</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bolder" }}>
+                      Date of birth
+                    </TableCell>
                     <TableCell align="right">{student.userDto?.dob}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="right">Phone Number</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bolder" }}>
+                      Phone Number
+                    </TableCell>
                     <TableCell align="right">
                       {student.userDto?.phone}
                     </TableCell>
                   </TableRow>
 
                   <TableRow>
-                    <TableCell align="right">Email</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bolder" }}>
+                      Email
+                    </TableCell>
                     <TableCell align="right">
                       {student.userDto?.email}
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell align="right">Address</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: "bolder" }}>
+                      Address
+                    </TableCell>
                     <TableCell align="right">
                       {student.userDto?.address}
                     </TableCell>

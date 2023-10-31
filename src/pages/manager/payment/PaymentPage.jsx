@@ -35,6 +35,14 @@ export default function PaymentPage() {
   useEffect(() => {
     fetchData();
   }, [currentPage, searchRollnumber]);
+
+  function formatPrice(price) {
+    price = (price + "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    price = price + " VND";
+
+    return price;
+  }
   return (
     <Box padding={2}>
       <Box>
@@ -89,7 +97,6 @@ export default function PaymentPage() {
               <TableCell style={{ fontWeight: "bold" }}>Created Date</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Updated Date</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Status</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -111,7 +118,7 @@ export default function PaymentPage() {
                     "N/A"
                   )}
                 </TableCell>
-                <TableCell>{payment.amount} VNĐ</TableCell>
+                <TableCell>{formatPrice(payment.amount)}</TableCell>
                 <TableCell>{payment.createdAt}</TableCell>
                 <TableCell>{payment.createdAt}</TableCell>
                 <TableCell>

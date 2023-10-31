@@ -69,7 +69,6 @@ export default function StudentPayment() {
               <TableCell style={{ fontWeight: "bold" }}>Created Date</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Updated Date</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Status</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
