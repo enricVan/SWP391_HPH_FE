@@ -46,6 +46,7 @@ export default function RoomChoosing() {
   };
   const fetchRoom = async () => {
     let filterQuery = "";
+    console.log(selectedBuilding);
     if (selectedBuilding) filterQuery += `&buildingId=${selectedBuilding}`;
     if (selectedFloor) filterQuery += `&floor=${selectedFloor}`;
     if (selectedRoomType) filterQuery += `&roomTypeId=${selectedRoomType}`;
@@ -59,6 +60,7 @@ export default function RoomChoosing() {
   };
   useEffect(() => {
     fetchBuilding();
+    fetchRoomType();
     fetchSemester();
   }, []);
   useEffect(() => {
@@ -69,9 +71,6 @@ export default function RoomChoosing() {
       }
     }
   }, [selectedBuilding]);
-  useEffect(() => {
-    fetchRoomType();
-  }, [selectedFloor, selectedBuilding]);
   useEffect(() => {
     if (selectedBuilding || selectedFloor || selectedRoomType) {
       fetchRoom();
@@ -86,12 +85,10 @@ export default function RoomChoosing() {
   }, [selectedRoom]);
   return (
     <Box>
-      <h1 style={{ marginLeft: "8px" }}>Choose Room Type</h1>
+      <h1 style={{ margin: "8px", textAlign: "center" }}>Bed Booking</h1>
       <Typography
         flexGrow={1}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
+        textAlign={"center"}
         mx={1}
         variant="h5"
         color={"orangered"}
@@ -111,13 +108,15 @@ export default function RoomChoosing() {
       >
         <Grid item container xs={12} md={8} spacing={2}>
           {roomList.map((room) => (
-            <Grid item xs={12} md={6} textAlign={"center"} key={room.id}>
+            <Grid item xs={12} md={6} key={room.id}>
               <Card
                 sx={{
                   maxWidth: 345,
                   display: "inline-block",
                   width: "100%",
                   border: "1px solid black",
+                  bgcolor:
+                    room.numberOfAvailableBeds !== 0 ? "#D4EFDF" : "#F5B7B1",
                 }}
               >
                 <CardActionArea
@@ -150,7 +149,18 @@ export default function RoomChoosing() {
                         Price
                       </Grid>
                       <Grid item xs={12} md={6}>
-                        <p>{room.roomPrice}</p>
+                        <div>
+                          {room.roomPrice.toLocaleString("it-IT", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        Available Bed:
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        {room.numberOfAvailableBeds}
                       </Grid>
                     </Grid>
                   </CardContent>
@@ -167,6 +177,32 @@ export default function RoomChoosing() {
             gap={2}
             mb={2}
           >
+            <FormControl sx={{ width: 250 }}>
+              <Select
+                displayEmpty
+                value={selectedRoomType}
+                onChange={(e) => {
+                  setSelectedRoomType(e.target.value);
+                }}
+              >
+                <MenuItem value="">
+                  <em style={{ color: "#666666" }}>Select a room type</em>
+                </MenuItem>
+                {roomTypeList &&
+                  roomTypeList.map((roomType) => (
+                    <MenuItem
+                      key={roomType.roomTypeId}
+                      value={roomType.roomTypeId}
+                    >
+                      {roomType.roomTypeName}&nbsp;&nbsp;- &nbsp;
+                      {roomType.price.toLocaleString("it-IT", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
             <FormControl sx={{ width: 250 }}>
               <Select
                 displayEmpty
@@ -207,28 +243,19 @@ export default function RoomChoosing() {
                   ))}
               </Select>
             </FormControl>
-            <FormControl sx={{ width: 250 }}>
+            {/* <FormControl sx={{ width: 250 }}>
               <Select
                 displayEmpty
-                value={selectedRoomType}
+                value={selectedFloor}
                 onChange={(e) => {
-                  setSelectedRoomType(e.target.value);
+                  setSelectedFloor(e.target.value);
                 }}
               >
-                <MenuItem value="">
-                  <em style={{ color: "#666666" }}>Select a room type</em>
-                </MenuItem>
-                {roomTypeList &&
-                  roomTypeList.map((roomType) => (
-                    <MenuItem
-                      key={roomType.roomTypeId}
-                      value={roomType.roomTypeId}
-                    >
-                      {roomType.roomTypeName}
-                    </MenuItem>
-                  ))}
+                <MenuItem value="">All</MenuItem>
+                <MenuItem value="">Available</MenuItem>
+                <MenuItem value="">Not Available</MenuItem>
               </Select>
-            </FormControl>
+            </FormControl> */}
           </Box>
         </Grid>
       </Grid>

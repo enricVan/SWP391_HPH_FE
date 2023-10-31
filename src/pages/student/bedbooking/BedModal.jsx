@@ -25,9 +25,7 @@ export default function BedModal({
   const [openStatus, setOpenStatus] = useState(false);
   const [reload, setReload] = useState(false);
   const handleBedClick = (bed) => {
-    if (bed.status.toLowerCase() === "vacant") {
-      setSelectedBed(bed);
-    }
+    setSelectedBed(bed);
   };
 
   const handleConfirm = (bed) => {
@@ -57,6 +55,7 @@ export default function BedModal({
   };
   const fetchBed = async () => {
     const res = await privateAxios.get(`room/${roomId}/beds`);
+    console.log(res.data);
     if (res.data) setBedList(res.data);
   };
   useEffect(() => {
@@ -85,7 +84,7 @@ export default function BedModal({
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 600,
+            width: 800,
             bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
@@ -93,10 +92,11 @@ export default function BedModal({
             maxHeight: "80vh", // Set a maximum height to enable scrolling
           }}
         >
-          <Grid container spacing={2} sx={{ xs: 12, md: 4 }}>
+          <Grid container spacing={2} sx={{ xs: 12, md: 3 }}>
             {bedList.map((bed) => (
-              <Grid item xs={12} md={3} textAlign={"center"} key={bed.id}>
-                {bed.bedName}
+              <Grid item xs={12} md textAlign={"center"} key={bed.id}>
+                <div style={{ whiteSpace: "nowrap" }}>Bed: {bed.bedName}</div>
+                <div>RollNumber: {bed.rollNumber ? bed.rollNumber : "N/A"}</div>
                 <IconButton
                   sx={{
                     "& .MuiSvgIcon-root": {
@@ -104,7 +104,7 @@ export default function BedModal({
                         bed.status.toLowerCase() === "vacant"
                           ? "currentColor"
                           : bed.status.toLowerCase() === "reserved"
-                          ? "yellow"
+                          ? "#FFC300"
                           : "red",
                       width: "50px",
                       height: "50px",
@@ -116,7 +116,8 @@ export default function BedModal({
                         : "pointer",
                     "&.selected": {
                       "& .MuiSvgIcon-root": {
-                        fill: "green",
+                        fill:
+                          bed.status.toLowerCase() === "vacant" ? "green" : "",
                       },
                     },
                   }}
@@ -131,12 +132,24 @@ export default function BedModal({
           {selectedBed && (
             <div>
               <Typography variant="h6">
-                Selected Bed: {selectedBed.bedName}
+                Selected Bed: {selectedBed.bedName.toUpperCase()}
               </Typography>
-              <Typography variant="body1">
-                Status: {selectedBed.status}
+              <Typography
+                variant="body1"
+                color={
+                  selectedBed.status.toLowerCase() === "vacant"
+                    ? "green"
+                    : selectedBed.status.toLowerCase() === "reserved"
+                    ? "#FFC300"
+                    : "red"
+                }
+              >
+                Status: {selectedBed.status.toUpperCase()}
               </Typography>
               <Button
+                disabled={
+                  selectedBed.status.toLowerCase() !== "vacant" ? true : false
+                }
                 variant="contained"
                 color="primary"
                 onClick={() => handleConfirm(selectedBed)}
