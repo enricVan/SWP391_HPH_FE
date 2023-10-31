@@ -27,22 +27,7 @@ export function LoginPage() {
   }
   useEffect(() => {
     if (user) {
-      let path = "/";
-      switch (user.roleId) {
-        case 1:
-          path += "admin";
-          break;
-        case 2:
-          path += "student";
-          break;
-        case 3:
-          path += "manager";
-          break;
-        case 4:
-          path += "guard";
-          break;
-      }
-
+      const path = "/" + user.role.toLowerCase();
       navigate(path);
     }
   }, [user, isError, isSuccess, message, dispatch, navigate]);
