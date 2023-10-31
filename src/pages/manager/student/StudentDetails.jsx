@@ -21,9 +21,10 @@ import { privateAxios } from "../../../service/axios";
 
 export default function StudentDetail() {
   const { rollNumber } = useParams();
+  console.log(rollNumber);
   const [student, setStudent] = useState({});
   const fetchStudentData = async () => {
-    const res = await privateAxios.get(`student/${rollNumber}/user`);
+    const res = await privateAxios.get(`student/${rollNumber}`);
     setStudent(res.data);
   };
 
@@ -68,34 +69,47 @@ export default function StudentDetail() {
                 <Table>
                   <TableRow>
                     <TableCell align="right">Roll Number</TableCell>
-                    <TableCell align="right">
-                      {student.studentRollNumber}
-                    </TableCell>
+                    <TableCell align="right">{student.rollNumber}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="right">Name</TableCell>
-                    <TableCell align="right">{student.fullName}</TableCell>
+                    <TableCell align="right">
+                      {student.userDto?.fullName}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell align="right">Parent Name</TableCell>
+                    <TableCell align="right">{student.parentName}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="right">Gender</TableCell>
-                    <TableCell align="right">{student.gender}</TableCell>
+                    <TableCell align="right">
+                      {student.userDto?.gender}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="right">Date of birth</TableCell>
-                    <TableCell align="right">{student.dob}</TableCell>
+                    <TableCell align="right">{student.userDto?.dob}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="right">Phone Number</TableCell>
-                    <TableCell align="right">{student.phone}</TableCell>
+                    <TableCell align="right">
+                      {student.userDto?.phone}
+                    </TableCell>
                   </TableRow>
 
                   <TableRow>
                     <TableCell align="right">Email</TableCell>
-                    <TableCell align="right">{student.email}</TableCell>
+                    <TableCell align="right">
+                      {student.userDto?.email}
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell align="right">Address</TableCell>
-                    <TableCell align="right">{student.address}</TableCell>
+                    <TableCell align="right">
+                      {student.userDto?.address}
+                    </TableCell>
                   </TableRow>
                 </Table>
               </div>
