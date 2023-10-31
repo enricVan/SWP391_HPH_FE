@@ -31,16 +31,26 @@ export default function Home() {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} padding={1}>
         <Grid item xs={8}>
-          <Typography
-            variant="h5"
-            bgcolor="#1565c0"
-            sx={{
-              textAlign: "center",
-              color: "white",
+          <div
+            style={{
+              backgroundColor: "#034EA2",
+              padding: "6px",
+              borderRadius: "15px",
+              marginBottom: "10px",
             }}
           >
-            News
-          </Typography>
+            <h4
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                color: "#fff",
+                textTransform: "uppercase",
+                margin: "0",
+              }}
+            >
+              News
+            </h4>
+          </div>
           <Item>
             <List>
               {news.map((item) => {
@@ -59,16 +69,26 @@ export default function Home() {
           </Item>
         </Grid>
         <Grid item xs={4}>
-          <Typography
-            variant="h5"
-            sx={{
-              backgroundColor: "#1565c0",
-              textAlign: "center",
-              color: "white",
+          <div
+            style={{
+              backgroundColor: "#034EA2",
+              padding: "6px",
+              borderRadius: "15px",
+              marginBottom: "10px",
             }}
           >
-            Personal Information
-          </Typography>
+            <h4
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                color: "#fff",
+                textTransform: "uppercase",
+                margin: "0",
+              }}
+            >
+              Personal Information
+            </h4>
+          </div>
           <Item>
             <Grid container m={0}>
               <Grid item xs={4}>

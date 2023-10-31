@@ -11,32 +11,51 @@ export default function Payment({ open, setOpen, bedRequestId }) {
       setPayment(res.data);
     }
   };
+
+  function formatPrice(price) {
+    price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    price = price + " VND";
+
+    return price;
+  }
   useEffect(() => {
     fetchPayment();
   }, []);
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>Payment</DialogTitle>
+      <DialogTitle sx={{ color: "#fff", textAlign: "center" }}>
+        <div
+          style={{
+            backgroundColor: "#034EA2",
+            borderRadius: "8px",
+            padding: "5px",
+            fontWeight: "bold",
+          }}
+        >
+          Payment
+        </div>
+      </DialogTitle>
       <DialogContent>
-        <Grid container spacing={2}>
+        <Grid m={0} container spacing={2}>
           <Grid item xs={3}>
             ID:
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             {payment.paymentId}
           </Grid>
           <Grid item xs={3}>
             Amount:
           </Grid>
-          <Grid item xs={9}>
-            {payment.amount}
+          <Grid item xs={8}>
+            {formatPrice(payment.amount)}
           </Grid>
           <Grid item xs={3}>
             Status:
           </Grid>
           <Grid
             item
-            xs={9}
+            xs={8}
             sx={{
               color:
                 payment.status === "expired"
@@ -44,6 +63,8 @@ export default function Payment({ open, setOpen, bedRequestId }) {
                   : payment.status === "pending"
                   ? "#FFC300 "
                   : "green",
+              textTransform: "uppercase",
+              fontWeight: "bold",
             }}
           >
             {payment.status}
@@ -51,7 +72,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
           <Grid item xs={3}>
             Expiration Date:
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             {payment.expirationDate}
           </Grid>
         </Grid>

@@ -9,15 +9,21 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
 import { Pagination } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import Searchbar from "../../../components/Searchbar";
+const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 
 export default function PaymentPage() {
   const [payments, setPayments] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchRollnumber, setSearchRollnumber] = useState("");
 
   const fetchData = async () => {
     try {
-      const res = await privateAxios.get(`payment?pageNo=${currentPage - 1}`);
+      const res = await privateAxios.get(
+        `payment?pageNo=${currentPage - 1}&rollNumber=${searchRollnumber}`
+      );
       console.log(res.config.url);
       console.log(res.data);
       setPayments(res.data.data);
@@ -28,7 +34,7 @@ export default function PaymentPage() {
   };
   useEffect(() => {
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, searchRollnumber]);
   return (
     <Box padding={2}>
       <Box>
@@ -52,6 +58,25 @@ export default function PaymentPage() {
             Payment
           </h1>
         </div>
+      </Box>
+      <Box flex m={2}>
+        <Search sx={{ display: "inline-block" }}>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            onChange={(e) => {
+              setSearchRollnumber(e.target.value);
+            }}
+            placeholder="Search by rollnumber…"
+            inputProps={{ "aria-label": "search" }}
+            sx={{
+              border: "5px solid orangered",
+              borderRadius: "30px",
+              minWidth: "250px",
+            }}
+          />
+        </Search>
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

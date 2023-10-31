@@ -84,17 +84,27 @@ export default function RoomChoosing() {
     }
   }, [selectedRoom]);
   return (
-    <Box>
-      <h1 style={{ margin: "8px", textAlign: "center" }}>Bed Booking</h1>
-      <Typography
-        flexGrow={1}
-        textAlign={"center"}
-        mx={1}
-        variant="h5"
-        color={"orangered"}
+    <Box p={1}>
+      <div
+        style={{
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
+        }}
       >
-        Semester: {semester.semesterName}
-      </Typography>
+        <h2
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          Bed Booking
+        </h2>
+      </div>
 
       <Divider variant="middle" sx={{ marginBottom: 2 }} />
       <Grid
@@ -114,41 +124,55 @@ export default function RoomChoosing() {
                   maxWidth: 345,
                   display: "inline-block",
                   width: "100%",
-                  border: "1px solid black",
+                  border: "1px solid #fff",
                   bgcolor:
                     room.numberOfAvailableBeds !== 0 ? "#D4EFDF" : "#F5B7B1",
+                  position: "relative",
                 }}
               >
+                <div
+                  style={{
+                    backgroundImage: `url("https://img.freepik.com/free-vector/student-bedroom-dormitory-with-bunk-bed-desk-chair_88138-1025.jpg")`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    filter: "blur(1px) brightness(60%) ",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                  }}
+                ></div>
                 <CardActionArea
                   onClick={() => {
                     setSelectedRoom(room.id);
                     setOpen(true);
                   }}
                 >
-                  <CardContent>
+                  <CardContent sx={{ color: "#D3EBC5", fontWeight: "bold" }}>
                     <Grid container>
                       <Grid item xs={12} md={6}>
                         Room Name:
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
                         {room.roomName}
                       </Grid>
                       <Grid item xs={12} md={6}>
-                        BUilding Name:
+                        Building Name:
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
                         {room.buildingName}
                       </Grid>
                       <Grid item xs={12} md={6}>
                         Room Type:
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
                         {room.roomTypeName}
                       </Grid>
                       <Grid item xs={12} md={6}>
                         Price
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
                         <div>
                           {room.roomPrice.toLocaleString("it-IT", {
                             style: "currency",
@@ -159,7 +183,7 @@ export default function RoomChoosing() {
                       <Grid item xs={12} md={6}>
                         Available Bed:
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
                         {room.numberOfAvailableBeds}
                       </Grid>
                     </Grid>
@@ -177,6 +201,22 @@ export default function RoomChoosing() {
             gap={2}
             mb={2}
           >
+            <Typography
+              flexGrow={1}
+              textAlign={"center"}
+              mx={1}
+              variant="h6"
+              color={"orangered"}
+              sx={{
+                fontWeight: "bold",
+                fontStyle: "italic",
+                color: "orangered",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              Semester: {semester.semesterName}
+            </Typography>
             <FormControl sx={{ width: 250 }}>
               <Select
                 displayEmpty
@@ -243,19 +283,6 @@ export default function RoomChoosing() {
                   ))}
               </Select>
             </FormControl>
-            {/* <FormControl sx={{ width: 250 }}>
-              <Select
-                displayEmpty
-                value={selectedFloor}
-                onChange={(e) => {
-                  setSelectedFloor(e.target.value);
-                }}
-              >
-                <MenuItem value="">All</MenuItem>
-                <MenuItem value="">Available</MenuItem>
-                <MenuItem value="">Not Available</MenuItem>
-              </Select>
-            </FormControl> */}
           </Box>
         </Grid>
       </Grid>

@@ -20,7 +20,7 @@ import {
 import { RemoveRedEye } from "@mui/icons-material";
 import Payment from "./Payment";
 import BedDetails from "./BedDetails";
-import { deepOrange, orange } from "@mui/material/colors";
+// import { deepOrange, orange } from "@mui/material/colors";
 
 export default function User() {
   const [users, setUsers] = useState([]);
