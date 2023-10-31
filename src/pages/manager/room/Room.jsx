@@ -99,7 +99,16 @@ export default function Room() {
   }, [selectedRoom]);
   return (
     <Box p={2}>
-      <h1 style={{ marginLeft: "8px", textAlign: "center" }}>Room</h1>
+      <h1
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          color: "#ff5400",
+          textTransform: "uppercase",
+        }}
+      >
+        Room
+      </h1>
       <Typography
         flexGrow={1}
         display="flex"

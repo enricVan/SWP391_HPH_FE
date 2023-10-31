@@ -33,7 +33,16 @@ export default function StudentDetail() {
   }, []);
   return (
     <Box p={2}>
-      <h1 style={{ marginLeft: "8px", textAlign: "center" }}>Student Detail</h1>
+      <h1
+        style={{
+          textAlign: "center",
+          fontWeight: "bold",
+          color: "#ff5400",
+          textTransform: "uppercase",
+        }}
+      >
+        Student Detail
+      </h1>
       {/* Search box start */}
       {/* <Box flex>
         <Search sx={{ display: "inline-block" }}>
