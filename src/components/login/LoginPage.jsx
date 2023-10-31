@@ -26,8 +26,8 @@ export function LoginPage() {
     dispatch(login(userData));
   }
   useEffect(() => {
-    if (user) {
-      const path = "/" + user.role.toLowerCase();
+    if (user && user !== "inactive") {
+      const path = "/" + user.roleName.toLowerCase();
       navigate(path);
     }
   }, [user, isError, isSuccess, message, dispatch, navigate]);
@@ -76,6 +76,11 @@ export function LoginPage() {
                 {isError && (
                   <p style={{ color: "red", fontSize: "13px" }}>
                     {"Account not existed!"}
+                  </p>
+                )}
+                {user === "inactive" && (
+                  <p style={{ color: "red", fontSize: "13px" }}>
+                    {"Account not allowed!"}
                   </p>
                 )}
                 <div className="input-group mb-3 d-flex justify-content-between">

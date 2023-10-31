@@ -5,8 +5,9 @@ const login = async (userData) => {
   if (res.data) {
     localStorage.setItem("token", JSON.stringify(res.data.access_token));
     localStorage.setItem("user", JSON.stringify(res.data.user));
+    return res.data.user;
   }
-  return res.data.user;
+  return "inactive";
 };
 const logout = () => {
   localStorage.removeItem("token");

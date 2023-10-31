@@ -6,8 +6,13 @@ import infoImg1 from "./images/info-1.jpg";
 import infoImg2 from "./images/info-2.jpg";
 import infoImg3 from "./images/info-3.jpg";
 import DropdownFAQ from "./DropdownFAQ";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 export default function LandingPage() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    const path = "/" + user.roleName.toLowerCase();
+    return <Navigate to={`${path}`} replace />;
+  }
   return (
     <>
       <meta charSet="utf-8" />
