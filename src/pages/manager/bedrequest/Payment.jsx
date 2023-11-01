@@ -58,7 +58,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
           Payment
         </div>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ overflowX: "hidden" }}>
         <Grid container spacing={2}>
           <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             ID:

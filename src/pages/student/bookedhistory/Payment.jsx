@@ -36,18 +36,18 @@ export default function Payment({ open, setOpen, bedRequestId }) {
           Payment
         </div>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ overflowX: "hidden" }}>
         <Grid m={0} container spacing={2}>
           <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             ID:
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             {payment.paymentId}
           </Grid>
           <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Amount:
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             {formatPrice(payment.amount)}
           </Grid>
           <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
@@ -55,7 +55,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
           </Grid>
           <Grid
             item
-            xs={8}
+            xs={9}
             sx={{
               color:
                 payment.status === "expired"
@@ -72,7 +72,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
           <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Expiration Date:
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             {payment.expirationDate}
           </Grid>
         </Grid>
