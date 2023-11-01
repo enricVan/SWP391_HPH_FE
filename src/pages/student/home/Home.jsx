@@ -8,8 +8,9 @@ import ListItem from "@mui/material/ListItem";
 import { Avatar } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import student from "../../../data/student.json";
-import avatar from "../../../assets/image/avatar.png";
+import students from "../../../data/student.json";
+import avatarLong from "../../../assets/image/avatar.png";
+import avatarTuan from "../../../assets/image/avatar-1.png";
 import { privateAxios } from "../../../service/axios";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -27,6 +28,9 @@ export default function Home() {
   React.useEffect(() => {
     fetchData();
   }, []);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2} padding={1}>
@@ -96,14 +100,19 @@ export default function Home() {
                   alt="Remy Sharp"
                   sx={{ width: "100%", height: 150 }}
                   variant="square"
-                  src={avatar}
+                  src={user.id === 2 ? avatarLong : avatarTuan}
                 />
               </Grid>
               <Grid item xs={8} width={"100%"} paddingLeft={1}>
-                <Typography>{student.fullName}</Typography>
-                <Typography>{student.dob}</Typography>
-                <Typography>{student.gender}</Typography>
-                <Typography>{student.bed}</Typography>
+                <Typography m={2}>
+                  {user.id === 2 ? students[0].fullName : students[1].fullName}
+                </Typography>
+                <Typography m={2}>
+                  {user.id === 2 ? students[0].dob : students[1].dob}
+                </Typography>
+                <Typography m={2}>
+                  {user.id === 2 ? students[0].gender : students[1].gender}
+                </Typography>
               </Grid>
             </Grid>
           </Item>
