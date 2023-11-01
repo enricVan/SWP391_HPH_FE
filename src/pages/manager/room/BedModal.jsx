@@ -113,10 +113,10 @@ export default function BedModal({
           </Grid>
           {selectedBed && (
             <div>
-              <Typography variant="h6">
+              <Typography variant="h6" p={1}>
                 Selected Bed: {selectedBed.bedName}
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" p={1}>
                 Status:
                 <span
                   style={{
@@ -130,6 +130,10 @@ export default function BedModal({
                 >
                   &nbsp; &nbsp; &nbsp; {selectedBed.status.toUpperCase()}
                 </span>
+              </Typography>
+              <Typography p={1}>
+                Student in:{" "}
+                {selectedBed.rollNumber ? selectedBed.rollNumber : "N/A"}
               </Typography>
               {/* <Button
                 variant="contained"
