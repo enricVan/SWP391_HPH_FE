@@ -90,13 +90,27 @@ export default function PaymentPage() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: "#FF5800" }}>
             <TableRow>
-              <TableCell style={{ fontWeight: "bold" }}>ID</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Created By</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Checked by</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Created Date</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Updated Date</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Status</TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                ID
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Created By
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Checked by
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Amount
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Created Date
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Updated Date
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Status
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

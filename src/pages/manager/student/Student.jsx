@@ -191,17 +191,33 @@ export default function Student() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: "#FF5800" }}>
             <TableRow>
-              <TableCell style={{ fontWeight: "bold" }}>ID</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                ID
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
                 Student Rollnumber
               </TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Name</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Room</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Bed</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Dormitary</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Room Type</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Email</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>View details</TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Name
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Room
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Bed
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Dormitary
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Room Type
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Email
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                View details
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
