@@ -47,10 +47,14 @@ export function LoginPage() {
           <div className="col-md-6 right-box">
             <div className="row justify-content-center">
               <div className="header-text mb-4">
-                <h3 className="format-text">Welcome To Dormitory FPTU</h3>
+                <h3 className="format-text" style={{ fontWeight: "bold" }}>
+                  Welcome To Dormitory FPTU
+                </h3>
               </div>
               <div className="input-group mb-3 form-control-lg justify-content-center">
-                <h3 className="format-text">CAMPUS HOLA</h3>
+                <h3 className="format-text" style={{ fontWeight: "bold" }}>
+                  CAMPUS HOLA
+                </h3>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="input-group mb-3">
@@ -101,23 +105,13 @@ export function LoginPage() {
                     Login
                   </button>
                 </div>
-                {/* <div className="input-group mb-3">
-                  <button
-                    type="submit"
-                    className="btn btn-lg btn-light w-100 fs-6"
-                  >
-                    <img
-                      src="src/assets/image/logo-gg.jpg"
-                      style={{ width: 20, height: 20 }}
-                      className="me-2"
-                    />
-                    <small>Sign In With Google</small>
-                  </button>
-                </div> */}
               </form>
             </div>
 
-            <div className="row">
+            <div
+              className="row"
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <small>
                 Do not have account?<Link to="/signup">Sign Up</Link>
               </small>

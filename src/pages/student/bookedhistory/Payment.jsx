@@ -67,7 +67,7 @@ export default function Payment({ open, setOpen, bedRequestId }) {
               fontWeight: "bold",
             }}
           >
-            {payment.status}
+            {payment.status === "pending" ? "unpaid" : payment.status}
           </Grid>
           <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
             Expiration Date:

@@ -231,10 +231,18 @@ export default function Student() {
                 </TableCell>
                 <TableCell>{student.rollNumber}</TableCell>
                 <TableCell>{student.userDto.fullName}</TableCell>
-                <TableCell>{student.roomName}</TableCell>
-                <TableCell>{student.bedName}</TableCell>
-                <TableCell>{student.buildingName}</TableCell>
-                <TableCell>{student.roomTypeName}</TableCell>
+                <TableCell>
+                  {student.roomName ? student.roomName : "N/A"}
+                </TableCell>
+                <TableCell>
+                  {student.bedName ? student.bedName : "N/A"}
+                </TableCell>
+                <TableCell>
+                  {student.buildingName ? student.buildingName : "N/A"}
+                </TableCell>
+                <TableCell>
+                  {student.roomTypeName ? student.roomTypeName : "N/A"}
+                </TableCell>
                 <TableCell>{student.userDto.email}</TableCell>
                 <TableCell>
                   <IconButton
