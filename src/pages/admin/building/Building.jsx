@@ -1,158 +1,95 @@
-/* eslint-disable react/jsx-key */
-import * as React from "react";
+import { useEffect, useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { privateAxios } from "../../../service/axios";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import AddIcon from "@mui/icons-material/Add";
-import AddForm from "./AddForm";
-import EditForm from "./EditForm";
 
-const createColumns = (setEditOpen, setBuilding, reload, setReload) => [
-  {
-    field: "buildingId",
-    headerName: "ID",
-    disableColumnMenu: true,
-    flex: 0.3,
-    sortable: false,
-  },
-  {
-    field: "buildingName",
-    headerName: "Name",
-    editable: true,
-    disableColumnMenu: true,
-    flex: 0.5,
-    sortable: false,
-  },
-  {
-    field: "numberFloor",
-    headerName: "Number Floor",
-    editable: true,
-    disableColumnMenu: true,
-    flex: 1,
-    sortable: false,
-  },
-  {
-    field: "createdAt",
-    headerName: "Created Date",
-    disableColumnMenu: true,
-    flex: 1,
-    sortable: false,
-  },
-  {
-    field: "updatedAt",
-    headerName: "Updated Date",
-    disableColumnMenu: true,
-    flex: 1,
-    sortable: false,
-  },
-  {
-    field: "actions",
-    type: "actions",
-    headerName: "Actions",
-    width: 100,
-    cellClassName: "actions",
-    flex: 0.5,
-    getActions: ({ id }) => {
-      return [
-        <GridActionsCellItem
-          icon={<EditIcon />}
-          label="Edit"
-          className="textPrimary"
-          onClick={() => {
-            (async () => {
-              const res = await privateAxios.get(`building/${id}`);
-              const apiData = await res.data;
-              setBuilding(apiData);
-              console.log(apiData);
-            })().then(() => {
-              setEditOpen(true);
-            });
-          }}
-          color="inherit"
-        />,
-        <GridActionsCellItem
-          icon={<DeleteIcon />}
-          label="Delete"
-          onClick={() => {
-            if (confirm(`Building ID ${id} will be delete?`)) {
-              (async () => {
-                privateAxios.delete(`building/${id}`);
-              })().then(() => {
-                setReload(!reload);
-              });
-            }
-          }}
-          color="inherit"
-        />,
-      ];
-    },
-  },
-];
 export default function Building() {
-  const [reload, setReload] = React.useState(false);
-  const [building, setBuilding] = React.useState(null);
-  const [addOpen, setAddOpen] = React.useState(false);
-  const [editOpen, setEditOpen] = React.useState(false);
-  const [buildings, setbuildings] = React.useState([]);
-  const columns = createColumns(setEditOpen, setBuilding, reload, setReload);
+  const [buildings, setBuildings] = useState([]);
+
   const fetchData = async () => {
-    const res = await privateAxios.get("building");
-    const apiData = await res.data;
-    setbuildings(apiData);
-    console.log(apiData)
+    try {
+      const res = await privateAxios.get(`building`);
+      console.log(res.config.url);
+      console.log(res.data);
+      setBuildings(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
-    console.log(buildings);
-  }, [reload]);
+  }, []);
+
   return (
-    <>
-      <Box p={2}>
-        <div style={{ minHeight: "400px" }}>
-          <Button
-            color="primary"
-            startIcon={<AddIcon />}
-            onClick={() => {
-              setAddOpen(true);
+    <Box padding={2}>
+      <Box>
+        <div
+          style={{
+            backgroundColor: "#034EA2",
+            padding: "6px",
+            borderRadius: "15px",
+            marginBottom: "10px",
+          }}
+        >
+          <h1
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "#fff",
+              textTransform: "uppercase",
+              margin: "0",
             }}
           >
-            Add record
-          </Button>
-          <DataGrid
-            sx={{
-              "& .MuiDataGrid-cell": {
-                whiteSpace: "normal !important",
-                lineHeight: "normal !important",
-              },
-            }}
-            getRowId={(row) => row.buildingId}
-            rows={buildings}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-          />
+            Building
+          </h1>
         </div>
       </Box>
-      <AddForm
-        open={addOpen}
-        setOpen={setAddOpen}
-        reload={reload}
-        setReload={setReload}
-      />
-      <EditForm
-        open={editOpen}
-        setOpen={setEditOpen}
-        building={building}
-        reload={reload}
-        setReload={setReload}
-      />
-    </>
+
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead sx={{ backgroundColor: "#FF5800" }}>
+            <TableRow>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                ID
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Building Name
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Number of Floor
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Created Date
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Updated Date
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {buildings.map((b) => (
+              <TableRow
+                key={b.buildingId}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {b.buildingId}
+                </TableCell>
+                <TableCell>{b.buildingName}</TableCell>
+                <TableCell>{b.numberFloor}</TableCell>
+                <TableCell>{b.createdAt}</TableCell>
+                <TableCell>{b.updatedAt}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }

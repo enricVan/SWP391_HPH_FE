@@ -1,158 +1,107 @@
-/* eslint-disable react/jsx-key */
-import * as React from "react";
+import { useEffect, useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { privateAxios } from "../../../service/axios";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
-import AddIcon from "@mui/icons-material/Add";
-import AddForm from "./AddForm";
-import EditForm from "./EditForm";
-
-const createColumns = (setEditOpen, setRoomType, reload, setReload) => [
-  {
-    field: "roomTypeId",
-    headerName: "ID",
-    disableColumnMenu: true,
-    flex: 0.3,
-    sortable: false,
-  },
-  {
-    field: "roomTypeName",
-    headerName: "Name",
-    editable: true,
-    disableColumnMenu: true,
-    flex: 0.5,
-    sortable: false,
-  },
-  {
-    field: "roomTypeDescription",
-    headerName: "description",
-    editable: true,
-    disableColumnMenu: true,
-    flex: 1,
-    sortable: false,
-  },
-  {
-    field: "createdAt",
-    headerName: "Created Date",
-    disableColumnMenu: true,
-    flex: 1,
-    sortable: false,
-  },
-  {
-    field: "updatedAt",
-    headerName: "Updated Date",
-    disableColumnMenu: true,
-    flex: 1,
-    sortable: false,
-  },
-  {
-    field: "actions",
-    type: "actions",
-    headerName: "Actions",
-    width: 100,
-    cellClassName: "actions",
-    flex: 0.5,
-    getActions: ({ id }) => {
-      return [
-        <GridActionsCellItem
-          icon={<EditIcon />}
-          label="Edit"
-          className="textPrimary"
-          onClick={() => {
-            (async () => {
-              const res = await privateAxios.get(`room-type/${id}`);
-              const apiData = await res.data;
-              setRoomType(apiData);
-              console.log(apiData);
-            })().then(() => {
-              setEditOpen(true);
-            });
-          }}
-          color="inherit"
-        />,
-        <GridActionsCellItem
-          icon={<DeleteIcon />}
-          label="Delete"
-          onClick={() => {
-            if (confirm(`Room Type ID ${id} will be delete?`)) {
-              (async () => {
-                privateAxios.delete(`room-type/${id}`);
-              })().then(() => {
-                setReload(!reload);
-              });
-            }
-          }}
-          color="inherit"
-        />,
-      ];
-    },
-  },
-];
 
 export default function RoomType() {
-  const [reload, setReload] = React.useState(false);
-  const [roomType, setRoomType] = React.useState(null);
-  const [addOpen, setAddOpen] = React.useState(false);
-  const [editOpen, setEditOpen] = React.useState(false);
-  const [roomTypes, setroomTypes] = React.useState([]);
-  const columns = createColumns(setEditOpen, setRoomType, reload, setReload);
+  const [roomType, setBuildings] = useState([]);
+
   const fetchData = async () => {
-    const res = await privateAxios.get("room-type");
-    const apiData = await res.data;
-    setroomTypes(apiData);
+    try {
+      const res = await privateAxios.get(`room-type`);
+      console.log(res.config.url);
+      console.log(res.data);
+      setBuildings(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
-    console.log(roomTypes);
-  }, [reload]);
+  }, []);
+
+  function formatPrice(price) {
+    price = (price + "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    price = price + " VND";
+
+    return price;
+  }
+
   return (
-    <>
-      <Box p={2}>
-        <div style={{ minHeight: "400px" }}>
-          <Button
-            color="primary"
-            startIcon={<AddIcon />}
-            onClick={() => {
-              setAddOpen(true);
+    <Box padding={2}>
+      <Box>
+        <div
+          style={{
+            backgroundColor: "#034EA2",
+            padding: "6px",
+            borderRadius: "15px",
+            marginBottom: "10px",
+          }}
+        >
+          <h1
+            style={{
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "#fff",
+              textTransform: "uppercase",
+              margin: "0",
             }}
           >
-            Add record
-          </Button>
-          <DataGrid
-            sx={{
-              "& .MuiDataGrid-cell": {
-                whiteSpace: "normal !important",
-                lineHeight: "normal !important",
-              },
-            }}
-            getRowId={(row) => row.roomTypeId}
-            rows={roomTypes}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-          />
+            Room Type
+          </h1>
         </div>
       </Box>
-      <AddForm
-        open={addOpen}
-        setOpen={setAddOpen}
-        reload={reload}
-        setReload={setReload}
-      />
-      <EditForm
-        open={editOpen}
-        setOpen={setEditOpen}
-        roomType={roomType}
-        reload={reload}
-        setReload={setReload}
-      />
-    </>
+
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead sx={{ backgroundColor: "#FF5800" }}>
+            <TableRow>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                ID
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Name
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Description
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Price/Bed/Semester
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Created Date
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Updated Date
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {roomType.map((rt) => (
+              <TableRow
+                key={rt.roomTypeId}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {rt.roomTypeId}
+                </TableCell>
+                <TableCell>{rt.roomTypeName}</TableCell>
+                <TableCell>{rt.roomTypeDescription}</TableCell>
+                <TableCell>{formatPrice(rt.price)}</TableCell>
+                <TableCell>{rt.createdAt}</TableCell>
+                <TableCell>{rt.updatedAt}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }
