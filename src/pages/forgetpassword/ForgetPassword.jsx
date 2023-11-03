@@ -3,6 +3,7 @@ import "./ForgetPassword.css";
 import imagelogo from "./imagelogo/FrogFind.png";
 import axios from "../../service/axios";
 import { Link } from "react-router-dom";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 export default function ForgetPassword() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -40,17 +41,11 @@ export default function ForgetPassword() {
     }
   };
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{ marginTop: "20vh" }}
+    >
       <div className="row border rounder-5 p-3 bg-white shadow box-area">
-        <Link to="/login" style={{ width: "100%" }}>
-          <button
-            type="submit"
-            className="btn btn-lg login w-100 fs-6 font-text"
-            style={{ backgroundColor: "orangered", color: "white" }}
-          >
-            Back to login
-          </button>
-        </Link>
         <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
           <div className="featured-image mb-3">
             <img
@@ -60,54 +55,69 @@ export default function ForgetPassword() {
             />
           </div>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="col-md-6 right-box">
-            <div className="row justify-content-center">
-              <div className="header-text mb-4" style={{ color: "orangered" }}>
-                <h3>Forget Password?</h3>
+        <div className="col-md-6">
+          <form onSubmit={handleSubmit}>
+            <div className="right-box">
+              <div className="row justify-content-center">
+                <div
+                  className="header-text mb-4"
+                  style={{ color: "orangered", fontWeight: "bold" }}
+                >
+                  <h3 style={{ fontWeight: "bold" }}>Forget Password?</h3>
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control form-control-lg bg-light fs-6"
+                    placeholder="Your username"
+                    name="username"
+                    autoComplete="off"
+                    onChange={handleUsernameChange}
+                  />
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="email"
+                    placeholder="Your email"
+                    className="form-control form-control-lg bg-light fs-6"
+                    name="email"
+                    onChange={handleEmailChange}
+                  />
+                </div>
               </div>
+              {errorMessage && (
+                <div style={{ color: "red" }}>{errorMessage}</div>
+              )}
               <div className="input-group mb-3">
-                <input
-                  type="text"
-                  className="form-control form-control-lg bg-light fs-6"
-                  placeholder="Your username"
-                  name="username"
-                  autoComplete="off"
-                  onChange={handleUsernameChange}
-                />
-              </div>
-              <div className="input-group mb-3">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="form-control form-control-lg bg-light fs-6"
-                  name="email"
-                  onChange={handleEmailChange}
-                />
+                <button
+                  type="submit"
+                  className="btn btn-lg login w-100 fs-6 font-text"
+                  style={{ backgroundColor: "orangered", color: "white" }}
+                >
+                  Send New Password
+                </button>
+                <div
+                  className="col-md-12"
+                  style={{
+                    marginTop: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Link to="/login">
+                    <button
+                      type="submit"
+                      className="btn btn-lg login w-100 fs-6 font-text"
+                      style={{ backgroundColor: "orangered", color: "white" }}
+                    >
+                      Back to login <KeyboardReturnIcon />
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
-            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-            <div className="input-group mb-3">
-              <button
-                type="submit"
-                className="btn btn-lg login w-100 fs-6 font-text"
-                style={{ backgroundColor: "orangered", color: "white" }}
-              >
-                Send New Password
-              </button>
-            </div>
-          </div>
-        </form>
-        {/* <div className="input-group mb-3">
-            <button type="submit" className="btn btn-lg btn-light w-100 fs-6">
-              <img
-                src={imagelogogg}
-                style={{ width: 20, height: 20 }}
-                className="me-2"
-              />
-              <small>Send new password to Gmail</small>
-            </button>
-          </div> */}
+          </form>
+        </div>
       </div>
     </div>
   );

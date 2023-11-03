@@ -9,15 +9,21 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
 import { Pagination } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import Searchbar from "../../../components/Searchbar";
+const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 
 export default function PaymentPage() {
   const [payments, setPayments] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchRollnumber, setSearchRollnumber] = useState("");
 
   const fetchData = async () => {
     try {
-      const res = await privateAxios.get(`payment?pageNo=${currentPage - 1}`);
+      const res = await privateAxios.get(
+        `payment?pageNo=${currentPage - 1}&rollNumber=${searchRollnumber}`
+      );
       console.log(res.config.url);
       console.log(res.data);
       setPayments(res.data.data);
@@ -28,7 +34,15 @@ export default function PaymentPage() {
   };
   useEffect(() => {
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, searchRollnumber]);
+
+  function formatPrice(price) {
+    price = (price + "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    price = price + " VND";
+
+    return price;
+  }
   return (
     <Box padding={2}>
       <Box>
@@ -53,18 +67,50 @@ export default function PaymentPage() {
           </h1>
         </div>
       </Box>
+      <Box flex m={2}>
+        <Search sx={{ display: "inline-block" }}>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            onChange={(e) => {
+              setSearchRollnumber(e.target.value);
+            }}
+            placeholder="Search by rollnumber…"
+            inputProps={{ "aria-label": "search" }}
+            sx={{
+              border: "5px solid orangered",
+              borderRadius: "30px",
+              minWidth: "250px",
+            }}
+          />
+        </Search>
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: "#FF5800" }}>
             <TableRow>
-              <TableCell style={{ fontWeight: "bold" }}>ID</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Created By</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Checked by</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Created Date</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Updated Date</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Status</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Action</TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                ID
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Created By
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Checked by
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Amount
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Created Date
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Updated Date
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Status
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -86,7 +132,7 @@ export default function PaymentPage() {
                     "N/A"
                   )}
                 </TableCell>
-                <TableCell>{payment.amount} VNĐ</TableCell>
+                <TableCell>{formatPrice(payment.amount)}</TableCell>
                 <TableCell>{payment.createdAt}</TableCell>
                 <TableCell>{payment.createdAt}</TableCell>
                 <TableCell>

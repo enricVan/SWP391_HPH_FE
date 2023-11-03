@@ -18,6 +18,9 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import Searchbar from "../../../components/Searchbar";
+const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 
 export default function Student() {
   const [students, setStudents] = useState([]);
@@ -29,6 +32,8 @@ export default function Student() {
   const [selectedFloor, setSelectedFloor] = useState("");
   const [roomList, setRoomList] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState("");
+  const [searchRollnumber, setSearchRollnumber] = useState("");
+
   const navigate = useNavigate();
 
   const fetchBuilding = async () => {
@@ -57,7 +62,7 @@ export default function Student() {
       const res = await privateAxios.get(
         `student?pageNo=${
           currentPage - 1
-        }&buildingId=${selectedBuilding}&floor=${selectedFloor}&roomId=${selectedRoom}`
+        }&buildingId=${selectedBuilding}&floor=${selectedFloor}&roomId=${selectedRoom}&rollNumber=${searchRollnumber}`
       );
       console.log(res.config.url);
       console.log(res.data);
@@ -72,7 +77,13 @@ export default function Student() {
     fetchFloor();
     fetchRoom();
     fetchData();
-  }, [currentPage, selectedBuilding, selectedFloor, selectedRoom]);
+  }, [
+    currentPage,
+    selectedBuilding,
+    selectedFloor,
+    selectedRoom,
+    searchRollnumber,
+  ]);
 
   return (
     <Box p={3}>
@@ -99,8 +110,28 @@ export default function Student() {
         </div>
       </Box>
       {/* Filter start */}
+
       <Box display={"flex"} justifyContent={"center"} gap={2} mb={2}>
-        <FormControl sx={{ width: 250 }}>
+        <FormControl sx={{ width: 700 }}>
+          <Search sx={{ display: "inline-block" }}>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              onChange={(e) => {
+                setSearchRollnumber(e.target.value);
+              }}
+              placeholder="Search by rollnumber…"
+              inputProps={{ "aria-label": "search" }}
+              sx={{
+                border: "5px solid orangered",
+                borderRadius: "30px",
+                minWidth: "250px",
+              }}
+            />
+          </Search>
+        </FormControl>
+        <FormControl sx={{ width: 150 }}>
           <InputLabel id="building-label">Building</InputLabel>
           <Select
             labelId="building-label"
@@ -117,7 +148,7 @@ export default function Student() {
             ))}
           </Select>
         </FormControl>
-        <FormControl sx={{ width: 250 }}>
+        <FormControl sx={{ width: 150 }}>
           <InputLabel id="floor-label">Floor</InputLabel>
           <Select
             labelId="floor-label"
@@ -136,7 +167,7 @@ export default function Student() {
               ))}
           </Select>
         </FormControl>
-        <FormControl sx={{ width: 250 }}>
+        <FormControl sx={{ width: 150 }}>
           <InputLabel id="room-label">Room</InputLabel>
           <Select
             labelId="room-label"
@@ -160,17 +191,33 @@ export default function Student() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: "#FF5800" }}>
             <TableRow>
-              <TableCell style={{ fontWeight: "bold" }}>ID</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                ID
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
                 Student Rollnumber
               </TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Name</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Room</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Bed</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Dormitary</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Room Type</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Email</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>View details</TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Name
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Room
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Bed
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Dormitary
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Room Type
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Email
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                View details
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -184,10 +231,18 @@ export default function Student() {
                 </TableCell>
                 <TableCell>{student.rollNumber}</TableCell>
                 <TableCell>{student.userDto.fullName}</TableCell>
-                <TableCell>{student.roomName}</TableCell>
-                <TableCell>{student.bedName}</TableCell>
-                <TableCell>{student.buildingName}</TableCell>
-                <TableCell>{student.roomTypeName}</TableCell>
+                <TableCell>
+                  {student.roomName ? student.roomName : "N/A"}
+                </TableCell>
+                <TableCell>
+                  {student.bedName ? student.bedName : "N/A"}
+                </TableCell>
+                <TableCell>
+                  {student.buildingName ? student.buildingName : "N/A"}
+                </TableCell>
+                <TableCell>
+                  {student.roomTypeName ? student.roomTypeName : "N/A"}
+                </TableCell>
                 <TableCell>{student.userDto.email}</TableCell>
                 <TableCell>
                   <IconButton

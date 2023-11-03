@@ -68,8 +68,27 @@ export default function BookedHistory() {
   }, [currentPage, reload]);
   return (
     <Box padding={1}>
+      <div
+        style={{
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          Booked history
+        </h2>
+      </div>
       <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
-        <h1 style={{ marginLeft: "8px" }}>Bed Booked History</h1>
         {/* <FormControl sx={{ minWidth: 120, m: 1 }}>
           <InputLabel id="roomType-label">Status</InputLabel>
           <Select
@@ -92,14 +111,29 @@ export default function BookedHistory() {
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
+          <TableHead sx={{ backgroundColor: "#FF4500" }}>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell colSpan={1}>Bed</TableCell>
-              <TableCell>Created Date</TableCell>
-              <TableCell>Returned Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Payment</TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                ID
+              </TableCell>
+              <TableCell
+                colSpan={1}
+                sx={{ color: "#fff", fontWeight: "bolder" }}
+              >
+                Bed
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Created Date
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Returned Date
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Status
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Payment
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -139,6 +173,7 @@ export default function BookedHistory() {
                         : bookedRequest.status === "pending"
                         ? "#FFC300 "
                         : "green",
+                    fontWeight: "bold",
                   }}
                 >
                   {bookedRequest.status.toUpperCase()}

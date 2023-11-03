@@ -42,8 +42,27 @@ export default function News() {
     fetchData();
   }, [currentPage, searchTitle]);
   return (
-    <Box>
-      <h1 style={{ marginLeft: "8px" }}>News</h1>
+    <Box p={2}>
+      <div
+        style={{
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          News
+        </h2>
+      </div>
       <Box flex>
         <Search sx={{ display: "inline-block" }}>
           <SearchIconWrapper>

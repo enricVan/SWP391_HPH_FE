@@ -10,6 +10,9 @@ import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
 import { Button, Pagination } from "@mui/material";
 import Payment from "./Payment";
+import SearchIcon from "@mui/icons-material/Search";
+import Searchbar from "../../../components/Searchbar";
+const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 
 export default function BedRequest() {
   const [bookedList, setBookedList] = useState([]);
@@ -17,11 +20,14 @@ export default function BedRequest() {
   const [currentPage, setCurrentPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [selectedBedReq, setSelectedBedReq] = useState("");
+  const [searchRollnumber, setSearchRollnumber] = useState("");
 
   const fetchData = async () => {
     try {
       const res = await privateAxios.get(
-        `bed-request?pageNo=${currentPage - 1}`
+        `bed-request?pageNo=${
+          currentPage - 1
+        }&studentRollNumber=${searchRollnumber}`
       );
       console.log(res.config.url);
       console.log(res.data);
@@ -33,7 +39,7 @@ export default function BedRequest() {
   };
   useEffect(() => {
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, searchRollnumber]);
   return (
     <Box padding={2}>
       <Box>
@@ -57,43 +63,63 @@ export default function BedRequest() {
             Bed Request
           </h1>
         </div>
-        {/* <FormControl sx={{ minWidth: 120, m: 1 }}>
-          <InputLabel id="roomType-label">Status</InputLabel>
-          <Select
-            id="select"
-            label="Status"
-            value={status === "" ? "All" : status}
-            labelId="roomType-label"
-            onChange={handleChange}
-          >
-            <MenuItem value="All">All</MenuItem>
-            {statusList.map((type) => {
-              return (
-                <MenuItem key={type} value={type.toLowerCase()}>
-                  {type.toLowerCase()}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl> */}
+      </Box>
+      <Box flex m={2}>
+        <Search sx={{ display: "inline-block" }}>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            onChange={(e) => {
+              setSearchRollnumber(e.target.value);
+            }}
+            placeholder="Search by rollnumber…"
+            inputProps={{ "aria-label": "search" }}
+            sx={{
+              border: "5px solid orangered",
+              borderRadius: "30px",
+              minWidth: "250px",
+            }}
+          />
+        </Search>
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: "#FF5800" }}>
             <TableRow>
-              <TableCell style={{ fontWeight: "bold" }}>ID</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                ID
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
                 Student Rollnumber
               </TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Bed</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Semester</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Dorm</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Room</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Room Type</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Created Date</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Updated Date</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Status</TableCell>
-              <TableCell style={{ fontWeight: "bold" }}>Payment</TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Bed
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Semester
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Dorm
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Room
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Room Type
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Created Date
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Updated Date
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Status
+              </TableCell>
+              <TableCell style={{ fontWeight: "bold", color: "#fff" }}>
+                Payment
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
