@@ -94,7 +94,7 @@ export default function BedModal({
         >
           <Grid container spacing={2} sx={{ xs: 12, md: 3 }}>
             {bedList.map((bed) => (
-              <Grid item xs={12} md textAlign={"center"} key={bed.id}>
+              <Grid item xs={12} textAlign={"center"} key={bed.id} md={4}>
                 <div style={{ whiteSpace: "nowrap" }}>Bed: {bed.bedName}</div>
                 <div>RollNumber: {bed.rollNumber ? bed.rollNumber : "N/A"}</div>
                 <IconButton

@@ -9,6 +9,7 @@ import {
   CardContent,
   Divider,
   Grid,
+  Pagination,
   Typography,
 } from "@mui/material";
 import { privateAxios } from "../../../service/axios";
@@ -25,7 +26,8 @@ export default function Room() {
   const [selectedRoomType, setSelectedRoomType] = useState("");
   const [roomList, setRoomList] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState("");
-  // const [bedList, setBedList] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchSemester = async () => {
     const res = await privateAxios.get("semester/next-semester");
@@ -45,16 +47,20 @@ export default function Room() {
   };
   const fetchRoom = async () => {
     let filterQuery = "";
-    console.log(selectedBuilding);
+
     if (selectedBuilding) filterQuery += `&buildingId=${selectedBuilding}`;
     if (selectedFloor) filterQuery += `&floor=${selectedFloor}`;
     if (selectedRoomType) filterQuery += `&roomTypeId=${selectedRoomType}`;
     try {
-      const res = await privateAxios.get(`room?status=vacant${filterQuery}`);
+      const res = await privateAxios.get(
+        `room?pageNo=${currentPage - 1}${filterQuery}`
+      );
       console.log(res.data);
-      setRoomList(res.data);
+      setRoomList(res.data.data);
+      setTotalPages(res.data.totalPages);
     } catch (error) {
       setRoomList([]);
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -69,14 +75,17 @@ export default function Room() {
         setSelectedFloor(1);
       }
     }
-  }, [selectedBuilding]);
+  }, [selectedBuilding, currentPage, selectedFloor]);
   useEffect(() => {
-    if (selectedBuilding || selectedFloor || selectedRoomType) {
-      fetchRoom();
+    setCurrentPage(1);
+    fetchRoom();
 
-      console.log(roomList);
-    }
+    console.log(roomList);
   }, [selectedFloor, selectedBuilding, selectedRoomType]);
+
+  useEffect(() => {
+    fetchRoom();
+  }, [currentPage]);
   useEffect(() => {
     if (selectedRoom !== "") {
       setOpen(true);
@@ -225,7 +234,7 @@ export default function Room() {
                 }}
               >
                 <MenuItem value="">
-                  <em style={{ color: "#666666" }}>Select a room type</em>
+                  <em style={{ color: "#666" }}>Select a room type</em>
                 </MenuItem>
                 {roomTypeList &&
                   roomTypeList.map((roomType) => (
@@ -251,7 +260,7 @@ export default function Room() {
                 }}
               >
                 <MenuItem value="">
-                  <em style={{ color: "#666666" }}>Select a building</em>
+                  <em style={{ color: "#666" }}>Select a building</em>
                 </MenuItem>
                 {buildingList.map((building) => (
                   <MenuItem
@@ -272,7 +281,7 @@ export default function Room() {
                 }}
               >
                 <MenuItem value="">
-                  <em style={{ color: "#666666" }}>Select a floor</em>
+                  <em style={{ color: "#666" }}>Select a floor</em>
                 </MenuItem>
                 {floorList &&
                   floorList.map((floor, index) => (
@@ -285,6 +294,30 @@ export default function Room() {
           </Box>
         </Grid>
       </Grid>
+      <Pagination
+        color="primary"
+        count={totalPages}
+        page={currentPage}
+        onChange={(e, value) => {
+          setCurrentPage(value);
+        }}
+        sx={{
+          justifyContent: "center",
+          "& .MuiPagination-ul": {
+            justifyContent: "center",
+          },
+          "&& .Mui-selected": {
+            bgcolor: "orangered",
+          },
+          "& .MuiPaginationItem-root:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
+          },
+          "&& .Mui-selected:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
+          },
+          my: 4,
+        }}
+      />
       {open && (
         <BedModal
           open={open}
