@@ -6,9 +6,10 @@ import infoImg1 from "./images/info-1.jpg";
 import infoImg2 from "./images/info-2.jpg";
 import infoImg3 from "./images/info-3.jpg";
 import DropdownFAQ from "./DropdownFAQ";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 export default function LandingPage() {
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
   if (user) {
     const path = "/" + user.roleName.toLowerCase();
     return <Navigate to={`${path}`} replace />;
@@ -69,10 +70,17 @@ export default function LandingPage() {
                   backgroundColor: "#F48120",
                 }}
               >
-                <h4 className="text-white" style={{ fontWeight: "bold" }}>
+                <h4
+                  className="text-white"
+                  style={{ fontWeight: "bold", cursor: "pointer" }}
+                >
                   Thông tin KTX Đại Học FPT
                 </h4>
-                <p className="lead mb-0 text-white">
+
+                <p
+                  className="lead mb-0 text-white"
+                  style={{ cursor: "pointer" }}
+                >
                   Thông tin{" "}
                   <a href="#dorm-info" className="text-white">
                     <span>
@@ -100,10 +108,18 @@ export default function LandingPage() {
                   backgroundColor: "#F48120",
                 }}
               >
-                <h4 className="text-white" style={{ fontWeight: "bold" }}>
+                <h4
+                  className="text-white"
+                  style={{ fontWeight: "bold", cursor: "pointer" }}
+                  onClick={() => navigate("login")}
+                >
                   Đăng kí sử dụng Ký túc xá
                 </h4>
-                <p className="lead mb-0 text-white">
+                <p
+                  className="lead mb-0 text-white"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("login")}
+                >
                   Đăng kí{" "}
                   <a href="#" className="text-white">
                     <span>
@@ -314,8 +330,8 @@ export default function LandingPage() {
               </h3>
               <p>
                 {" "}
-                Khu Giáo dục và Đào tạo - Khu Công nghệ cao Hòa Lạc - KM29 Đại
-                Lộ Thăng Long, H. Thạch Thất, TP. Hà Nội
+                Khu Giáo dục và Đào tạo - Khu Công nghệ cao Hòa Lạc <br />
+                KM29 Đại Lộ Thăng Long, H. Thạch Thất, TP. Hà Nội
               </p>
 
               <p>Điện thoại: 024 7300 1866</p>
