@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import {
   Card,
@@ -10,10 +9,12 @@ import {
   CardContent,
   Divider,
   Grid,
+  Pagination,
   Typography,
 } from "@mui/material";
 import { privateAxios } from "../../../service/axios";
 import BedModal from "./BedModal";
+import FrogFind from "../../forgetpassword/imagelogo/FrogFind.png";
 export default function RoomChoosing() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [open, setOpen] = useState(false);
@@ -26,7 +27,8 @@ export default function RoomChoosing() {
   const [selectedRoomType, setSelectedRoomType] = useState("");
   const [roomList, setRoomList] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState("");
-  // const [bedList, setBedList] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchSemester = async () => {
     const res = await privateAxios.get("semester/next-semester");
@@ -46,16 +48,20 @@ export default function RoomChoosing() {
   };
   const fetchRoom = async () => {
     let filterQuery = "";
-    console.log(selectedBuilding);
+
     if (selectedBuilding) filterQuery += `&buildingId=${selectedBuilding}`;
     if (selectedFloor) filterQuery += `&floor=${selectedFloor}`;
     if (selectedRoomType) filterQuery += `&roomTypeId=${selectedRoomType}`;
     try {
-      const res = await privateAxios.get(`room?status=vacant${filterQuery}`);
+      const res = await privateAxios.get(
+        `room?pageNo=${currentPage - 1}${filterQuery}`
+      );
       console.log(res.data);
-      setRoomList(res.data);
+      setRoomList(res.data.data);
+      setTotalPages(res.data.totalPages);
     } catch (error) {
       setRoomList([]);
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -70,14 +76,17 @@ export default function RoomChoosing() {
         setSelectedFloor(1);
       }
     }
-  }, [selectedBuilding]);
+  }, [selectedBuilding, currentPage, selectedFloor]);
   useEffect(() => {
-    if (selectedBuilding || selectedFloor || selectedRoomType) {
-      fetchRoom();
+    setCurrentPage(1);
+    fetchRoom();
 
-      console.log(roomList);
-    }
+    console.log(roomList);
   }, [selectedFloor, selectedBuilding, selectedRoomType]);
+
+  useEffect(() => {
+    fetchRoom();
+  }, [currentPage]);
   useEffect(() => {
     if (selectedRoom !== "") {
       setOpen(true);
@@ -102,7 +111,7 @@ export default function RoomChoosing() {
             margin: "0",
           }}
         >
-          Bed Booking
+          Room
         </h2>
       </div>
 
@@ -116,83 +125,124 @@ export default function RoomChoosing() {
           flexDirection: { xs: "column-reverse", md: "row" },
         }}
       >
-        <Grid item container xs={12} md={8} spacing={2}>
-          {roomList.map((room) => (
-            <Grid item xs={12} md={6} key={room.id}>
-              <Card
-                sx={{
-                  maxWidth: 345,
-                  display: "inline-block",
-                  width: "100%",
-                  border: "1px solid #fff",
-                  bgcolor:
-                    room.numberOfAvailableBeds !== 0 ? "#D4EFDF" : "#F5B7B1",
-                  position: "relative",
-                }}
-              >
-                <div
-                  style={{
-                    backgroundImage: `url("https://img.freepik.com/free-vector/student-bedroom-dormitory-with-bunk-bed-desk-chair_88138-1025.jpg")`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    filter: "blur(1px) brightness(60%) ",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                  }}
-                ></div>
-                <CardActionArea
-                  onClick={() => {
-                    setSelectedRoom(room.id);
-                    setOpen(true);
+        {selectedBuilding === "" &&
+        selectedFloor === "" &&
+        selectedRoomType === "" ? (
+          <Grid
+            item
+            container
+            xs={12}
+            md={8}
+            spacing={2}
+            flex
+            justifyContent={"center"}
+          >
+            <img src={FrogFind} alt="" width={"400px"} />
+          </Grid>
+        ) : (
+          <Grid item container xs={12} md={8} spacing={2}>
+            {roomList.map((room) => (
+              <Grid item xs={12} md={6} key={room.id}>
+                <Card
+                  sx={{
+                    maxWidth: 345,
+                    display: "inline-block",
+                    width: "100%",
+                    border: "1px solid #fff",
+                    bgcolor:
+                      room.numberOfAvailableBeds !== 0 ? "#D4EFDF" : "#F5B7B1",
+                    position: "relative",
                   }}
                 >
-                  <CardContent sx={{ color: "#D3EBC5", fontWeight: "bold" }}>
-                    <Grid container>
-                      <Grid item xs={12} md={6}>
-                        Room Name:
+                  <div
+                    style={{
+                      backgroundImage: `url("https://img.freepik.com/free-vector/student-bedroom-dormitory-with-bunk-bed-desk-chair_88138-1025.jpg")`,
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                      filter: "blur(1px) brightness(60%) ",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                    }}
+                  ></div>
+                  <CardActionArea
+                    onClick={() => {
+                      setSelectedRoom(room.id);
+                      setOpen(true);
+                    }}
+                  >
+                    <CardContent sx={{ color: "#fff", fontWeight: "bold" }}>
+                      <Grid container>
+                        <Grid item xs={12} md={6}>
+                          Room Name:
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          md={6}
+                          sx={{ fontWeight: "lighter" }}
+                        >
+                          {room.roomName}
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          Building Name:
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          md={6}
+                          sx={{ fontWeight: "lighter" }}
+                        >
+                          {room.buildingName}
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          Room Type:
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          md={6}
+                          sx={{ fontWeight: "lighter" }}
+                        >
+                          {room.roomTypeName}
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          Price
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          md={6}
+                          sx={{ fontWeight: "lighter" }}
+                        >
+                          <div>
+                            {room.roomPrice.toLocaleString("it-IT", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </div>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                          Available Bed:
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          md={6}
+                          sx={{ fontWeight: "lighter" }}
+                        >
+                          {room.numberOfAvailableBeds}
+                        </Grid>
                       </Grid>
-                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
-                        {room.roomName}
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        Building Name:
-                      </Grid>
-                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
-                        {room.buildingName}
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        Room Type:
-                      </Grid>
-                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
-                        {room.roomTypeName}
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        Price
-                      </Grid>
-                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
-                        <div>
-                          {room.roomPrice.toLocaleString("it-IT", {
-                            style: "currency",
-                            currency: "VND",
-                          })}
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} md={6}>
-                        Available Bed:
-                      </Grid>
-                      <Grid item xs={12} md={6} sx={{ fontWeight: "lighter" }}>
-                        {room.numberOfAvailableBeds}
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        )}
         <Grid item xs={12} md={4}>
           <Box
             display={"flex"}
@@ -226,7 +276,7 @@ export default function RoomChoosing() {
                 }}
               >
                 <MenuItem value="">
-                  <em style={{ color: "#666666" }}>Select a room type</em>
+                  <em style={{ color: "#666" }}>Select a room type</em>
                 </MenuItem>
                 {roomTypeList &&
                   roomTypeList.map((roomType) => (
@@ -252,7 +302,7 @@ export default function RoomChoosing() {
                 }}
               >
                 <MenuItem value="">
-                  <em style={{ color: "#666666" }}>Select a building</em>
+                  <em style={{ color: "#666" }}>Select a building</em>
                 </MenuItem>
                 {buildingList.map((building) => (
                   <MenuItem
@@ -273,7 +323,7 @@ export default function RoomChoosing() {
                 }}
               >
                 <MenuItem value="">
-                  <em style={{ color: "#666666" }}>Select a floor</em>
+                  <em style={{ color: "#666" }}>Select a floor</em>
                 </MenuItem>
                 {floorList &&
                   floorList.map((floor, index) => (
@@ -286,6 +336,36 @@ export default function RoomChoosing() {
           </Box>
         </Grid>
       </Grid>
+      {selectedBuilding === "" &&
+      selectedFloor === "" &&
+      selectedRoomType === "" ? (
+        ""
+      ) : (
+        <Pagination
+          color="primary"
+          count={totalPages}
+          page={currentPage}
+          onChange={(e, value) => {
+            setCurrentPage(value);
+          }}
+          sx={{
+            justifyContent: "center",
+            "& .MuiPagination-ul": {
+              justifyContent: "center",
+            },
+            "&& .Mui-selected": {
+              bgcolor: "orangered",
+            },
+            "& .MuiPaginationItem-root:hover": {
+              bgcolor: "rgba(255,69,0,0.8)",
+            },
+            "&& .Mui-selected:hover": {
+              bgcolor: "rgba(255,69,0,0.8)",
+            },
+            my: 4,
+          }}
+        />
+      )}
       {open && (
         <BedModal
           open={open}
