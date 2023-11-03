@@ -8,6 +8,7 @@ import Signup from "./pages/signup/Signup";
 import ManagerPage from "./pages/manager/ManagerPage";
 import Guard from "./pages/guard/Guard";
 import AdminPage from "./pages/admin/AdminPage";
+import Test from "./pages/admin/user/Test";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/guard/*" element={<Guard />} />
         <Route path="/admin/*" element={<AdminPage />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </>
   );

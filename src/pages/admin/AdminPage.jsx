@@ -46,7 +46,7 @@ function AdminPage() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" />
-        <Route path="user" element={<User />} />
+        <Route path="user/*" element={<User />} />
         <Route path="building" element={<Building />} />
         <Route path="roomtype" element={<RoomType />} />
         <Route path="room" element={<Room />} />
