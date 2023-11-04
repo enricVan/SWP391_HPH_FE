@@ -32,7 +32,7 @@ export default function ChangePassword() {
 
     // Send a request to the backend to change the password using Axios
     axios
-      .put("auth/change-password", {
+      .put("change-password", {
         userid: JSON.parse(localStorage.getItem("user")).id,
         oldPassword: formData.oldPassword,
         newPassword: formData.newPassword,
