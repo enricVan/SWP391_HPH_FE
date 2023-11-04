@@ -14,7 +14,7 @@ export default function Building() {
 
   const fetchData = async () => {
     try {
-      const res = await privateAxios.get(`building`);
+      const res = await privateAxios.get(`building/admin`);
       console.log(res.config.url);
       console.log(res.data);
       setBuildings(res.data);
@@ -79,12 +79,12 @@ export default function Building() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {b.buildingId}
+                  {b.id}
                 </TableCell>
                 <TableCell>{b.buildingName}</TableCell>
                 <TableCell>{b.numberFloor}</TableCell>
                 <TableCell>{b.createdAt}</TableCell>
-                <TableCell>{b.updatedAt}</TableCell>
+                <TableCell>{b.updateAt}</TableCell>
               </TableRow>
             ))}
           </TableBody>
