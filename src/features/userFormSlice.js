@@ -15,6 +15,9 @@ const userFormSlice = createSlice({
   initialState: {
     currentStep: 1,
     user: defaultUser,
+    openAddStudent: false,
+    openAddManager: false,
+    openAddGuard: false,
   },
   reducers: {
     next: (state) => {
@@ -37,8 +40,52 @@ const userFormSlice = createSlice({
     setAvatar: (state, action) => {
       state.user = { ...state.user, avatar: action.payload };
     },
+    open: (state, action) => {
+      switch (action.payload) {
+        case "ADD_STUDENT": {
+          state.openAddStudent = true;
+          break;
+        }
+        case "ADD_MANAGER": {
+          state.openAddManager = true;
+          break;
+        }
+        case "ADD_GUARD": {
+          state.openAddGuard = true;
+          break;
+        }
+      }
+    },
+    close: (state, action) => {
+      switch (action.payload) {
+        case "ADD_STUDENT": {
+          state.openAddStudent = false;
+          break;
+        }
+        case "ADD_MANAGER": {
+          state.openAddManager = false;
+          break;
+        }
+        case "ADD_GUARD": {
+          state.openAddGuard = false;
+          break;
+        }
+      }
+    },
+    resetForm: (state) => {
+      state.user = defaultUser;
+      console.log(state.user);
+    },
   },
 });
-export const { next, back, chooseRole, updateFields, setAvatar } =
-  userFormSlice.actions;
+export const {
+  next,
+  back,
+  chooseRole,
+  updateFields,
+  setAvatar,
+  open,
+  close,
+  resetForm,
+} = userFormSlice.actions;
 export default userFormSlice.reducer;

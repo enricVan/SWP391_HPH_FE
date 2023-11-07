@@ -11,7 +11,6 @@ const drawerWidth = 240;
 
 export default function UserSidebar() {
   const { pathname } = useLocation();
-  console.log(pathname);
   const navigate = useNavigate();
   return (
     <Box
@@ -25,9 +24,9 @@ export default function UserSidebar() {
     >
       <List>
         {["All", "Student", "Manager", "Guard"].map((text, index) => (
-          <>
+          <div key={index}>
             <ListItem
-              key={text}
+              key={index}
               disablePadding
               onClick={() => navigate(`${text.toLowerCase()}`)}
             >
@@ -48,7 +47,7 @@ export default function UserSidebar() {
               </ListItemButton>
             </ListItem>
             <Divider sx={{ color: "#B2BABB" }} />
-          </>
+          </div>
         ))}
       </List>
     </Box>

@@ -2,9 +2,10 @@ import React from "react";
 import UserSidebar from "./UserSidebar";
 import Grid from "@mui/material/Grid";
 import AllUser from "./AllUser";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import StudentUser from "./StudentUser";
 import ManagerUser from "./ManagerUser";
+import StudentDetail from "./userdetail/StudentDetail";
 const Layout = () => {
   return (
     <Grid container flexDirection={"row-reverse"}>
@@ -43,9 +44,10 @@ export default function User() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" />
+        <Route path="/" element={<Navigate to="all" replace />} />
         <Route path="all" element={<AllUser />} />
         <Route path="student" element={<StudentUser />} />
+        <Route path="student/:rollNumber" element={<StudentDetail />} />
         <Route path="manager" element={<ManagerUser />} />
       </Route>
     </Routes>
