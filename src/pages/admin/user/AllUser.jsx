@@ -29,51 +29,12 @@ export default function AllUser() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [checked, setChecked] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
   const [reload, setReload] = useState(false);
-  const [openPayment, setOpenPayment] = useState(false);
-  const [openUserDetails, setOpenUserDetails] = useState(false);
   const [partialName, setPartialName] = useState("");
   const [roleId, setRoleId] = useState(0);
   const [roles, setRoles] = useState([]);
   const [selectedStatus, SetSelectedStatus] = useState("all");
   const [openAdd, setOpenAdd] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      var res;
-      if (roleId != 0) {
-        res = await privateAxios.get(
-          `user?partialName=${partialName}&roleId=${roleId}&pageNo=${
-            currentPage - 1
-          }`
-        );
-      } else {
-        res = await privateAxios.get(
-          `user?partialName=${partialName}&roleId=&pageNo=${currentPage - 1}`
-        );
-      }
-      console.log(res.config.url);
-      console.log(res.data);
-      if (selectedStatus === "all") {
-        // If 'all', set users without filtering
-        setUsers(res.data.data);
-      } else {
-        // If not 'all', filter the data to keep only items with status 'active'
-        const activeUsers = res.data.data.filter(
-          (item) => item.status === selectedStatus
-        );
-        setUsers(activeUsers);
-      }
-      setTotalPages(res.data.totalPages);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, [currentPage, reload, roleId, partialName, selectedStatus]);
-
   const fetchRoles = async () => {
     try {
       const res = await privateAxios.get("role");
@@ -82,9 +43,30 @@ export default function AllUser() {
       console.log(error);
     }
   };
+  const fetchUser = async () => {
+    let roleFilter = "";
+    if (roleId !== 0) roleFilter = roleId;
+    const res = await privateAxios.get(
+      `user?partialName=${partialName}&roleId=${roleFilter}&pageNo=${
+        currentPage - 1
+      }`
+    );
+    setUsers(res.data?.data);
+    setTotalPages(res.data.totalPages);
+    setCurrentPage(1);
+  };
   useEffect(() => {
     fetchRoles();
   }, []);
+  useEffect(() => {
+    fetchUser().then(() => {
+      if (selectedStatus !== "all") {
+        setUsers((prev) =>
+          prev.filter((user) => user.status.toLowerCase() === selectedStatus)
+        );
+      }
+    });
+  }, [currentPage, reload, roleId, partialName, selectedStatus]);
 
   // const deleteUser = async () => {
   //   try {
@@ -124,12 +106,12 @@ export default function AllUser() {
               setRoleId(e.target.value);
             }}
           >
-            <MenuItem key={1} value={0}>
+            <MenuItem key={0} value={0}>
               ALL
             </MenuItem>
             {roles &&
               roles.map((item, index) => (
-                <MenuItem key={index + 1} value={item.id}>
+                <MenuItem key={item.id} value={item.id}>
                   {item.roleName}
                 </MenuItem>
               ))}
@@ -145,15 +127,9 @@ export default function AllUser() {
               SetSelectedStatus(e.target.value);
             }}
           >
-            <MenuItem key={0} value={"all"}>
-              {"ALL"}
-            </MenuItem>
-            <MenuItem key={0} value={"active"}>
-              {"ACTIVE"}
-            </MenuItem>
-            <MenuItem key={0} value={"deactive"}>
-              {"DEACTIVE"}
-            </MenuItem>
+            <MenuItem value={"all"}>{"ALL"}</MenuItem>
+            <MenuItem value={"active"}>{"ACTIVE"}</MenuItem>
+            <MenuItem value={"deactive"}>{"DEACTIVE"}</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -185,6 +161,9 @@ export default function AllUser() {
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Created Date
               </TableCell>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
+                Updated Date
+              </TableCell>
               <TableCell
                 colSpan={2}
                 sx={{ color: "white", fontWeight: "bold" }}
@@ -202,12 +181,22 @@ export default function AllUser() {
                 <TableCell>
                   <FormControl>
                     <Switch
-                      checked={checked}
-                      onChange={(e) => setChecked(e.target.checked)}
+                      checked={item.status === "active" ? true : false}
+                      onChange={(e) => {
+                        const newStatus =
+                          item.status === "active" ? "deactive" : "active";
+                        privateAxios
+                          .put(`user/${item.id}`, { status: newStatus })
+                          .then((res) => {
+                            setReload(!reload);
+                          })
+                          .catch((err) => console.log(err));
+                      }}
                     />
                   </FormControl>
                 </TableCell>
                 <TableCell>{item.createdAt}</TableCell>
+                <TableCell>{item.updatedAt}</TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() => {
@@ -257,7 +246,7 @@ export default function AllUser() {
           my: 4,
         }}
       />
-      {openAdd && <AddUser open={openAdd} setOpen={setOpenAdd} />}
+      {openAdd && <AddUser openAdd={openAdd} setOpenAdd={setOpenAdd} />}
     </Box>
   );
 }

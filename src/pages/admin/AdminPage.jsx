@@ -29,7 +29,7 @@ function AdminPage() {
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
             navItems={navItems}
-            trimPath={13}
+            trimPath={7}
           />
           <Box width={"100%"} height={"100%"}>
             <Topbar
