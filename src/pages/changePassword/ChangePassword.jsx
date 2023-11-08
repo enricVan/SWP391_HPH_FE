@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./ChangePassword.css";
 import imagelogo from "./imagelogo/FrogFind.png";
-import axios, { privateAxios } from "../../service/axios";
+import { privateAxios } from "../../service/axios";
 import { Link } from "react-router-dom";
 import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 export default function ChangePassword() {
@@ -30,7 +30,7 @@ export default function ChangePassword() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if(newPassword != confirmNew){
+    if (newPassword != confirmNew) {
       setErrorMessage("Your New Password and Confirm isn't match");
       setoldPassword("");
       setnewPassword("");
@@ -38,24 +38,21 @@ export default function ChangePassword() {
       return;
     }
 
-    try {
-      const response = privateAxios.put("change-password", {
-        userid,
-        oldPassword,
-        newPassword,
-      });
 
-      console.log("Password change successful:", response.data);
-      setErrorMessage("Password change successful.");
-    } catch (error) {
-      console.error("Password change failed:", error);
-
-      if (error.response && error.response.status === 401) {
-        setErrorMessage("Invalid username or email.");
+    const response = privateAxios.put("change-password", {
+      userid,
+      oldPassword,
+      newPassword,
+    }).then(res => {
+      setErrorMessage(res.data)
+    }).catch(err => {
+      console.log(err)
+      if (err.response.status === 400) {
+        setErrorMessage(err.response.data);
       } else {
-        setErrorMessage("An error occurred. Please try again later.");
+        setErrorMessage("An error occurred. Please try again later.")
       }
-    }
+    })
   };
   return (
     <div
