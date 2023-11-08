@@ -23,7 +23,7 @@ export default function ForgetPassword() {
     event.preventDefault();
 
     try {
-      const response = await axios.put("v1/auth/forgetPassword", {
+      const response = await axios.put("auth/forget-password", {
         username,
         email,
       });
