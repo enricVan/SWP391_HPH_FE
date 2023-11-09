@@ -26,27 +26,30 @@ import Dropzone from 'react-dropzone';
 import Close from '@mui/icons-material/Close';
 import CloudUpload from '@mui/icons-material/CloudUpload';
 import InsertDriveFile from '@mui/icons-material/InsertDriveFile';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axios, { privateAxios } from '../../../../service/axios';
 var phoneRegEx =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 const getInitialValue = (user) => {
   return {
     username: user?.username ? user.username : '',
-    password: user?.password ? user.password : '',
     roleId: 2,
-    email: '',
-    fullName: '',
-    address: '',
-    gender: 0,
-    phone: '',
+    email: user?.email ? user.email : '',
+    fullName: user?.fullName ? user.fullName : '',
+    address: user?.address ? user.address : '',
+    gender: user?.gender ? user.gender : 'female',
+    phone: user?.phone ? user.phone : '',
     studentDto: {
       parentName: '',
       rollNumber: '',
     },
-    avatar: [],
+    dob: user?.dob ? user.dob : new Date(),
+    avatar: user?.avatar ? user.avatar : [],
   };
 };
-export default function StudentForm() {
+export default function StudentForm({ reload, setReload }) {
   const dispatch = useDispatch();
   const { openAddStudent, user } = useSelector((state) => state.userForm);
   const token = JSON.parse(localStorage.getItem('token'));
@@ -62,12 +65,13 @@ export default function StudentForm() {
       .required(),
     address: yup.string().required(),
     username: yup.string().required(),
-    password: yup
-      .string()
-      .matches('admin', "Password must be 'admin'!")
-      .required(),
+
     email: yup.string().email('Wrong email format!').required(),
     avatar: yup.array().min(1, 'Please select one file'),
+    dob: yup
+      .date()
+      .max(new Date(), 'Date of Birth cannot be in the future')
+      .required(),
   });
   const {
     register,
@@ -96,24 +100,17 @@ export default function StudentForm() {
     privateAxios
       .post('user', formData)
       .then((res) => {
-        // dispatch(resetForm());
-        // reset();
+        console.log(res);
+        alert(res.data.message.toUpperCase());
+        dispatch(resetForm());
+        reset(getInitialValue());
+        setReload(!reload);
       })
       .catch((err) => {
         console.log(err);
         // dispatch(resetForm());
         // reset(getInitialValue());
       });
-    // const results = await fetch('http://localhost:8888/api/v1/user', {
-    //   method: 'POST',
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    //   body: formData,
-    // })
-    //   .then((r) => r.json())
-    //   .catch((err) => err);
-    // console.log(results);
   };
   return (
     <>
@@ -129,26 +126,37 @@ export default function StudentForm() {
             <Grid container gap={3}>
               <Grid item xs={12} md={4}>
                 <TextField
-                  {...register('username')}
+                  {...register('studentDto.parentName')}
                   margin='dense'
-                  label='User Name'
+                  label='Parent Name (Mom or Dad)'
                   type='text'
                   fullWidth
-                  error={!!errors.username}
-                  helperText={errors?.username?.message}
+                  error={!!errors.studentDto?.parentName}
+                  helperText={errors?.studentDto?.parentName?.message}
                 />
                 <TextField
-                  {...register('password')}
+                  {...register('studentDto.rollNumber')}
                   margin='dense'
-                  label='Password'
+                  label='Roll Number'
                   type='text'
                   fullWidth
-                  error={!!errors.password}
-                  helperText={errors?.password?.message}
+                  error={!!errors.studentDto?.rollNumber}
+                  helperText={errors?.studentDto?.rollNumber?.message}
                 />
               </Grid>
               <Divider orientation='vertical' flexItem />
               <Grid item xs={12} md={7}>
+                <Grid item>
+                  <TextField
+                    {...register('username')}
+                    margin='dense'
+                    label='User Name'
+                    type='text'
+                    fullWidth
+                    error={!!errors.username}
+                    helperText={errors?.username?.message}
+                  />
+                </Grid>
                 <Grid container item gap={2}>
                   <Grid item xs>
                     <TextField
@@ -174,12 +182,12 @@ export default function StudentForm() {
                             sx={{ alignItems: 'center' }}
                           >
                             <FormControlLabel
-                              value={0}
+                              value={'female'}
                               control={<Radio />}
                               label='Female'
                             />
                             <FormControlLabel
-                              value={1}
+                              value={'male'}
                               control={<Radio />}
                               label='Male'
                             />
@@ -189,29 +197,27 @@ export default function StudentForm() {
                     />
                   </Grid>
                 </Grid>
-                <Grid container item gap={2}>
-                  <Grid item xs>
-                    <TextField
-                      {...register('studentDto.parentName')}
-                      margin='dense'
-                      label='Parent Name (Mom or Dad)'
-                      type='text'
-                      fullWidth
-                      error={!!errors.studentDto?.parentName}
-                      helperText={errors?.studentDto?.parentName?.message}
-                    />
-                  </Grid>
-                  <Grid item xs>
-                    <TextField
-                      {...register('studentDto.rollNumber')}
-                      margin='dense'
-                      label='Roll Number'
-                      type='text'
-                      fullWidth
-                      error={!!errors.studentDto?.rollNumber}
-                      helperText={errors?.studentDto?.rollNumber?.message}
-                    />
-                  </Grid>
+
+                <Grid item>
+                  <Controller
+                    name='dob'
+                    control={control}
+                    render={({ field }) => (
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                          {...field}
+                          label='Date of Birth'
+                          slotProps={{
+                            textField: {
+                              fullWidth: true,
+                              error: !!errors.dob,
+                              helperText: errors?.dob?.message,
+                            },
+                          }}
+                        />
+                      </LocalizationProvider>
+                    )}
+                  />
                 </Grid>
                 <Grid item>
                   <TextField
