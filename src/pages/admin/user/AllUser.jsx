@@ -41,7 +41,11 @@ export default function AllUser() {
   const fetchRoles = async () => {
     try {
       const res = await privateAxios.get('role');
-      setRoles(res.data);
+      setRoles(
+        res.data.filter(
+          (role) => role.roleName !== 'ADMIN' && role.roleName !== 'GUARD'
+        )
+      );
     } catch (error) {
       console.log(error);
     }
@@ -54,7 +58,7 @@ export default function AllUser() {
         currentPage - 1
       }`
     );
-    setUsers(res.data?.data);
+    setUsers(res.data?.data.filter((user) => user.username !== 'admin'));
     setTotalPages(res.data.totalPages);
   };
   useEffect(() => {

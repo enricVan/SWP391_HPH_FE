@@ -15,7 +15,7 @@ import Delete from '@mui/icons-material/Delete';
 import AddCircle from '@mui/icons-material/AddCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch, useSelector } from 'react-redux';
-import { open } from '../../../features/userFormSlice';
+import { open, updateFields } from '../../../features/userFormSlice';
 import StudentForm from './form/StudentForm';
 import Searchbar from '../../../components/Searchbar';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEye';
@@ -117,7 +117,19 @@ export default function StudentUser() {
                 <TableCell>{student.createdAt}</TableCell>
                 <TableCell>{student.updateAt}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => {}} variant='contained'>
+                  <IconButton
+                    onClick={() => {
+                      const newUser = { ...student.userDto };
+                      const { userDto, ...newStudentDto } = student;
+                      const newStudentUser = {
+                        ...newUser,
+                        studentDto: newStudentDto,
+                      };
+                      dispatch(updateFields(newStudentUser));
+                      dispatch(open('ADD_STUDENT'));
+                    }}
+                    variant='contained'
+                  >
                     <Edit />
                   </IconButton>
                   <IconButton onClick={() => {}} variant='contained'>
@@ -162,13 +174,6 @@ export default function StudentUser() {
         }}
       />
       {openAddStudent && <StudentForm reload={reload} setReload={setReload} />}
-      {openEdit && (
-        <EditUser
-          openEdit={openEdit}
-          setOpenEdit={setOpenEdit}
-          user={selectedUser}
-        />
-      )}
     </Box>
   );
 }

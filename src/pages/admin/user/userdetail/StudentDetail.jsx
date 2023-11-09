@@ -1,75 +1,73 @@
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Grid,
-  Table,
-  TableCell,
-  TableRow,
-  Tooltip,
-} from '@mui/material';
 // import Searchbar from "../../../components/Searchbar";
 // import SearchIcon from "@mui/icons-material/Search";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableRow from '@mui/material/TableRow';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import avatarLong from '../../../../assets/image/avatar.png';
-import avatarTuan from '../../../../assets/image/avatar-1.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import OtherHousesIcon from '@mui/icons-material/OtherHouses';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { privateAxios } from '../../../../service/axios';
 import { ArrowForward } from '@mui/icons-material';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserPic } from '../../../../features/picSlice';
 // const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 const MainInfo = ({ student }) => {
   return (
-    <Table>
-      <TableRow>
-        <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-          Roll Number
-        </TableCell>
-        <TableCell align='right'>{student.rollNumber}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-          Name
-        </TableCell>
-        <TableCell align='right'>{student.userDto?.fullName}</TableCell>
-      </TableRow>
-
-      <TableRow>
-        <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-          Parent Name
-        </TableCell>
-        <TableCell align='right'>{student.parentName}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-          Gender
-        </TableCell>
-        <TableCell align='right'>{student.userDto?.gender}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-          Date of birth
-        </TableCell>
-        <TableCell align='right'>{student.userDto?.dob}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-          Phone Number
-        </TableCell>
-        <TableCell align='right'>{student.userDto?.phone}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-          Address
-        </TableCell>
-        <TableCell align='right'>{student.userDto?.address}</TableCell>
-      </TableRow>
-    </Table>
+    <>
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+              Roll Number
+            </TableCell>
+            <TableCell align='right'>{student.rollNumber}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+              Name
+            </TableCell>
+            <TableCell align='right'>{student.userDto?.fullName}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+              Parent Name
+            </TableCell>
+            <TableCell align='right'>{student.parentName}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+              Gender
+            </TableCell>
+            <TableCell align='right'>{student.userDto?.gender}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+              Date of birth
+            </TableCell>
+            <TableCell align='right'>{student.userDto?.dob}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+              Phone Number
+            </TableCell>
+            <TableCell align='right'>{student.userDto?.phone}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+              Address
+            </TableCell>
+            <TableCell align='right'>{student.userDto?.address}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </>
   );
 };
 const SideInfo = ({ student }) => {
@@ -165,14 +163,17 @@ const SideInfo = ({ student }) => {
   );
 };
 export default function StudentDetail() {
+  const dispatch = useDispatch();
+  const { picUrl, isSuccess } = useSelector((state) => state.pic);
   const { rollNumber } = useParams();
   const navigate = useNavigate();
-  console.log(rollNumber);
   const [student, setStudent] = useState({});
   const [showNext, setShowNext] = useState(false);
   const fetchStudentData = async () => {
     const res = await privateAxios.get(`student/${rollNumber}`);
     setStudent(res.data);
+    dispatch(getUserPic(res.data.userDto.id));
+    return res;
   };
 
   useEffect(() => {
@@ -197,8 +198,13 @@ export default function StudentDetail() {
               <Grid container>
                 <Grid item xs={12} md={5}>
                   <Avatar
-                    sx={{ width: '100%', height: 400, marginRight: 4, mb: 5 }}
-                    src={rollNumber == 'HE173334' ? avatarTuan : avatarLong}
+                    sx={{
+                      width: '100%',
+                      height: 400,
+                      marginRight: 4,
+                      mb: 5,
+                    }}
+                    src={picUrl}
                   />
                 </Grid>
                 <Grid item xs={12} md={7}>

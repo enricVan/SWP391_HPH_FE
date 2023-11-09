@@ -1,20 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
-const defaultUser = {
-  roleId: "",
-  username: "",
-  password: "",
-  email: "",
-  fullName: "",
-  address: "",
-  gender: "",
-  phone: "",
-  avatar: null,
+import { createSlice } from '@reduxjs/toolkit';
+const getDefaultUser = () => {
+  return {
+    roleId: '',
+    username: '',
+    password: '',
+    email: '',
+    fullName: '',
+    address: '',
+    gender: '',
+    phone: '',
+    avatar: [],
+  };
 };
 const userFormSlice = createSlice({
-  name: "userForm",
+  name: 'userForm',
   initialState: {
     currentStep: 1,
-    user: defaultUser,
+    user: getDefaultUser(),
     openAddStudent: false,
     openAddManager: false,
     openAddGuard: false,
@@ -42,15 +44,15 @@ const userFormSlice = createSlice({
     },
     open: (state, action) => {
       switch (action.payload) {
-        case "ADD_STUDENT": {
+        case 'ADD_STUDENT': {
           state.openAddStudent = true;
           break;
         }
-        case "ADD_MANAGER": {
+        case 'ADD_MANAGER': {
           state.openAddManager = true;
           break;
         }
-        case "ADD_GUARD": {
+        case 'ADD_GUARD': {
           state.openAddGuard = true;
           break;
         }
@@ -58,22 +60,22 @@ const userFormSlice = createSlice({
     },
     close: (state, action) => {
       switch (action.payload) {
-        case "ADD_STUDENT": {
+        case 'ADD_STUDENT': {
           state.openAddStudent = false;
           break;
         }
-        case "ADD_MANAGER": {
+        case 'ADD_MANAGER': {
           state.openAddManager = false;
           break;
         }
-        case "ADD_GUARD": {
+        case 'ADD_GUARD': {
           state.openAddGuard = false;
           break;
         }
       }
     },
     resetForm: (state) => {
-      state.user = defaultUser;
+      state.user = getDefaultUser();
       console.log(state.user);
     },
   },
