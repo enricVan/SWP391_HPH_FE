@@ -24,6 +24,8 @@ import {
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
 export default function Request() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const [open, setOpen] = useState(false);
   const [requests, setRequests] = useState([]);
   const [requestTypeId, setRequestTypeId] = useState("");
@@ -44,7 +46,7 @@ export default function Request() {
     console.log(inputText);
     const request = {
       student: {
-        studentId: 1,
+        studentId: user.studentId,
       },
       requestApplicationType: {
         requestApplicationTypeId: requestTypeId,
@@ -75,6 +77,7 @@ export default function Request() {
   useEffect(() => {
     fetchData();
   }, [reload]);
+
   return (
     <Box padding={1}>
       <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
@@ -105,45 +108,46 @@ export default function Request() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {requests.map((request) => (
-              <TableRow
-                key={request.requestApplicationId}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {request.requestApplicationId}
-                </TableCell>
-                <TableCell>
-                  {request.requestApplicationType.requestApplicationTypeName}
-                </TableCell>
-                <TableCell sx={{ whiteSpace: "pre" }}>
-                  {request.createdAt}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    whiteSpace: "normal",
-                    wordBreak: "break-word",
-                  }}
+            {requests &&
+              requests.map((request) => (
+                <TableRow
+                  key={request.requestApplicationId}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  {request.requestContent}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    ...(request.status === "Pending" && {
-                      color: "#ccb01c",
-                    }),
-                    ...(request.status === "Denied" && {
-                      color: "red",
-                    }),
-                    ...(request.status === "Resolved" && {
-                      color: "green",
-                    }),
-                  }}
-                >
-                  {request.status}
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell component="th" scope="row">
+                    {request.requestApplicationId}
+                  </TableCell>
+                  <TableCell>
+                    {/* {request.requestApplicationType.requestApplicationTypeName} */}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: "pre" }}>
+                    {request.createdAt}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {request.requestContent}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      ...(request.status === "Pending" && {
+                        color: "#ccb01c",
+                      }),
+                      ...(request.status === "Denied" && {
+                        color: "red",
+                      }),
+                      ...(request.status === "Resolved" && {
+                        color: "green",
+                      }),
+                    }}
+                  >
+                    {request.status}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
