@@ -15,10 +15,20 @@ import HotelIcon from "@mui/icons-material/Hotel";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import PaymentPage from "./payment/PaymentPage";
 import StudentPayment from "./student/StudentPayment";
+import News from "./news/News";
+import NewsDetail from "./news/NewsDetail";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import Request from "./request/Request";
+import ContactSupportIcon from "@mui/icons-material/ContactSupport";
+
 const navItems = [
   {
     text: "Dashboard",
     icon: <SpaceDashboardIcon />,
+  },
+  {
+    text: "News",
+    icon: <NotificationsIcon />,
   },
   {
     text: "Room",
@@ -35,6 +45,10 @@ const navItems = [
   {
     text: "Payment",
     icon: <LocalAtmIcon />,
+  },
+  {
+    text: "Request",
+    icon: <ContactSupportIcon />,
   },
 ];
 function ManagerPage() {
@@ -66,11 +80,14 @@ function ManagerPage() {
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="news" element={<News />} />
+          <Route path="news/detail/:id" element={<NewsDetail />} />
           <Route path="room" element={<Room />} />
           <Route path="student" element={<Student />} />
           <Route path="student/:rollNumber" element={<StudentDetail />} />
           <Route path="bedrequest" element={<BedRequest />} />
           <Route path="payment" element={<PaymentPage />} />
+          <Route path="request" element={<Request />} />
           <Route
             path="student/:rollNumber/payment"
             element={<StudentPayment />}

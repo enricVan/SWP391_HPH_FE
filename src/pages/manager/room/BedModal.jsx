@@ -30,6 +30,7 @@ export default function BedModal({
     const res = await privateAxios.get(`room/${roomId}/beds`);
     if (res.data) setBedList(res.data);
   };
+
   useEffect(() => {
     fetchBed();
   }, []);

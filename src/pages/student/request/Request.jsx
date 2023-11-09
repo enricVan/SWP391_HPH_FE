@@ -18,12 +18,18 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  Pagination,
   Select,
   Snackbar,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
 export default function Request() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [open, setOpen] = useState(false);
   const [requests, setRequests] = useState([]);
   const [requestTypeId, setRequestTypeId] = useState("");
@@ -44,7 +50,7 @@ export default function Request() {
     console.log(inputText);
     const request = {
       student: {
-        studentId: 1,
+        studentId: user.studentId,
       },
       requestApplicationType: {
         requestApplicationTypeId: requestTypeId,
@@ -63,9 +69,14 @@ export default function Request() {
     console.log(e.target.value);
   };
   const fetchData = async () => {
-    const res1 = await privateAxios.get("request-application");
+    const res1 = await privateAxios.get(
+      `request-application?studentId=${user.studentId}&pageNo=${
+        currentPage - 1
+      }`
+    );
+    setTotalPages(res1.data.totalPages);
     if (res1 && res1.data) {
-      setRequests(res1.data);
+      setRequests(res1.data.data);
     }
     const res2 = await privateAxios.get("request-application-type");
     if (res2 && res2.data) {
@@ -74,16 +85,42 @@ export default function Request() {
   };
   useEffect(() => {
     fetchData();
-  }, [reload]);
+  }, [reload, currentPage]);
+
   return (
     <Box padding={1}>
+      <div
+        style={{
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          My Request
+        </h2>
+      </div>
       <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
-        <h1 style={{ marginLeft: "8px" }}>Requests History</h1>
         <Button
           variant="contained"
           onClick={() => setOpen(true)}
           startIcon={<AddCircleOutlineIcon />}
-          sx={{ bgcolor: "orangered" }}
+          sx={{
+            bgcolor: "orangered",
+            padding: "20px",
+            fontWeight: "bold",
+            fontSize: "1.25rem",
+            borderRadius: "35px",
+          }}
         >
           Create Request
         </Button>
@@ -95,58 +132,103 @@ export default function Request() {
         }}
       >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
+          <TableHead sx={{ backgroundColor: "#FF4500" }}>
             <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Request Type</TableCell>
-              <TableCell>Created Date</TableCell>
-              <TableCell>Content</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                ID
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Request Type
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Created Date
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Content
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Response from Manager
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Status
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {requests.map((request) => (
-              <TableRow
-                key={request.requestApplicationId}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {request.requestApplicationId}
-                </TableCell>
-                <TableCell>
-                  {request.requestApplicationType.requestApplicationTypeName}
-                </TableCell>
-                <TableCell sx={{ whiteSpace: "pre" }}>
-                  {request.createdAt}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    whiteSpace: "normal",
-                    wordBreak: "break-word",
-                  }}
+            {requests &&
+              requests.map((request) => (
+                <TableRow
+                  key={request.requestApplicationId}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  {request.requestContent}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    ...(request.status === "Pending" && {
-                      color: "#ccb01c",
-                    }),
-                    ...(request.status === "Denied" && {
-                      color: "red",
-                    }),
-                    ...(request.status === "Resolved" && {
-                      color: "green",
-                    }),
-                  }}
-                >
-                  {request.status}
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell component="th" scope="row">
+                    {request.requestApplicationId}
+                  </TableCell>
+                  <TableCell>{request.requestApplicationTypeName}</TableCell>
+                  <TableCell sx={{ whiteSpace: "pre" }}>
+                    {request.createdAt}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {request.requestContent}
+                  </TableCell>
+
+                  <TableCell
+                    sx={{
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    {request.textResponse}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      ...(request.status.toLowerCase() === "pending" && {
+                        color: "#ccb01c",
+                      }),
+                      ...(request.status.toLowerCase() === "denied" && {
+                        color: "red",
+                      }),
+                      ...(request.status.toLowerCase() === "resolved" && {
+                        color: "green",
+                      }),
+                    }}
+                  >
+                    {request.status}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <Pagination
+        color="primary"
+        count={totalPages}
+        page={currentPage}
+        onChange={(e, value) => {
+          setCurrentPage(value);
+        }}
+        sx={{
+          justifyContent: "center",
+          "& .MuiPagination-ul": {
+            justifyContent: "center",
+          },
+          "&& .Mui-selected": {
+            bgcolor: "orangered",
+          },
+          "& .MuiPaginationItem-root:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
+          },
+          "&& .Mui-selected:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
+          },
+          my: 4,
+        }}
+      />
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Request</DialogTitle>
         <Box p={3}>
@@ -185,9 +267,11 @@ export default function Request() {
             type="email"
             fullWidth
             multiline
-            variant="standard"
             value={inputText}
             onChange={handleInputContent}
+            variant="filled"
+            color="success"
+            minRows={5}
           />
         </DialogContent>
         <DialogActions>

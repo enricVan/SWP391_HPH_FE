@@ -17,7 +17,6 @@ import { privateAxios } from '../../../../service/axios';
 import { ArrowForward } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserPic } from '../../../../features/picSlice';
-
 // const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 const MainInfo = ({ student }) => {
   return (
