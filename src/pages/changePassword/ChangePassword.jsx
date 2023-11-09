@@ -1,127 +1,146 @@
-import { Link } from "react-router-dom";
-import axios from "../../service/axios";
+import { useState } from "react";
 import "./ChangePassword.css";
 import imagelogo from "./imagelogo/FrogFind.png";
-import { useState } from "react";
-
+import { privateAxios } from "../../service/axios";
+import { Link } from "react-router-dom";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 export default function ChangePassword() {
-  const [formData, setFormData] = useState({
-    username: "",
-    oldPassword: "",
-    newPassword: "",
-    confirmNewPassword: "",
-  });
-  const [error, setError] = useState(null);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userid = user.id;
+  const [oldPassword, setoldPassword] = useState("");
+  const [newPassword, setnewPassword] = useState("");
+  const [confirmNew, setconfirmNew] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleOldPasswordChange = (event) => {
+    setoldPassword(event.target.value);
+    setErrorMessage("");
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleNewPasswordChange = (event) => {
+    setnewPassword(event.target.value);
+    setErrorMessage("");
+  };
 
-    // Check if new password and confirm new password match
-    if (formData.newPassword !== formData.confirmNewPassword) {
-      setError("New password and confirm new password do not match.");
+  const handleConfirmNewChange = (event) => {
+    setconfirmNew(event.target.value);
+    setErrorMessage("");
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (newPassword != confirmNew) {
+      setErrorMessage("Your New Password and Confirm isn't match");
+      setoldPassword("");
+      setnewPassword("");
+      setconfirmNew("");
       return;
     }
 
-    // Send a request to the backend to change the password using Axios
-    axios
-      .put("change-password", {
-        userid: JSON.parse(localStorage.getItem("user")).id,
-        oldPassword: formData.oldPassword,
-        newPassword: formData.newPassword,
-      })
-      .then((response) => {
-        console.log("Password change success:", response.data);
-        alert("Password successfully changed!");
-      })
-      .catch((error) => {
-        console.error(
-          "Error:",
-          error.response ? error.response.data : error.message
-        );
-        setError(error.response ? error.response.data : error.message);
-      });
+
+    const response = privateAxios.put("change-password", {
+      userid,
+      oldPassword,
+      newPassword,
+    }).then(res => {
+      setErrorMessage(res.data)
+    }).catch(err => {
+      console.log(err)
+      if (err.response.status === 400) {
+        setErrorMessage(err.response.data);
+      } else {
+        setErrorMessage("An error occurred. Please try again later.")
+      }
+    })
   };
-
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100 body-bg">
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{ marginTop: "20vh" }}
+    >
       <div className="row border rounder-5 p-3 bg-white shadow box-area">
-        <Link to="/student" style={{ width: "100%" }}>
-          <button
-            type="submit"
-            className="btn btn-lg login w-100 fs-6 font-text"
-            style={{ backgroundColor: "orangered", color: "white" }}
-          >
-            Back to dashboard
-          </button>
-        </Link>
-        <form onSubmit={handleSubmit}>
-          <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
-            <div className="featured-image mb-3">
-              <img
-                src={imagelogo}
-                className="img-fluid"
-                style={{ width: "100%" }}
-              />
-            </div>
+        <div className="col-md-6 left-box rounder-4 d-flex justify-content-center align-items-center flex-column">
+          <div className="featured-image mb-3">
+            <img
+              src={imagelogo}
+              className="img-fluid"
+              style={{ width: "100%" }}
+            />
           </div>
-          <div className="col-md-6 right-box">
-            <div className="row justify-content-center">
-              <div className="header-text mb-4" style={{ color: "orangered" }}>
-                <h3>Change Password?</h3>
+        </div>
+        <div className="col-md-6">
+          <form onSubmit={handleSubmit}>
+            <div className="right-box">
+              <div className="row justify-content-center">
+                <div
+                  className="header-text mb-4"
+                  style={{ color: "orangered", fontWeight: "bold" }}
+                >
+                  <h3 style={{ fontWeight: "bold" }}>Change Password?</h3>
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="password"
+                    className="form-control form-control-lg bg-light fs-6"
+                    placeholder="Your old password"
+                    name="oldPassword"
+                    autoComplete="off"
+                    onChange={handleOldPasswordChange}
+                  />
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="password"
+                    placeholder="Your new password"
+                    className="form-control form-control-lg bg-light fs-6"
+                    name="newPassword"
+                    onChange={handleNewPasswordChange}
+                  />
+                </div>
+                <div className="input-group mb-3">
+                  <input
+                    type="password"
+                    placeholder="Confirm your new password"
+                    className="form-control form-control-lg bg-light fs-6"
+                    name="confirmNew"
+                    onChange={handleConfirmNewChange}
+                  />
+                </div>
               </div>
-
+              {errorMessage && (
+                <div style={{ color: "red" }}>{errorMessage}</div>
+              )}
               <div className="input-group mb-3">
-                <input
-                  type="password"
-                  className="form-control form-control-lg bg-light fs-6"
-                  placeholder="Old Password"
-                  autoComplete="off"
-                  name="oldPassword"
-                  value={formData.oldPassword}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {error && <div style={{ color: "red" }}>{error}</div>}
-              <div className="input-group mb-3">
-                <input
-                  type="password"
-                  placeholder="New Password"
-                  className="form-control form-control-lg bg-light fs-6"
-                  name="newPassword"
-                  value={formData.newPassword}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="input-group mb-3">
-                <input
-                  type="password"
-                  placeholder="Confirm New Password"
-                  className="form-control form-control-lg bg-light fs-6"
-                  name="confirmNewPassword"
-                  value={formData.confirmNewPassword}
-                  onChange={handleInputChange}
-                />
+                <button
+                  type="submit"
+                  className="btn btn-lg login w-100 fs-6 font-text"
+                  style={{ backgroundColor: "orangered", color: "white" }}
+                >
+                  Change Password
+                </button>
+                <div
+                  className="col-md-12"
+                  style={{
+                    marginTop: "30px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Link to="../home">
+                    <button
+                      type="submit"
+                      className="btn btn-lg login w-100 fs-6 font-text"
+                      style={{ backgroundColor: "orangered", color: "white" }}
+                    >
+                      Back to Dashboard <KeyboardReturnIcon />
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
-            <div className="input-group mb-3">
-              <button
-                type="submit"
-                className="btn btn-lg login w-100 fs-6 font-text"
-                style={{ backgroundColor: "orangered", color: "white" }}
-              >
-                Change Password
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
