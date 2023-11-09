@@ -53,7 +53,7 @@ export default function Student() {
       const res = await privateAxios.get(
         `room?buildingId=${selectedBuilding}&floor=${selectedFloor}`
       );
-      setRoomList(res.data);
+      setRoomList(res.data.data);
     }
   };
 

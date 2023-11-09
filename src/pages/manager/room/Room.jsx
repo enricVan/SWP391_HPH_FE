@@ -75,7 +75,7 @@ export default function Room() {
         setSelectedFloor(1);
       }
     }
-  }, [selectedBuilding, currentPage, selectedFloor]);
+  }, [selectedBuilding, currentPage]);
   useEffect(() => {
     setCurrentPage(1);
     fetchRoom();
