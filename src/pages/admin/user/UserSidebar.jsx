@@ -1,11 +1,11 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { useLocation, useNavigate } from "react-router-dom";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -15,15 +15,15 @@ export default function UserSidebar() {
   return (
     <Box
       sx={{
-        overflow: "auto",
-        borderLeft: "1px solid #B2BABB",
-        minHeight: "100vh",
-        height: "100%",
+        overflow: 'auto',
+        borderLeft: '1px solid #B2BABB',
+        minHeight: '100vh',
+        height: '100%',
         minWidth: { md: 100 },
       }}
     >
       <List>
-        {["All", "Student", "Manager", "Guard"].map((text, index) => (
+        {['All', 'Student', 'Manager'].map((text, index) => (
           <div key={index}>
             <ListItem
               key={index}
@@ -32,21 +32,21 @@ export default function UserSidebar() {
             >
               <ListItemButton
                 sx={{
-                  "&.selected": {
-                    bgcolor: "#034ea2",
-                    color: "#fff",
+                  '&.selected': {
+                    bgcolor: '#034ea2',
+                    color: '#fff',
                   },
                 }}
                 className={
                   pathname.includes(`user/${text.toLowerCase()}`)
-                    ? "selected"
-                    : ""
+                    ? 'selected'
+                    : ''
                 }
               >
                 <ListItemText primary={text} />
               </ListItemButton>
             </ListItem>
-            <Divider sx={{ color: "#B2BABB" }} />
+            <Divider sx={{ color: '#B2BABB' }} />
           </div>
         ))}
       </List>

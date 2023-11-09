@@ -38,27 +38,27 @@ import { useNavigate } from 'react-router-dom';
 import { privateAxios } from '../../../../service/axios';
 var phoneRegEx =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-export default function AddUser({ openAdd, setOpenAdd }) {
+export default function EditUser({ openEdit, setOpenEdit, user }) {
   const [roleList, setRoleList] = React.useState([]);
+  console.log(user);
   const fetchRole = async () => {
     const res = await privateAxios.get('role');
     const data = res.data.filter((role) => role.id !== 1);
     setRoleList(data);
-    console.log(data);
   };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const initialValue = {
-    username: '',
-    roleId: 2,
-    fullName: '',
-    phone: '',
-    address: '',
-    email: '',
-    gender: 'female',
-    avatar: [],
-    dob: new Date(),
+    username: user.username,
+    roleId: user.roleId,
+    fullName: user.fullName,
+    phone: user.phone,
+    address: user.address,
+    email: user.email,
+    gender: user.gender,
+    avatar: user.avatar,
+    dob: new Date(user.dob),
   };
   const schema = yup.object().shape({
     fullName: yup.string().required(),
@@ -99,11 +99,6 @@ export default function AddUser({ openAdd, setOpenAdd }) {
         navigate('/admin/user/manager');
         break;
       }
-      case 4: {
-        dispatch(open('ADD_GUARD'));
-        navigate('/admin/user/guard');
-        break;
-      }
     }
   };
   React.useEffect(() => {
@@ -111,11 +106,12 @@ export default function AddUser({ openAdd, setOpenAdd }) {
   }, []);
   return (
     <>
-      <Dialog open={openAdd} onClose={() => setOpenAdd(false)}>
-        <DialogTitle>Create New User</DialogTitle>
+      <Dialog open={openEdit} onClose={() => setOpenEdit(false)}>
+        <DialogTitle>Edit User Information</DialogTitle>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
             <TextField
+              disabled
               {...register('username')}
               autoFocus
               margin='dense'
@@ -129,7 +125,7 @@ export default function AddUser({ openAdd, setOpenAdd }) {
               name='roleId'
               control={control}
               render={({ field }) => (
-                <Select {...field}>
+                <Select {...field} disabled>
                   {roleList?.map((role) => (
                     <MenuItem key={role.id} value={role.id}>
                       {role.roleName}
@@ -283,7 +279,7 @@ export default function AddUser({ openAdd, setOpenAdd }) {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpenAdd(false)}>Cancel</Button>
+            <Button onClick={() => setOpenEdit(false)}>Cancel</Button>
             <Button type='submit'>Next</Button>
           </DialogActions>
         </form>
