@@ -18,6 +18,8 @@ import StudentPayment from "./student/StudentPayment";
 import News from "./news/News";
 import NewsDetail from "./news/NewsDetail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import Request from "./request/Request";
+import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 
 const navItems = [
   {
@@ -43,6 +45,10 @@ const navItems = [
   {
     text: "Payment",
     icon: <LocalAtmIcon />,
+  },
+  {
+    text: "Request",
+    icon: <ContactSupportIcon />,
   },
 ];
 function ManagerPage() {
@@ -81,6 +87,7 @@ function ManagerPage() {
           <Route path="student/:rollNumber" element={<StudentDetail />} />
           <Route path="bedrequest" element={<BedRequest />} />
           <Route path="payment" element={<PaymentPage />} />
+          <Route path="request" element={<Request />} />
           <Route
             path="student/:rollNumber/payment"
             element={<StudentPayment />}
