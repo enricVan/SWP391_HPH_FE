@@ -35,26 +35,27 @@ var phoneRegEx =
 const getInitialValue = (user) => {
   return {
     username: user?.username ? user.username : '',
-    roleId: 2,
+    roleId: 3,
     email: user?.email ? user.email : '',
     fullName: user?.fullName ? user.fullName : '',
     address: user?.address ? user.address : '',
     gender: user?.gender ? user.gender : 'female',
     phone: user?.phone ? user.phone : '',
-    studentDto: {
-      parentName: user.studentDto ? user.studentDto.parentName : '',
-      rollNumber: user.studentDto ? user.studentDto.rollNumber : '',
+    managerDto: {
+      description: '',
     },
-    dob: user?.dob ? new Date(user.dob) : new Date(),
+    dob: user?.dob ? user.dob : new Date(),
     avatar: user?.avatar ? user.avatar : [],
   };
 };
-export default function StudentForm({ reload, setReload }) {
+export default function ManagerForm({ reload, setReload }) {
   const dispatch = useDispatch();
-  const { openAddStudent, user } = useSelector((state) => state.userForm);
+  const { openAddManager, user } = useSelector((state) => state.userForm);
+  const token = JSON.parse(localStorage.getItem('token'));
+
   const schema = yup.object().shape({
-    studentDto: yup.object().shape({
-      rollNumber: yup.string().required('Roll Number cannot be empty'),
+    managerDto: yup.object().shape({
+      description: yup.string().required(),
     }),
     fullName: yup.string().required(),
     phone: yup
@@ -94,8 +95,10 @@ export default function StudentForm({ reload, setReload }) {
     formData.append('userDto', blob);
     // For JSON, we create a new Blob with type 'application/json'
     // console.log([...formData]);
+    console.log(newUser);
     const parseDob = newUser.dob.toLocaleDateString();
     const inputUser = { ...newUser, dob: parseDob };
+    console.log(inputUser);
     // privateAxios
     //   .post('user', formData)
     //   .then((res) => {
@@ -114,36 +117,24 @@ export default function StudentForm({ reload, setReload }) {
   return (
     <>
       <Dialog
-        open={openAddStudent}
-        onClose={() => {
-          dispatch(resetForm());
-          dispatch(close('ADD_STUDENT'));
-        }}
+        open={openAddManager}
+        onClose={() => dispatch(close('ADD_MANAGER'))}
         fullWidth
         maxWidth={'900px'}
       >
-        <DialogTitle>STUDENT</DialogTitle>
+        <DialogTitle>MANAGER</DialogTitle>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
             <Grid container gap={3}>
               <Grid item xs={12} md={4}>
                 <TextField
-                  {...register('studentDto.parentName')}
+                  {...register('managerDto.description')}
                   margin='dense'
-                  label='Parent Name (Mom or Dad)'
+                  label='Description'
                   type='text'
                   fullWidth
-                  error={!!errors.studentDto?.parentName}
-                  helperText={errors?.studentDto?.parentName?.message}
-                />
-                <TextField
-                  {...register('studentDto.rollNumber')}
-                  margin='dense'
-                  label='Roll Number'
-                  type='text'
-                  fullWidth
-                  error={!!errors.studentDto?.rollNumber}
-                  helperText={errors?.studentDto?.rollNumber?.message}
+                  error={!!errors.managerDto?.description}
+                  helperText={errors?.managerDto?.description?.message}
                 />
               </Grid>
               <Divider orientation='vertical' flexItem />
@@ -337,17 +328,10 @@ export default function StudentForm({ reload, setReload }) {
             </Grid>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={() => {
-                dispatch(resetForm());
-                dispatch(close('ADD_STUDENT'));
-              }}
-            >
+            <Button onClick={() => dispatch(close('ADD_MANAGER'))}>
               Cancel
             </Button>
-            <Button type='submit'>
-              {user.studentDto?.rollNumber ? 'Save' : 'Create'}
-            </Button>
+            <Button type='submit'>Create</Button>
           </DialogActions>
         </form>
       </Dialog>
