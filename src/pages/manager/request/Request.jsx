@@ -356,7 +356,7 @@ export default function Request() {
                 Request Type
               </TableCell>
               <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
-                Created Date
+                Created At
               </TableCell>
               <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
                 Application Content
@@ -366,6 +366,9 @@ export default function Request() {
               </TableCell>
               <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
                 Status
+              </TableCell>
+              <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
+                Updated At
               </TableCell>
               <TableCell sx={{ color: "#fff", fontWeight: "bolder" }}>
                 Action
@@ -415,6 +418,7 @@ export default function Request() {
                   >
                     {request.status}
                   </TableCell>
+                  <TableCell>{request.updatedAt}</TableCell>
                   <TableCell>
                     <Button onClick={() => handleSelectedReq(request)}>
                       <ReplyIcon />
