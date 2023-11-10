@@ -18,6 +18,7 @@ import {
   Pagination,
   Select,
   Snackbar,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
@@ -29,6 +30,7 @@ export default function Request() {
   const [currentPage, setCurrentPage] = useState(1);
   const [openUpdateAppReq, setOpenUpdateAppReq] = useState(false);
   const [requests, setRequests] = useState([]);
+  const [requestTypes, setRequestTypes] = useState([]);
   const [reload, setReload] = useState(false);
   const [snackBarOpen, setSnackBarOpen] = useState({
     successOpen: false,
@@ -49,6 +51,9 @@ export default function Request() {
     },
     status: "",
   });
+  const { vertical, horizontal, successOpen } = snackBarOpen;
+  const [selectedReqType, setSelectedReqType] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
 
   const handleChangeAppReqResponse = (event) => {
     // Update the form data when the user enters data in the modal
@@ -59,7 +64,6 @@ export default function Request() {
     });
     setMissingFieldErrorMsg({ missingTextResponse: "", missingStatus: "" });
   };
-  const { vertical, horizontal, successOpen } = snackBarOpen;
 
   const handleSelectedReq = (req) => {
     console.log(req);
@@ -119,24 +123,43 @@ export default function Request() {
   };
 
   const fetchData = async () => {
+    let filter = "";
+
+    if (selectedReqType !== "") {
+      filter += "&requestApplicationTypeId=" + selectedReqType;
+    }
+
+    if (selectedStatus !== "") {
+      filter += "&status=" + selectedStatus;
+    }
+
+    console.log(`request-application?pageNo=${currentPage - 1}${filter}`);
+
     const res1 = await privateAxios.get(
-      `request-application?pageNo=${currentPage - 1}`
+      `request-application?pageNo=${currentPage - 1}${filter}`
     );
     setTotalPages(res1.data.totalPages);
     if (res1 && res1.data) {
       setRequests(res1.data.data);
     }
+
+    const res2 = await privateAxios.get(`request-application-type`);
+    setRequestTypes(res2.data);
   };
   useEffect(() => {
     fetchData();
-  }, [reload, currentPage]);
+  }, [selectedStatus, selectedReqType, reload, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedStatus, selectedReqType]);
 
   const handleCloseSnackBar = () => {
     setSnackBarOpen({ ...snackBarOpen, successOpen: false });
   };
   return (
     <Box padding={1}>
-      {/* Add pop-up start */}
+      {/* Reply pop-up start */}
       <Snackbar
         open={successOpen}
         onClose={handleCloseSnackBar}
@@ -240,7 +263,7 @@ export default function Request() {
           </Box>
         </div>
       </Modal>
-      {/* Add pop-up end */}
+      {/* Reply pop-up end */}
 
       <div
         style={{
@@ -262,7 +285,58 @@ export default function Request() {
           Application Request Management
         </h2>
       </div>
+      {/* Filter start */}
 
+      <Box display={"flex"} justifyContent={"right"} gap={2} mb={2}>
+        <Typography
+          flexGrow={1}
+          textAlign={"right"}
+          mx={1}
+          variant="h6"
+          color={"orangered"}
+          sx={{
+            fontWeight: "bold",
+            fontStyle: "italic",
+            color: "orangered",
+            transform: "translateY(10px)",
+          }}
+        >
+          Filter by:
+        </Typography>
+        <FormControl sx={{ minWidth: 180 }}>
+          <InputLabel id="type-label">Type</InputLabel>
+          <Select
+            labelId="type-label"
+            label="Type"
+            onChange={(e) => setSelectedReqType(e.target.value)}
+          >
+            <MenuItem value="">ALL</MenuItem>
+            {requestTypes.map((requestType) => (
+              <MenuItem
+                value={requestType.requestApplicationTypeId}
+                key={requestType.requestApplicationTypeId}
+              >
+                {requestType.requestApplicationTypeName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl sx={{ width: 180 }}>
+          <InputLabel id="status-label">Status</InputLabel>
+          <Select
+            labelId="status-label"
+            label="Status"
+            onChange={(e) => setSelectedStatus(e.target.value)}
+          >
+            <MenuItem value="">ALL</MenuItem>
+            <MenuItem value="pending">PENDING</MenuItem>
+            <MenuItem value="resolved">RESOLVED</MenuItem>
+            <MenuItem value="denied">DENIED</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      {/* Filter end */}
       <TableContainer
         component={Paper}
         sx={{
