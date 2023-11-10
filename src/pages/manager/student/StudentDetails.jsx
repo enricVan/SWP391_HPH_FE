@@ -145,15 +145,11 @@ export default function StudentDetail() {
           <Button
             variant="contained"
             style={{ marginTop: "20px", marginBottom: "20px" }}
+            onClick={() => {
+              if (rollNumber) navigate("request");
+            }}
           >
             View request
-          </Button>
-          <br />
-          <Button
-            variant="contained"
-            style={{ marginTop: "20px", marginBottom: "20px" }}
-          >
-            View penalty ticket
           </Button>
           <br />
         </Grid>
