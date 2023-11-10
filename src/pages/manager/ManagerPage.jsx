@@ -20,6 +20,7 @@ import NewsDetail from "./news/NewsDetail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Request from "./request/Request";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
+import StudentRequest from "./student/StudentRequest";
 
 const navItems = [
   {
@@ -91,6 +92,10 @@ function ManagerPage() {
           <Route
             path="student/:rollNumber/payment"
             element={<StudentPayment />}
+          />
+          <Route
+            path="student/:rollNumber/request"
+            element={<StudentRequest />}
           />
         </Route>
       </Routes>
