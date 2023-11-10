@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import Delete from '@mui/icons-material/Delete';
 import { deepOrange, orange } from '@mui/material/colors';
-import { AddCircle, Edit } from '@mui/icons-material';
+import { AddCircle, Edit, RemoveRedEye } from '@mui/icons-material';
 import AddUser from './form/AddUser';
 import EditUser from './form/EditUser';
 
@@ -211,6 +211,7 @@ export default function AllUser() {
                 <TableCell>{item.updatedAt}</TableCell>
                 <TableCell>
                   <IconButton
+                    color='primary'
                     onClick={() => {
                       setSelectedUser(item);
                       setOpenEdit(true);
@@ -219,8 +220,19 @@ export default function AllUser() {
                   >
                     <Edit />
                   </IconButton>
-                  <IconButton onClick={() => {}} variant='contained'>
+                  <IconButton
+                    color='error'
+                    onClick={() => {}}
+                    variant='contained'
+                  >
                     <Delete />
+                  </IconButton>
+                  <IconButton
+                    sx={{ color: 'orangered' }}
+                    onClick={() => {}}
+                    variant='contained'
+                  >
+                    <RemoveRedEye />
                   </IconButton>
                 </TableCell>
               </TableRow>

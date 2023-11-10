@@ -138,13 +138,16 @@ export default function BuildingForm({
               variant='contained'
               type='submit'
               sx={{
-                width: '50%',
-                mb: 2,
-                textAlign: 'center',
+                padding: '8px 20px',
+                color: '#FFF',
+                backgroundColor: '#FF5000',
+                '&:hover': {
+                  backgroundColor: '#FF2000',
+                  borderColor: '#FF2000',
+                  boxShadow: 'none',
+                },
                 fontWeight: 'bold',
-                color: '#fff',
-                textTransform: 'uppercase',
-                fontSize: '20px',
+                fontSize: '1.25rem',
               }}
             >
               {!building ? 'Create' : 'Save'}

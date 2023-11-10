@@ -118,6 +118,7 @@ export default function StudentUser() {
                 <TableCell>{student.updateAt}</TableCell>
                 <TableCell>
                   <IconButton
+                    color='primary'
                     onClick={() => {
                       const newUser = { ...student.userDto };
                       const { userDto, ...newStudentDto } = student;
@@ -132,10 +133,15 @@ export default function StudentUser() {
                   >
                     <Edit />
                   </IconButton>
-                  <IconButton onClick={() => {}} variant='contained'>
+                  <IconButton
+                    color='error'
+                    onClick={() => {}}
+                    variant='contained'
+                  >
                     <Delete />
                   </IconButton>
                   <IconButton
+                    sx={{ color: 'orangered' }}
                     onClick={() => {
                       navigate(`${student.rollNumber}`);
                     }}

@@ -179,7 +179,18 @@ export default function RoomForm({
           </DialogContent>
           <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
-              sx={{ width: '60%', mb: 2 }}
+              sx={{
+                padding: '8px 20px',
+                color: '#FFF',
+                backgroundColor: '#FF5000',
+                '&:hover': {
+                  backgroundColor: '#FF2000',
+                  borderColor: '#FF2000',
+                  boxShadow: 'none',
+                },
+                fontWeight: 'bold',
+                fontSize: '1.25rem',
+              }}
               variant='contained'
               type='submit'
             >

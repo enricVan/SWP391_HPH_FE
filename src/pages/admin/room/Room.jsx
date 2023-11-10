@@ -17,7 +17,10 @@ import {
 } from '@mui/material';
 import { privateAxios } from '../../../service/axios';
 import BedModal from './BedModal';
-import { AddCircle, Delete, Edit, Settings } from '@mui/icons-material';
+import Add from '@mui/icons-material/Add';
+import Delete from '@mui/icons-material/Delete';
+import Edit from '@mui/icons-material/Edit';
+import Settings from '@mui/icons-material/Settings';
 import RoomForm from './RoomForm';
 export default function Room() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -34,6 +37,7 @@ export default function Room() {
   const [selectedRoom, setSelectedRoom] = useState('');
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [reload, setReload] = useState(false);
 
   const fetchBuilding = async () => {
     const res = await privateAxios.get('building');
@@ -83,7 +87,7 @@ export default function Room() {
 
   useEffect(() => {
     fetchRoom();
-  }, [currentPage]);
+  }, [currentPage, reload]);
   return (
     <Box p={1}>
       <div
@@ -226,9 +230,18 @@ export default function Room() {
             <Button
               onClick={() => setOpenAdd(true)}
               variant='contained'
-              endIcon={<AddCircle />}
+              endIcon={<Add />}
+              sx={{
+                color: '#FFF',
+                backgroundColor: '#FF5000',
+                transition: 'background 0.3s, color 0.3s',
+                '&:hover': {
+                  backgroundColor: '#F04C00',
+                  borderColor: '#FF2000',
+                },
+              }}
             >
-              Create
+              ADD
             </Button>
           </Box>
           <Box
@@ -363,6 +376,8 @@ export default function Room() {
           setOpen={openAdd ? setOpenAdd : setOpenEdit}
           roomTypeList={roomTypeList}
           buildingList={buildingList}
+          reload={reload}
+          setReload={setReload}
         />
       )}
     </Box>

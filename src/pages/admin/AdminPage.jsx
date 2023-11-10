@@ -1,10 +1,12 @@
 import { Outlet, Route, Routes, Navigate } from 'react-router';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { Box } from '@mui/system';
 import SideBar from '../../components/Sidebar';
 import Topbar from '../../components/Topbar';
 import { useState } from 'react';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import BedroomParentIcon from '@mui/icons-material/BedroomParent';
 
 import RoomType from './roomtype/RoomType';
 import Room from './room/Room';
@@ -17,8 +19,8 @@ const navItems = [
   { text: 'User', icon: <ManageAccountsIcon /> },
   { text: 'Building', icon: <ApartmentIcon /> },
 
-  { text: 'Room Type', icon: <ManageAccountsIcon /> },
-  { text: 'Room', icon: <ManageAccountsIcon /> },
+  { text: 'Room Type', icon: <MeetingRoomIcon /> },
+  { text: 'Room', icon: <BedroomParentIcon /> },
 ];
 
 function AdminPage() {

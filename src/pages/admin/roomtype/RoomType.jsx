@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import { privateAxios } from '../../../service/axios';
 import Button from '@mui/material/Button';
-import AddCircle from '@mui/icons-material/AddCircle';
+import Add from '@mui/icons-material/Add';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import RoomTypeForm from './RoomTypeForm';
@@ -70,10 +70,19 @@ export default function RoomType() {
       <Box sx={{ display: 'flex', justifyContent: 'right', mb: 2 }}>
         <Button
           variant='contained'
-          endIcon={<AddCircle />}
+          endIcon={<Add />}
           onClick={() => setOpenAdd(true)}
+          sx={{
+            color: '#FFF',
+            backgroundColor: '#FF5000',
+            transition: 'background 0.3s, color 0.3s',
+            '&:hover': {
+              backgroundColor: '#F04C00',
+              borderColor: '#FF2000',
+            },
+          }}
         >
-          Create
+          ADD
         </Button>
       </Box>
       <TableContainer component={Paper}>
@@ -127,6 +136,7 @@ export default function RoomType() {
 
                 <TableCell>
                   <IconButton
+                    color='primary'
                     onClick={() => {
                       setSelectedRoomType(rt);
                       setOpenEdit(true);
@@ -136,6 +146,7 @@ export default function RoomType() {
                     <Edit />
                   </IconButton>
                   <IconButton
+                    color='error'
                     onClick={() => {
                       if (
                         confirm(
