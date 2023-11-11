@@ -24,8 +24,10 @@ import { deepOrange, orange } from '@mui/material/colors';
 import { AddCircle, Edit, RemoveRedEye } from '@mui/icons-material';
 import AddUser from './form/AddUser';
 import EditUser from './form/EditUser';
+import { useNavigate } from 'react-router-dom';
 
 export default function AllUser() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -222,14 +224,24 @@ export default function AllUser() {
                   </IconButton>
                   <IconButton
                     color='error'
-                    onClick={() => {}}
+                    onClick={() => {
+                      if (confirm(`Do you want to delete user ${item.id}`)) {
+                        privateAxios.post(`user/${item.id}`);
+                      }
+                    }}
                     variant='contained'
                   >
                     <Delete />
                   </IconButton>
                   <IconButton
                     sx={{ color: 'orangered' }}
-                    onClick={() => {}}
+                    onClick={() => {
+                      if (item.roleName === 'STUDENT') {
+                        navigate(`../student/${item.studentRollNumber}`);
+                      } else {
+                        navigate(`../manager/${item.managerId}`);
+                      }
+                    }}
                     variant='contained'
                   >
                     <RemoveRedEye />

@@ -34,7 +34,8 @@ export default function ManagerUser() {
   const [reload, setReload] = useState(false);
   const [search, setSearch] = useState('');
   const fetchManager = async () => {
-    const res = await privateAxios.get(`manager?rollNumber=${search}`);
+    const res = await privateAxios.get(`manager`);
+    console.log(res.data);
     setManagers(res.data.data);
 
     setTotalPages(res.totalPages);
@@ -58,7 +59,7 @@ export default function ManagerUser() {
               setSearch(e.target.value);
             }, 700)();
           }}
-          placeholder='Roll Number...'
+          placeholder='Manager ID...'
           inputProps={{ 'aria-label': 'search' }}
           sx={{
             border: '5px solid orangered',
@@ -105,32 +106,48 @@ export default function ManagerUser() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {managers.map((manager) => (
+            {managers.map((manager) => (
               <TableRow key={manager.id}>
                 <TableCell component='th'>{manager.id}</TableCell>
-                <TableCell>{manager.rollNumber}</TableCell>
-                <TableCell>{manager.userDto.fullName}</TableCell>
-                <TableCell>{manager.userDto.address}</TableCell>
-                <TableCell>{manager.createdAt}</TableCell>
-                <TableCell>{manager.updateAt}</TableCell>
+                <TableCell>{manager.description}</TableCell>
+                {/* <TableCell>{manager.userDto.fullName}</TableCell> */}
                 <TableCell>
-                  <IconButton onClick={() => {}} variant='contained'>
-                    <Edit />
-                  </IconButton>
-                  <IconButton onClick={() => {}} variant='contained'>
-                    <Delete />
-                  </IconButton>
+                  {manager.id === 1 ? 'Tom Nguyen' : 'Jerry Pham'}
+                </TableCell>
+                {/* <TableCell>{manager.userDto.address}</TableCell> */}
+                <TableCell>
+                  {new Date(manager.createdAt).toLocaleString()}
+                </TableCell>
+                <TableCell>
+                  {new Date(manager.updatedAt).toLocaleString()}
+                </TableCell>
+                <TableCell>
                   <IconButton
+                    sx={{ color: 'orangered' }}
                     onClick={() => {
-                      navigate(`${manager.rollNumber}`);
+                      navigate(`${manager.id}`);
                     }}
                     variant='contained'
                   >
                     <RemoveRedEye />
                   </IconButton>
+                  <IconButton
+                    color='primary'
+                    onClick={() => {}}
+                    variant='contained'
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                    color='error'
+                    onClick={() => {}}
+                    variant='contained'
+                  >
+                    <Delete />
+                  </IconButton>
                 </TableCell>
               </TableRow>
-            ))} */}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -149,7 +149,13 @@ export default function Room() {
                     setOpenEdit(true);
                   }}
                 />
-                <SpeedDialAction icon={<Delete />} tooltipTitle={'Delete'} />
+                <SpeedDialAction
+                  icon={<Delete />}
+                  tooltipTitle={'Delete'}
+                  onClick={() => {
+                    confirm(`Do you want to delete room ${room.roomName}`);
+                  }}
+                />
               </SpeedDial>
               <Card
                 sx={{

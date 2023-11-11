@@ -110,7 +110,7 @@ export default function EditUser({ openEdit, setOpenEdit, user }) {
         <DialogTitle>Edit User Information</DialogTitle>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
-            <TextField
+            {/* <TextField
               disabled
               {...register('username')}
               autoFocus
@@ -133,7 +133,7 @@ export default function EditUser({ openEdit, setOpenEdit, user }) {
                   ))}
                 </Select>
               )}
-            />
+            /> */}
             <TextField
               {...register('fullName')}
               margin='dense'
@@ -280,7 +280,7 @@ export default function EditUser({ openEdit, setOpenEdit, user }) {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setOpenEdit(false)}>Cancel</Button>
-            <Button type='submit'>Next</Button>
+            <Button type='submit'>Save</Button>
           </DialogActions>
         </form>
       </Dialog>
