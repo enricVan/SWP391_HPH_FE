@@ -21,6 +21,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import Request from "./request/Request";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import StudentRequest from "./student/StudentRequest";
+import StudentProfile from "../profile/StudentProfile";
+import ChangePassword from "../changePassword/ChangePassword";
 
 const navItems = [
   {
@@ -98,6 +100,8 @@ function ManagerPage() {
             element={<StudentRequest />}
           />
         </Route>
+        <Route path="profile" element={<StudentProfile />} />
+        <Route path="changepassword" element={<ChangePassword />} />
       </Routes>
     </>
   );
