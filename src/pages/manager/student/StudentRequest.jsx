@@ -23,9 +23,12 @@ import {
 import { useEffect, useState } from "react";
 import { privateAxios } from "../../../service/axios";
 import ReplyIcon from "@mui/icons-material/Reply";
-export default function Request() {
+import { useParams } from "react-router-dom";
+export default function StudentRequest() {
   const user = JSON.parse(localStorage.getItem("user"));
+  const { rollNumber } = useParams();
 
+  const [studentId, setStudentId] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [openUpdateAppReq, setOpenUpdateAppReq] = useState(false);
@@ -133,6 +136,10 @@ export default function Request() {
       filter += "&status=" + selectedStatus;
     }
 
+    if (rollNumber) {
+      filter += "&studentId=" + studentId;
+    }
+
     console.log(`request-application?pageNo=${currentPage - 1}${filter}`);
 
     const res1 = await privateAxios.get(
@@ -145,10 +152,15 @@ export default function Request() {
 
     const res2 = await privateAxios.get(`request-application-type`);
     setRequestTypes(res2.data);
+
+    const res3 = await privateAxios.get(`student/${rollNumber}/user`);
+    console.log(res3.data);
+    setStudentId(res3.data.studentId);
   };
+
   useEffect(() => {
     fetchData();
-  }, [selectedStatus, selectedReqType, reload, currentPage]);
+  }, [selectedStatus, selectedReqType, reload, currentPage, studentId]);
 
   useEffect(() => {
     setCurrentPage(1);

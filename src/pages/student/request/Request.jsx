@@ -196,6 +196,8 @@ export default function Request() {
                       ...(request.status.toLowerCase() === "resolved" && {
                         color: "green",
                       }),
+                      fontWeight: "bold",
+                      textTransform: "uppercase",
                     }}
                   >
                     {request.status}

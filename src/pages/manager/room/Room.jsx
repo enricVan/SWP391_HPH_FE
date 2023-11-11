@@ -223,7 +223,8 @@ export default function Room() {
                 justifyContent: "space-between",
               }}
             >
-              Semester: {semester.semesterName}
+              {/* Semester: {semester.semesterName} */}
+              Filter by:
             </Typography>
             <FormControl sx={{ width: 250 }}>
               <Select
