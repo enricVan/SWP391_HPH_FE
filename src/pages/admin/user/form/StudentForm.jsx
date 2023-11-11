@@ -1,49 +1,49 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Divider from '@mui/material/Divider';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import { Controller, useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { close, resetForm } from '../../../../features/userFormSlice';
-import Dropzone from 'react-dropzone';
-import Close from '@mui/icons-material/Close';
-import CloudUpload from '@mui/icons-material/CloudUpload';
-import InsertDriveFile from '@mui/icons-material/InsertDriveFile';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import axios, { privateAxios } from '../../../../service/axios';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Divider from "@mui/material/Divider";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Paper from "@mui/material/Paper";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useDispatch, useSelector } from "react-redux";
+import { close, resetForm } from "../../../../features/userFormSlice";
+import Dropzone from "react-dropzone";
+import Close from "@mui/icons-material/Close";
+import CloudUpload from "@mui/icons-material/CloudUpload";
+import InsertDriveFile from "@mui/icons-material/InsertDriveFile";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import axios, { privateAxios } from "../../../../service/axios";
 var phoneRegEx =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 const getInitialValue = (user) => {
   return {
-    username: user?.username ? user.username : '',
+    username: user?.username ? user.username : "",
     roleId: 2,
-    email: user?.email ? user.email : '',
-    fullName: user?.fullName ? user.fullName : '',
-    address: user?.address ? user.address : '',
-    gender: user?.gender ? user.gender : 'female',
-    phone: user?.phone ? user.phone : '',
+    email: user?.email ? user.email : "",
+    fullName: user?.fullName ? user.fullName : "",
+    address: user?.address ? user.address : "",
+    gender: user?.gender ? user.gender : "female",
+    phone: user?.phone ? user.phone : "",
     studentDto: {
-      parentName: user.studentDto ? user.studentDto.parentName : '',
-      rollNumber: user.studentDto ? user.studentDto.rollNumber : '',
+      parentName: user.studentDto ? user.studentDto.parentName : "",
+      rollNumber: user.studentDto ? user.studentDto.rollNumber : "",
     },
     dob: user?.dob ? new Date(user.dob) : new Date(),
     avatar: user?.avatar ? user.avatar : [],
@@ -54,21 +54,21 @@ export default function StudentForm({ reload, setReload }) {
   const { openAddStudent, user } = useSelector((state) => state.userForm);
   const schema = yup.object().shape({
     studentDto: yup.object().shape({
-      rollNumber: yup.string().required('Roll Number cannot be empty'),
+      rollNumber: yup.string().required("Roll Number cannot be empty"),
     }),
     fullName: yup.string().required(),
     phone: yup
       .string()
-      .matches(phoneRegEx, 'Phone number is not valid')
+      .matches(phoneRegEx, "Phone number is not valid")
       .required(),
     address: yup.string().required(),
     username: yup.string().required(),
 
-    email: yup.string().email('Wrong email format!').required(),
-    avatar: yup.array().min(1, 'Please select one file'),
+    email: yup.string().email("Wrong email format!").required(),
+    avatar: yup.array().min(1, "Please select one file"),
     dob: yup
       .date()
-      .max(new Date(), 'Date of Birth cannot be in the future')
+      .max(new Date(), "Date of Birth cannot be in the future")
       .required(),
   });
   const {
@@ -84,32 +84,32 @@ export default function StudentForm({ reload, setReload }) {
   });
   const onSubmit = async (data) => {
     const newUser = Object.fromEntries(
-      Object.entries(data).filter((entry) => entry[0] !== 'avatar')
+      Object.entries(data).filter((entry) => entry[0] !== "avatar")
     );
     const { avatar } = data;
     const formData = new FormData();
     const userDataJson = JSON.stringify(newUser);
-    const blob = new Blob([userDataJson], { type: 'application/json' });
-    formData.append('file', avatar[0]);
-    formData.append('userDto', blob);
+    const blob = new Blob([userDataJson], { type: "application/json" });
+    formData.append("file", avatar[0]);
+    formData.append("userDto", blob);
     // For JSON, we create a new Blob with type 'application/json'
     // console.log([...formData]);
     const parseDob = newUser.dob.toLocaleDateString();
     const inputUser = { ...newUser, dob: parseDob };
-    // privateAxios
-    //   .post('user', formData)
-    //   .then((res) => {
-    //     console.log(res);
-    //     alert(res.data.message.toUpperCase());
-    //     dispatch(resetForm());
-    //     reset(getInitialValue());
-    //     setReload(!reload);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // dispatch(resetForm());
-    //     // reset(getInitialValue());
-    //   });
+    privateAxios
+      .post("user", formData)
+      .then((res) => {
+        console.log(res);
+        alert(res.data.message.toUpperCase());
+        dispatch(resetForm());
+        reset(getInitialValue());
+        setReload(!reload);
+      })
+      .catch((err) => {
+        console.log(err);
+        // dispatch(resetForm());
+        // reset(getInitialValue());
+      });
   };
   return (
     <>
@@ -117,10 +117,10 @@ export default function StudentForm({ reload, setReload }) {
         open={openAddStudent}
         onClose={() => {
           dispatch(resetForm());
-          dispatch(close('ADD_STUDENT'));
+          dispatch(close("ADD_STUDENT"));
         }}
         fullWidth
-        maxWidth={'900px'}
+        maxWidth={"900px"}
       >
         <DialogTitle>STUDENT</DialogTitle>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -128,32 +128,32 @@ export default function StudentForm({ reload, setReload }) {
             <Grid container gap={3}>
               <Grid item xs={12} md={4}>
                 <TextField
-                  {...register('studentDto.parentName')}
-                  margin='dense'
-                  label='Parent Name (Mom or Dad)'
-                  type='text'
+                  {...register("studentDto.parentName")}
+                  margin="dense"
+                  label="Parent Name (Mom or Dad)"
+                  type="text"
                   fullWidth
                   error={!!errors.studentDto?.parentName}
                   helperText={errors?.studentDto?.parentName?.message}
                 />
                 <TextField
-                  {...register('studentDto.rollNumber')}
-                  margin='dense'
-                  label='Roll Number'
-                  type='text'
+                  {...register("studentDto.rollNumber")}
+                  margin="dense"
+                  label="Roll Number"
+                  type="text"
                   fullWidth
                   error={!!errors.studentDto?.rollNumber}
                   helperText={errors?.studentDto?.rollNumber?.message}
                 />
               </Grid>
-              <Divider orientation='vertical' flexItem />
+              <Divider orientation="vertical" flexItem />
               <Grid item xs={12} md={7}>
                 <Grid item>
                   <TextField
-                    {...register('username')}
-                    margin='dense'
-                    label='User Name'
-                    type='text'
+                    {...register("username")}
+                    margin="dense"
+                    label="User Name"
+                    type="text"
                     fullWidth
                     error={!!errors.username}
                     helperText={errors?.username?.message}
@@ -162,10 +162,10 @@ export default function StudentForm({ reload, setReload }) {
                 <Grid container item gap={2}>
                   <Grid item xs>
                     <TextField
-                      {...register('fullName')}
-                      margin='dense'
-                      label='Full Name'
-                      type='text'
+                      {...register("fullName")}
+                      margin="dense"
+                      label="Full Name"
+                      type="text"
                       fullWidth
                       error={!!errors.fullName}
                       helperText={errors?.fullName?.message}
@@ -173,7 +173,7 @@ export default function StudentForm({ reload, setReload }) {
                   </Grid>
                   <Grid item xs>
                     <Controller
-                      name='gender' // Replace with your form field name
+                      name="gender" // Replace with your form field name
                       control={control} // Pass the form control from react-hook-form
                       render={({ field }) => (
                         <>
@@ -181,17 +181,17 @@ export default function StudentForm({ reload, setReload }) {
                           <RadioGroup
                             {...field}
                             row
-                            sx={{ alignItems: 'center' }}
+                            sx={{ alignItems: "center" }}
                           >
                             <FormControlLabel
-                              value={'female'}
+                              value={"female"}
                               control={<Radio />}
-                              label='Female'
+                              label="Female"
                             />
                             <FormControlLabel
-                              value={'male'}
+                              value={"male"}
                               control={<Radio />}
-                              label='Male'
+                              label="Male"
                             />
                           </RadioGroup>
                         </>
@@ -202,13 +202,13 @@ export default function StudentForm({ reload, setReload }) {
 
                 <Grid item>
                   <Controller
-                    name='dob'
+                    name="dob"
                     control={control}
                     render={({ field }) => (
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
                           {...field}
-                          label='Date of Birth'
+                          label="Date of Birth"
                           slotProps={{
                             textField: {
                               fullWidth: true,
@@ -223,10 +223,10 @@ export default function StudentForm({ reload, setReload }) {
                 </Grid>
                 <Grid item>
                   <TextField
-                    {...register('address')}
-                    margin='dense'
-                    label='Address'
-                    type='text'
+                    {...register("address")}
+                    margin="dense"
+                    label="Address"
+                    type="text"
                     fullWidth
                     error={!!errors.address}
                     helperText={errors?.address?.message}
@@ -234,10 +234,10 @@ export default function StudentForm({ reload, setReload }) {
                 </Grid>
                 <Grid item>
                   <TextField
-                    {...register('phone')}
-                    margin='dense'
-                    label='Phone'
-                    type='text'
+                    {...register("phone")}
+                    margin="dense"
+                    label="Phone"
+                    type="text"
                     fullWidth
                     error={!!errors.phone}
                     helperText={errors?.phone?.message}
@@ -245,10 +245,10 @@ export default function StudentForm({ reload, setReload }) {
                 </Grid>
                 <Grid item>
                   <TextField
-                    {...register('email')}
-                    margin='dense'
-                    label='Email'
-                    type='text'
+                    {...register("email")}
+                    margin="dense"
+                    label="Email"
+                    type="text"
                     fullWidth
                     error={!!errors.email}
                     helperText={errors?.email?.message}
@@ -258,7 +258,7 @@ export default function StudentForm({ reload, setReload }) {
                   <div>
                     <Controller
                       control={control}
-                      name='avatar'
+                      name="avatar"
                       defaultValue={[]}
                       render={({
                         field: { onBlur, onChange, name, value },
@@ -267,25 +267,25 @@ export default function StudentForm({ reload, setReload }) {
                           <Dropzone onDrop={onChange} multiple={false}>
                             {({ getRootProps, getInputProps }) => (
                               <Paper
-                                variant='outlined'
+                                variant="outlined"
                                 {...getRootProps()}
                                 sx={{
-                                  backgroundColor: '#eee',
-                                  textAlign: 'center',
-                                  cursor: 'pointer',
-                                  color: '#333',
-                                  padding: '10px',
-                                  marginTop: '20px',
+                                  backgroundColor: "#eee",
+                                  textAlign: "center",
+                                  cursor: "pointer",
+                                  color: "#333",
+                                  padding: "10px",
+                                  marginTop: "20px",
                                   border: !!errors.avatar
-                                    ? '1px solid red'
-                                    : '',
+                                    ? "1px solid red"
+                                    : "",
                                 }}
                               >
                                 <CloudUpload
                                   sx={{
-                                    marginTop: '16px',
-                                    color: '#333',
-                                    fontSize: '42px',
+                                    marginTop: "16px",
+                                    color: "#333",
+                                    fontSize: "42px",
                                   }}
                                 />
                                 <input
@@ -312,7 +312,7 @@ export default function StudentForm({ reload, setReload }) {
                                 />
                                 <IconButton
                                   onClick={() => {
-                                    resetField('avatar', { defaultValue: [] });
+                                    resetField("avatar", { defaultValue: [] });
                                   }}
                                 >
                                   <Close />
@@ -322,8 +322,8 @@ export default function StudentForm({ reload, setReload }) {
                             {errors.avatar && (
                               <ListItem>
                                 <ListItemText
-                                  sx={{ color: 'red' }}
-                                  primary={errors.avatar.message + '!'}
+                                  sx={{ color: "red" }}
+                                  primary={errors.avatar.message + "!"}
                                 />
                               </ListItem>
                             )}
@@ -340,13 +340,13 @@ export default function StudentForm({ reload, setReload }) {
             <Button
               onClick={() => {
                 dispatch(resetForm());
-                dispatch(close('ADD_STUDENT'));
+                dispatch(close("ADD_STUDENT"));
               }}
             >
               Cancel
             </Button>
-            <Button type='submit'>
-              {user.studentDto?.rollNumber ? 'Save' : 'Create'}
+            <Button type="submit">
+              {user.studentDto?.rollNumber ? "Save" : "Create"}
             </Button>
           </DialogActions>
         </form>
