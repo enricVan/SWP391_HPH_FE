@@ -90,9 +90,9 @@ export default function StudentUser() {
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                 FullName
               </TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
+              {/* <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                 Address
-              </TableCell>
+              </TableCell> */}
               <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                 Created Date
               </TableCell>
@@ -113,10 +113,19 @@ export default function StudentUser() {
                 <TableCell component='th'>{student.id}</TableCell>
                 <TableCell>{student.rollNumber}</TableCell>
                 <TableCell>{student.userDto.fullName}</TableCell>
-                <TableCell>{student.userDto.address}</TableCell>
+                {/* <TableCell>{student.userDto.address}</TableCell> */}
                 <TableCell>{student.createdAt}</TableCell>
                 <TableCell>{student.updateAt}</TableCell>
                 <TableCell>
+                  <IconButton
+                    sx={{ color: 'orangered' }}
+                    onClick={() => {
+                      navigate(`${student.rollNumber}`);
+                    }}
+                    variant='contained'
+                  >
+                    <RemoveRedEye />
+                  </IconButton>
                   <IconButton
                     color='primary'
                     onClick={() => {
@@ -139,15 +148,6 @@ export default function StudentUser() {
                     variant='contained'
                   >
                     <Delete />
-                  </IconButton>
-                  <IconButton
-                    sx={{ color: 'orangered' }}
-                    onClick={() => {
-                      navigate(`${student.rollNumber}`);
-                    }}
-                    variant='contained'
-                  >
-                    <RemoveRedEye />
                   </IconButton>
                 </TableCell>
               </TableRow>

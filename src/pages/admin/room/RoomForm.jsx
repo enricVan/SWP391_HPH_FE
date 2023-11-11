@@ -13,6 +13,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { MenuItem, Select } from '@mui/material';
 import { privateAxios } from '../../../service/axios';
 export default function RoomForm({
+  reload,
+  setReload,
   open,
   setOpen,
   room,
@@ -60,21 +62,36 @@ export default function RoomForm({
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {
-    console.log(data);
-    // privateAxios
-    //   .post('user', formData)
-    //   .then((res) => {
-    //     console.log(res);
-    //     alert(res.data.message.toUpperCase());
-    //     dispatch(resetForm());
-    //     reset(getInitialValue());
-    //     setReload(!reload);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // dispatch(resetForm());
-    //     // reset(getInitialValue());
-    //   });
+    if (!room) {
+      privateAxios
+        .post(`room`, data)
+        .then((res) => {
+          console.log(res);
+          alert('Create Room Successfully!');
+          reset(getInitialValue());
+          setReload(!reload);
+          setOpen(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          // dispatch(resetForm());
+          // reset(getInitialValue());
+        });
+    } else {
+      privateAxios
+        .put(`room/${room.roomId}`, data)
+        .then((res) => {
+          console.log(res);
+          alert('Room is Updated Successfully!');
+          setReload(!reload);
+          setOpen(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          // dispatch(resetForm());
+          // reset(getInitialValue());
+        });
+    }
   };
   const fetchFloor = async () => {
     const res = await privateAxios.get(`building/${watch('buildingId')}`);

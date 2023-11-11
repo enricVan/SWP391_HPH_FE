@@ -97,7 +97,7 @@ export default function StudentForm({ reload, setReload }) {
     const parseDob = newUser.dob.toLocaleDateString();
     const inputUser = { ...newUser, dob: parseDob };
     privateAxios
-      .post("user", formData)
+      .post('user', formData)
       .then((res) => {
         console.log(res);
         alert(res.data.message.toUpperCase());
@@ -148,7 +148,7 @@ export default function StudentForm({ reload, setReload }) {
               </Grid>
               <Divider orientation="vertical" flexItem />
               <Grid item xs={12} md={7}>
-                <Grid item>
+                {/* <Grid item>
                   <TextField
                     {...register("username")}
                     margin="dense"
@@ -158,7 +158,7 @@ export default function StudentForm({ reload, setReload }) {
                     error={!!errors.username}
                     helperText={errors?.username?.message}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid container item gap={2}>
                   <Grid item xs>
                     <TextField

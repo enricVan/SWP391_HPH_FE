@@ -18,59 +18,59 @@ import { ArrowForward } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserPic } from '../../../../features/picSlice';
 // const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
-const MainInfo = ({ student }) => {
+const MainInfo = ({ manager }) => {
   return (
     <>
       <Table>
         <TableBody>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-              Roll Number
+              ID
             </TableCell>
-            <TableCell align='right'>{student.rollNumber}</TableCell>
+            <TableCell align='right'>{manager.id}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
               Name
             </TableCell>
-            <TableCell align='right'>{student.userDto?.fullName}</TableCell>
+            <TableCell align='right'>{manager.userDto?.fullName}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-              Parent Name
+              Description
             </TableCell>
-            <TableCell align='right'>{student.parentName}</TableCell>
+            <TableCell align='right'>{manager.description}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
               Gender
             </TableCell>
-            <TableCell align='right'>{student.userDto?.gender}</TableCell>
+            <TableCell align='right'>{manager.userDto?.gender}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
               Date of birth
             </TableCell>
-            <TableCell align='right'>{student.userDto?.dob}</TableCell>
+            <TableCell align='right'>{manager.userDto?.dob}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
               Phone Number
             </TableCell>
-            <TableCell align='right'>{student.userDto?.phone}</TableCell>
+            <TableCell align='right'>{manager.userDto?.phone}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
               Address
             </TableCell>
-            <TableCell align='right'>{student.userDto?.address}</TableCell>
+            <TableCell align='right'>{manager.userDto?.address}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </>
   );
 };
-const SideInfo = ({ student }) => {
+const SideInfo = ({ manager }) => {
   return (
     <>
       <Box paddingLeft={1}>
@@ -88,13 +88,13 @@ const SideInfo = ({ student }) => {
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
               ID
             </TableCell>
-            <TableCell align='left'>{student.userDto.id}</TableCell>
+            <TableCell align='left'>{manager.userDto.id}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
               User Name
             </TableCell>
-            <TableCell align='left'>{student.userDto?.username}</TableCell>
+            <TableCell align='left'>{manager.userDto?.username}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
@@ -103,10 +103,10 @@ const SideInfo = ({ student }) => {
             <TableCell
               align='left'
               sx={{
-                color: student.userDto?.status === 'active' ? 'green' : 'red',
+                color: manager.userDto?.status === 'active' ? 'green' : 'red',
               }}
             >
-              {student.userDto?.status}
+              {manager.userDto?.status}
             </TableCell>
           </TableRow>
 
@@ -114,76 +114,35 @@ const SideInfo = ({ student }) => {
             <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
               Email
             </TableCell>
-            <TableCell align='left'>{student.userDto?.email}</TableCell>
+            <TableCell align='left'>{manager.userDto?.email}</TableCell>
           </TableRow>
-        </Table>
-      </Box>
-      <Box>
-        <Table sx={{ borderRadius: '20px' }}>
-          {/* <TableRow sx={{ backgroundColor: '#fff' }}>
-            <TableCell
-              colSpan={2}
-              align='center'
-              sx={{ fontWeight: 'bolder', fontSize: '24px' }}
-            >
-              Room {student.roomName ? student.roomName : ''}
-            </TableCell>
-          </TableRow> */}
-          {student.roomName && (
-            <>
-              <TableRow>
-                <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-                  Building
-                </TableCell>
-                <TableCell align='right'>{student.buildingName}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-                  Floor
-                </TableCell>
-                <TableCell align='right'>{student.floor}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-                  Room Type
-                </TableCell>
-                <TableCell align='right'>{student.roomTypeName}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
-                  Bed
-                </TableCell>
-                <TableCell align='right'>{student.bedName}</TableCell>
-              </TableRow>
-            </>
-          )}
         </Table>
       </Box>
     </>
   );
 };
-export default function StudentDetail() {
+export default function ManagerDetail() {
   const dispatch = useDispatch();
   const { picUrl, isSuccess } = useSelector((state) => state.pic);
-  const { rollNumber } = useParams();
+  const { managerId } = useParams();
   const navigate = useNavigate();
-  const [student, setStudent] = useState({});
+  const [manager, setManager] = useState({});
   const [showNext, setShowNext] = useState(false);
-  const fetchStudentData = async () => {
-    const res = await privateAxios.get(`student/${rollNumber}`);
-    setStudent(res.data);
+  const fetchManagerData = async () => {
+    const res = await privateAxios.get(`manager/${managerId}`);
+    setManager(res.data);
     dispatch(getUserPic(res.data.userDto.id));
     return res;
   };
 
   useEffect(() => {
-    fetchStudentData();
+    fetchManagerData();
   }, []);
   return (
     <Box p={2}>
       <Button
         onClick={() => {
-          navigate('../student');
+          navigate('../manager');
         }}
         variant='contained'
         startIcon={<ArrowBackIcon />}
@@ -224,9 +183,9 @@ export default function StudentDetail() {
                     </div>
                   )}
                   {!showNext ? (
-                    <MainInfo student={student} />
+                    <MainInfo manager={manager} />
                   ) : (
-                    <SideInfo student={student} />
+                    <SideInfo manager={manager} />
                   )}
                 </Grid>
               </Grid>
