@@ -36,6 +36,7 @@ import {
 } from '../../../../features/userFormSlice';
 import { useNavigate } from 'react-router-dom';
 import { privateAxios } from '../../../../service/axios';
+import { Download } from '@mui/icons-material';
 var phoneRegEx =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default function AddUser({ openAdd, setOpenAdd }) {
@@ -87,6 +88,7 @@ export default function AddUser({ openAdd, setOpenAdd }) {
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
+    console.log(data);
     dispatch(updateFields(data));
     switch (data.roleId) {
       case 2: {
@@ -218,7 +220,6 @@ export default function AddUser({ openAdd, setOpenAdd }) {
               <Controller
                 control={control}
                 name='avatar'
-                defaultValue={[]}
                 render={({ field: { onBlur, onChange, name, value } }) => (
                   <>
                     <Dropzone onDrop={onChange} multiple={false}>
@@ -259,6 +260,17 @@ export default function AddUser({ openAdd, setOpenAdd }) {
                             <InsertDriveFile />
                           </ListItemIcon>
                           <ListItemText primary={f.name} secondary={f.size} />
+                          <IconButton
+                            onClick={() => {
+                              // Create a download link
+                              const downloadLink = document.createElement('a');
+                              downloadLink.href = URL.createObjectURL(f);
+                              downloadLink.download = f.name;
+                              downloadLink.click();
+                            }}
+                          >
+                            <Download />
+                          </IconButton>
                           <IconButton
                             onClick={() => {
                               resetField('avatar', { defaultValue: [] });

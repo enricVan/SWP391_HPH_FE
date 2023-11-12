@@ -17,6 +17,7 @@ import { privateAxios } from '../../../../service/axios';
 import { ArrowForward } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserPic } from '../../../../features/picSlice';
+import picService from '../../../../service/picService';
 // const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 const MainInfo = ({ student }) => {
   return (
@@ -164,7 +165,7 @@ const SideInfo = ({ student }) => {
 };
 export default function StudentDetail() {
   const dispatch = useDispatch();
-  const { picUrl, isSuccess } = useSelector((state) => state.pic);
+  const [picUrl, setPicUrl] = useState(null);
   const { rollNumber } = useParams();
   const navigate = useNavigate();
   const [student, setStudent] = useState({});
@@ -172,7 +173,9 @@ export default function StudentDetail() {
   const fetchStudentData = async () => {
     const res = await privateAxios.get(`student/${rollNumber}`);
     setStudent(res.data);
-    dispatch(getUserPic(res.data.userDto.id));
+    // dispatch(getUserPic(res.data.userDto.id));
+    const avatar = await picService.getUserPic(res.data.userDto.id);
+    setPicUrl(avatar);
     return res;
   };
 
@@ -204,7 +207,7 @@ export default function StudentDetail() {
                       marginRight: 4,
                       mb: 5,
                     }}
-                    src={'/avatar.png'}
+                    src={picUrl}
                   />
                 </Grid>
                 <Grid item xs={12} md={7}>

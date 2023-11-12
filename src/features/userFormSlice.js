@@ -38,6 +38,7 @@ const userFormSlice = createSlice({
     },
     updateFields: (state, action) => {
       state.user = { ...state.user, ...action.payload };
+      console.log(state.user);
     },
     setAvatar: (state, action) => {
       state.user = { ...state.user, avatar: action.payload };
