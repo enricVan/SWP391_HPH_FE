@@ -17,6 +17,7 @@ import { privateAxios } from '../../../../service/axios';
 import { ArrowForward } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserPic } from '../../../../features/picSlice';
+import picService from '../../../../service/picService';
 // const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 const MainInfo = ({ manager }) => {
   return (
@@ -123,7 +124,7 @@ const SideInfo = ({ manager }) => {
 };
 export default function ManagerDetail() {
   const dispatch = useDispatch();
-  const { picUrl, isSuccess } = useSelector((state) => state.pic);
+  const [picUrl, setPicUrl] = useState(null);
   const { managerId } = useParams();
   const navigate = useNavigate();
   const [manager, setManager] = useState({});
@@ -131,7 +132,8 @@ export default function ManagerDetail() {
   const fetchManagerData = async () => {
     const res = await privateAxios.get(`manager/${managerId}`);
     setManager(res.data);
-    dispatch(getUserPic(res.data.userDto.id));
+    const avatar = await picService.getUserPic(res.data.userDto.id);
+    setPicUrl(avatar);
     return res;
   };
 
@@ -163,7 +165,7 @@ export default function ManagerDetail() {
                       marginRight: 4,
                       mb: 5,
                     }}
-                    src={'/avatar.png'}
+                    src={picUrl}
                   />
                 </Grid>
                 <Grid item xs={12} md={7}>

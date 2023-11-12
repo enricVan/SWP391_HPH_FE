@@ -15,7 +15,7 @@ import Delete from '@mui/icons-material/Delete';
 import AddCircle from '@mui/icons-material/AddCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch, useSelector } from 'react-redux';
-import { open } from '../../../features/userFormSlice';
+import { open, updateFields } from '../../../features/userFormSlice';
 import Searchbar from '../../../components/Searchbar';
 import RemoveRedEye from '@mui/icons-material/RemoveRedEye';
 import { useNavigate } from 'react-router-dom';
@@ -133,7 +133,16 @@ export default function ManagerUser() {
                   </IconButton>
                   <IconButton
                     color='primary'
-                    onClick={() => {}}
+                    onClick={() => {
+                      const newUser = { ...manager.userDto };
+                      const { userDto, ...newManagerDto } = manager;
+                      const newManagerUser = {
+                        ...newUser,
+                        managerDto: newManagerDto,
+                      };
+                      dispatch(updateFields(newManagerUser));
+                      dispatch(open('ADD_MANAGER'));
+                    }}
                     variant='contained'
                   >
                     <Edit />

@@ -36,6 +36,9 @@ import {
 } from '../../../../features/userFormSlice';
 import { useNavigate } from 'react-router-dom';
 import { privateAxios } from '../../../../service/axios';
+import { getUserPic } from '../../../../features/picSlice';
+import picService from '../../../../service/picService';
+import { Download } from '@mui/icons-material';
 var phoneRegEx =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 export default function EditUser({ openEdit, setOpenEdit, user }) {
@@ -82,27 +85,46 @@ export default function EditUser({ openEdit, setOpenEdit, user }) {
     resetField,
     formState: { errors },
     reset,
+    setValue,
   } = useForm({
     defaultValues: initialValue,
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
-    dispatch(updateFields(data));
-    switch (data.roleId) {
-      case 2: {
-        dispatch(open('ADD_STUDENT'));
-        navigate('/admin/user/student');
-        break;
-      }
-      case 3: {
-        dispatch(open('ADD_MANAGER'));
-        navigate('/admin/user/manager');
-        break;
-      }
-    }
+    let newUser = Object.fromEntries(
+      Object.entries(data).filter((entry) => entry[0] !== 'avatar')
+    );
+    const parseDob = newUser.dob.toLocaleDateString();
+    newUser = { ...newUser, dob: parseDob, id: user.id };
+    const { avatar } = data;
+    const formData = new FormData();
+    const userDataJson = JSON.stringify(newUser);
+    const blob = new Blob([userDataJson], { type: 'application/json' });
+    formData.append('file', avatar[0]);
+    formData.append('userDto', blob);
+    // For JSON, we create a new Blob with type 'application/json'
+    // console.log([...formData]);
+    privateAxios
+      .put('user', formData)
+      .then((res) => {
+        console.log(res);
+        alert(res.data.message.toUpperCase());
+        dispatch(resetForm());
+        setReload(!reload);
+      })
+      .catch((err) => {
+        console.log(err);
+        // dispatch(resetForm());
+        // reset(getInitialValue());
+      });
   };
   React.useEffect(() => {
     fetchRole();
+    (async () => {
+      const file = await picService.getPicFile(user.id);
+      setValue('avatar', file);
+      console.log(file);
+    })();
   }, []);
   return (
     <>
@@ -255,6 +277,17 @@ export default function EditUser({ openEdit, setOpenEdit, user }) {
                             <InsertDriveFile />
                           </ListItemIcon>
                           <ListItemText primary={f.name} secondary={f.size} />
+                          <IconButton
+                            onClick={() => {
+                              // Create a download link
+                              const downloadLink = document.createElement('a');
+                              downloadLink.href = URL.createObjectURL(f);
+                              downloadLink.download = f.name;
+                              downloadLink.click();
+                            }}
+                          >
+                            <Download />
+                          </IconButton>
                           <IconButton
                             onClick={() => {
                               resetField('avatar', { defaultValue: [] });

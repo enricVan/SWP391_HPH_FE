@@ -30,6 +30,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axios, { privateAxios } from '../../../../service/axios';
+import picService from '../../../../service/picService';
+import { Download } from '@mui/icons-material';
 var phoneRegEx =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 const getInitialValue = (user) => {
@@ -79,41 +81,74 @@ export default function ManagerForm({ reload, setReload }) {
     resetField,
     formState: { errors },
     reset,
+    setValue,
   } = useForm({
     defaultValues: getInitialValue(user),
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {
-    const newUser = Object.fromEntries(
+    console.log(data);
+    let newUser = Object.fromEntries(
       Object.entries(data).filter((entry) => entry[0] !== 'avatar')
     );
+    const parseDob = newUser.dob.toLocaleDateString();
+    newUser = {
+      ...newUser,
+      dob: parseDob,
+      id: user.id,
+      managerId: user.managerId,
+    };
+    console.log(newUser);
     const { avatar } = data;
     const formData = new FormData();
-    const userDataJson = JSON.stringify(newUser);
+    let userDataJson = JSON.stringify(newUser);
     const blob = new Blob([userDataJson], { type: 'application/json' });
     formData.append('file', avatar[0]);
     formData.append('userDto', blob);
     // For JSON, we create a new Blob with type 'application/json'
     // console.log([...formData]);
-    console.log(newUser);
-    const parseDob = newUser.dob.toLocaleDateString();
-    const inputUser = { ...newUser, dob: parseDob };
-    console.log(inputUser);
-    // privateAxios
-    //   .post('user', formData)
-    //   .then((res) => {
-    //     console.log(res);
-    //     alert(res.data.message.toUpperCase());
-    //     dispatch(resetForm());
-    //     reset(getInitialValue());
-    //     setReload(!reload);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // dispatch(resetForm());
-    //     // reset(getInitialValue());
-    //   });
+    if (user.managerDto.description) {
+      console.log(data);
+      privateAxios
+        .put('user', formData)
+        .then((res) => {
+          console.log(res);
+          alert(res.data.message.toUpperCase());
+          if (res.data.message.includes('Username')) {
+            resetField('username');
+          }
+          setReload(!reload);
+        })
+        .catch((err) => {
+          console.log(err);
+          // dispatch(resetForm());
+          // reset(getInitialValue());
+        });
+    } else {
+      console.log(data);
+      privateAxios
+        .post('user', formData)
+        .then((res) => {
+          console.log(res);
+          alert(res.data.message.toUpperCase());
+
+          setReload(!reload);
+        })
+        .catch((err) => {
+          console.log(err);
+          // dispatch(resetForm());
+          // reset(getInitialValue());
+        });
+    }
   };
+  React.useEffect(() => {
+    if (user.managerDto) {
+      (async () => {
+        const file = await picService.getPicFile(user.id);
+        setValue('avatar', file);
+      })();
+    }
+  }, []);
   return (
     <>
       <Dialog
@@ -139,17 +174,19 @@ export default function ManagerForm({ reload, setReload }) {
               </Grid>
               <Divider orientation='vertical' flexItem />
               <Grid item xs={12} md={7}>
-                {/* <Grid item>
-                  <TextField
-                    {...register('username')}
-                    margin='dense'
-                    label='User Name'
-                    type='text'
-                    fullWidth
-                    error={!!errors.username}
-                    helperText={errors?.username?.message}
-                  />
-                </Grid> */}
+                {!user.managerDto.description && (
+                  <Grid item>
+                    <TextField
+                      {...register('username')}
+                      margin='dense'
+                      label='User Name'
+                      type='text'
+                      fullWidth
+                      error={!!errors.username}
+                      helperText={errors?.username?.message}
+                    />
+                  </Grid>
+                )}
                 <Grid container item gap={2}>
                   <Grid item xs>
                     <TextField
@@ -303,6 +340,18 @@ export default function ManagerForm({ reload, setReload }) {
                                 />
                                 <IconButton
                                   onClick={() => {
+                                    // Create a download link
+                                    const downloadLink =
+                                      document.createElement('a');
+                                    downloadLink.href = URL.createObjectURL(f);
+                                    downloadLink.download = f.name;
+                                    downloadLink.click();
+                                  }}
+                                >
+                                  <Download />
+                                </IconButton>
+                                <IconButton
+                                  onClick={() => {
                                     resetField('avatar', { defaultValue: [] });
                                   }}
                                 >
@@ -331,7 +380,7 @@ export default function ManagerForm({ reload, setReload }) {
             <Button onClick={() => dispatch(close('ADD_MANAGER'))}>
               Cancel
             </Button>
-            <Button type='submit'>Create</Button>
+            <Button type='submit'>{user.username ? 'Save' : 'Create'}</Button>
           </DialogActions>
         </form>
       </Dialog>
