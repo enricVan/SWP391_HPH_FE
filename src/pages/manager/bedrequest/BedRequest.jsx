@@ -8,7 +8,15 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
-import { Button, Pagination } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  Typography,
+} from "@mui/material";
 import Payment from "./Payment";
 import SearchIcon from "@mui/icons-material/Search";
 import Searchbar from "../../../components/Searchbar";
@@ -21,13 +29,31 @@ export default function BedRequest() {
   const [open, setOpen] = useState(false);
   const [selectedBedReq, setSelectedBedReq] = useState("");
   const [searchRollnumber, setSearchRollnumber] = useState("");
+  const [semesters, setSemesters] = useState([]);
+  const [selectedSemester, setSelectedSemester] = useState("");
+
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  const fetchSemester = async () => {
+    try {
+      const res = await privateAxios.get(`semester`);
+      console.log(res.data);
+      setSemesters(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const fetchData = async () => {
+    let filter = "";
+
+    if (selectedSemester !== "") filter += "&semesterId=" + selectedSemester;
+    if (selectedStatus !== "") filter += "&status=" + selectedStatus;
     try {
       const res = await privateAxios.get(
         `bed-request?pageNo=${
           currentPage - 1
-        }&studentRollNumber=${searchRollnumber}`
+        }&studentRollNumber=${searchRollnumber}${filter}`
       );
       console.log(res.config.url);
       console.log(res.data);
@@ -38,8 +64,9 @@ export default function BedRequest() {
     }
   };
   useEffect(() => {
+    fetchSemester();
     fetchData();
-  }, [currentPage, searchRollnumber]);
+  }, [currentPage, searchRollnumber, selectedSemester, selectedStatus]);
   return (
     <Box padding={2}>
       <Box>
@@ -64,25 +91,74 @@ export default function BedRequest() {
           </h1>
         </div>
       </Box>
-      <Box flex m={2}>
-        <Search sx={{ display: "inline-block" }}>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            onChange={(e) => {
-              setSearchRollnumber(e.target.value);
-            }}
-            placeholder="Search by rollnumber…"
-            inputProps={{ "aria-label": "search" }}
+      <Box m={2}>
+        {/* Filter start */}
+        <Box display={"flex"} justifyContent={"right"} gap={2} mb={2}>
+          <Search sx={{ display: "inline-block" }}>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              onChange={(e) => {
+                setSearchRollnumber(e.target.value);
+              }}
+              placeholder="Search by rollnumber…"
+              inputProps={{ "aria-label": "search" }}
+              sx={{
+                border: "5px solid orangered",
+                borderRadius: "30px",
+                minWidth: "250px",
+              }}
+            />
+          </Search>
+          <Typography
+            flexGrow={1}
+            textAlign={"right"}
+            mx={1}
+            variant="h6"
+            color={"orangered"}
             sx={{
-              border: "5px solid orangered",
-              borderRadius: "30px",
-              minWidth: "250px",
+              fontWeight: "bold",
+              fontStyle: "italic",
+              color: "orangered",
+              transform: "translateY(10px)",
             }}
-          />
-        </Search>
+          >
+            Filter by:
+          </Typography>
+          <FormControl sx={{ minWidth: 180 }}>
+            <InputLabel id="semester-label">Semester</InputLabel>
+            <Select
+              labelId="semester-label"
+              label="Semester"
+              onChange={(e) => setSelectedSemester(e.target.value)}
+            >
+              <MenuItem value="">ALL</MenuItem>
+              {semesters.map((semester) => (
+                <MenuItem value={semester.semesterId} key={semester.semesterId}>
+                  {semester.semesterName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl sx={{ width: 180 }}>
+            <InputLabel id="status-label">Status</InputLabel>
+            <Select
+              labelId="status-label"
+              label="Status"
+              onChange={(e) => setSelectedStatus(e.target.value)}
+            >
+              <MenuItem value="">ALL</MenuItem>
+              <MenuItem value="pending">PENDING</MenuItem>
+              <MenuItem value="approved">APPROVED</MenuItem>
+              <MenuItem value="expired">EXPIRED</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+        {/* Filter end */}
       </Box>
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: "#FF5800" }}>
