@@ -3,27 +3,34 @@ import { useEffect, useState } from 'react';
 import './style.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../features/authSlice';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 export function LoginPage() {
   const dispatch = useDispatch();
   const { user, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
-  const navigate = useNavigate();
-  const [values, setValues] = useState({
-    name: '',
-    password: '',
+  const schema = yup.object().shape({
+    name: yup.string().required(),
+    password: yup.string().required(),
   });
-
-  function handleChange(e) {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  }
-  function handleSubmit(e) {
-    e.preventDefault();
-    const userData = {
-      username: values.name,
-      password: values.password,
-    };
-    dispatch(login(userData));
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitted },
+    reset,
+  } = useForm({
+    defaultValues: {
+      name: '',
+      password: '',
+    },
+    resolver: yupResolver(schema),
+  });
+  const navigate = useNavigate();
+  function onSubmit(data) {
+    dispatch(login(data));
+    reset({ keepValues: true });
   }
   useEffect(() => {
     if (user && user !== 'inactive') {
@@ -56,32 +63,34 @@ export function LoginPage() {
                   CAMPUS HOLA
                 </h3>
               </div>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='input-group mb-3'>
                   <input
                     type='text'
                     className='form-control form-control-lg bg-light fs-6'
                     placeholder='Username'
-                    name='name'
-                    onChange={handleChange}
-                    value={values.name}
+                    {...register('name')}
                   />
                 </div>
+                {isSubmitted && errors.name && (
+                  <p style={{ color: 'red' }}>{errors.name.message}</p>
+                )}
                 <div className='input-group mb-3'>
                   <input
                     type='password'
                     placeholder='Password'
                     className='form-control form-control-lg bg-light fs-6'
-                    name='password'
-                    onChange={handleChange}
-                    value={values.password}
+                    {...register('password')}
                   />
                 </div>
-                {isError ? (
+                {errors.password && (
+                  <p style={{ color: 'red' }}>{errors.password.message}</p>
+                )}
+                {isValid && isSubmitted && isError ? (
                   <p style={{ color: 'red', fontSize: '13px' }}>
                     {'Account not existed!'}
                   </p>
-                ) : user === 'inactive' ? (
+                ) : isValid && isSubmitted && user === 'inactive' ? (
                   <p style={{ color: 'red', fontSize: '13px' }}>
                     {'Account is not allowed!'}
                   </p>
@@ -98,7 +107,6 @@ export function LoginPage() {
                 </div>
                 <div className='input-group mb-3'>
                   <button
-                    onSubmit={handleSubmit}
                     type='submit'
                     className='btn btn-lg login w-100 fs-6 font-text'
                     style={{ backgroundColor: 'orangered', color: 'white' }}
