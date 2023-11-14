@@ -14,8 +14,10 @@ import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import { privateAxios } from '../../../service/axios';
 import BuildingForm from './BuildingForm';
+import { useConfirm } from 'material-ui-confirm';
 
 export default function Building() {
+  const customConfirm = useConfirm();
   const [buildings, setBuildings] = useState([]);
   const [selectedBuilding, setSelectedBuilding] = useState(null);
   const [openAdd, setOpenAdd] = useState(false);
@@ -131,14 +133,15 @@ export default function Building() {
                   <IconButton
                     color='error'
                     onClick={() => {
-                      if (
-                        confirm(`Do you want to delete building ID ${b.id}`)
-                      ) {
+                      customConfirm({
+                        title: 'Delete Building?',
+                        content: `Are you sure you want to delete building ID ${b.id}`,
+                      }).then(() => {
                         privateAxios.delete(`building/${b.id}`).then((res) => {
                           alert(res.data);
                           setReload(!reload);
                         });
-                      }
+                      });
                     }}
                     variant='contained'
                   >

@@ -1,38 +1,50 @@
-import { useState, useEffect } from 'react';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { useConfirm } from 'material-ui-confirm';
 
-export default function Test() {
-  const reqDate = new Date();
-  const { control, handleSubmit, watch } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+const Test = () => {
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const muiConfirm = useConfirm();
+  const handleConfirmationOpen = () => {
+    const answer = muiConfirm({
+      content: 'You want to delete this object?',
+      title: 'Confirm',
+    })
+      .then(() => {
+        console.log('Agree');
+      })
+      .catch(() => {
+        console.log('Denied');
+      });
   };
-  useEffect(() => {
-    console.log(watch('reqDate').toISOString());
-  }, [watch('reqDate')]);
+
+  const handleConfirmationClose = () => {
+    setConfirmationOpen(false);
+  };
+
+  const handleConfirmAction = () => {
+    // Implement your action here
+    // For example, perform deletion or other critical actions
+    console.log('Confirmed action');
+    handleConfirmationClose();
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name='reqDate'
-        defaultValue={reqDate}
-        control={control}
-        render={({ field: { onChange, ...restField } }) => (
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              label='Request Date'
-              onChange={(event) => {
-                onChange(event);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-              {...restField}
-            />
-          </LocalizationProvider>
-        )}
-      />
-    </form>
+    <div>
+      <Button
+        variant='contained'
+        color='primary'
+        onClick={handleConfirmationOpen}
+      >
+        Open Confirmation Dialog
+      </Button>
+    </div>
   );
-}
+};
+
+export default Test;
