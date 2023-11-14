@@ -27,7 +27,7 @@ export default function NewsForm({ openAdd, setOpenAdd, reload, setReload }) {
   const navigate = useNavigate();
   const initialValue = {
     category: '',
-    content: 2,
+    content: '',
     title: '',
     avatar: [],
   };
