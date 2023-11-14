@@ -22,7 +22,9 @@ export default function PaymentPage() {
   const fetchData = async () => {
     try {
       const res = await privateAxios.get(
-        `payment?pageNo=${currentPage - 1}&rollNumber=${searchRollnumber}`
+        `payment?pageNo=${
+          currentPage - 1
+        }&rollNumber=${searchRollnumber}&status1=paid&status2=pending`
       );
       console.log(res.config.url);
       console.log(res.data);
@@ -148,7 +150,9 @@ export default function PaymentPage() {
                       fontWeight: "bold",
                     }}
                   >
-                    {payment.status}
+                    {payment.status.toLowerCase() === "pending"
+                      ? "UNPAID"
+                      : payment.status}
                   </span>
                 </TableCell>
               </TableRow>

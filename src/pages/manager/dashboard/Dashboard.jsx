@@ -8,7 +8,6 @@ import ListItem from "@mui/material/ListItem";
 import { Avatar } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import students from "../../../data/student.json";
 import avatarLong from "../../../assets/image/avatar.png";
 import avatarTuan from "../../../assets/image/avatar-1.png";
 import { privateAxios } from "../../../service/axios";

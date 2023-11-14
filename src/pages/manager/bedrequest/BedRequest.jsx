@@ -47,8 +47,10 @@ export default function BedRequest() {
   const fetchData = async () => {
     let filter = "";
 
-    if (selectedSemester !== "") filter += "&semesterId=" + selectedSemester;
-    if (selectedStatus !== "") filter += "&status=" + selectedStatus;
+    if (selectedSemester !== "" && selectedSemester !== "all")
+      filter += "&semesterId=" + selectedSemester;
+    if (selectedStatus !== "" && selectedStatus !== "all")
+      filter += "&status=" + selectedStatus;
     try {
       const res = await privateAxios.get(
         `bed-request?pageNo=${
@@ -133,7 +135,7 @@ export default function BedRequest() {
               label="Semester"
               onChange={(e) => setSelectedSemester(e.target.value)}
             >
-              <MenuItem value="">ALL</MenuItem>
+              <MenuItem value="all">ALL</MenuItem>
               {semesters.map((semester) => (
                 <MenuItem value={semester.semesterId} key={semester.semesterId}>
                   {semester.semesterName}
@@ -149,7 +151,7 @@ export default function BedRequest() {
               label="Status"
               onChange={(e) => setSelectedStatus(e.target.value)}
             >
-              <MenuItem value="">ALL</MenuItem>
+              <MenuItem value="all">ALL</MenuItem>
               <MenuItem value="pending">PENDING</MenuItem>
               <MenuItem value="approved">APPROVED</MenuItem>
               <MenuItem value="expired">EXPIRED</MenuItem>
