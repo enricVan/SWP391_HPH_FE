@@ -4,45 +4,42 @@ import imagelogo from './imagelogo/FrogFind.png';
 import { privateAxios } from '../../service/axios';
 import { Link } from 'react-router-dom';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 export default function ChangePassword() {
   const user = JSON.parse(localStorage.getItem('user'));
   const userid = user.id;
-  const [oldPassword, setoldPassword] = useState('');
-  const [newPassword, setnewPassword] = useState('');
-  const [confirmNew, setconfirmNew] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
-  const handleOldPasswordChange = (event) => {
-    setoldPassword(event.target.value);
-    setErrorMessage('');
-  };
-
-  const handleNewPasswordChange = (event) => {
-    setnewPassword(event.target.value);
-    setErrorMessage('');
-  };
-
-  const handleConfirmNewChange = (event) => {
-    setconfirmNew(event.target.value);
-    setErrorMessage('');
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (newPassword != confirmNew) {
-      setErrorMessage("Your New Password and Confirm isn't match");
-      setoldPassword('');
-      setnewPassword('');
-      setconfirmNew('');
-      return;
-    }
-
+  const schema = yup.object().shape({
+    oldPassword: yup.string().required('Old Password is required'),
+    newPassword: yup
+      .string()
+      .required('New Password is required')
+      .min(8, 'Password must be at least 8 characters'),
+    confirmNew: yup
+      .string()
+      .required('Confirm New Password is required')
+      .oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      oldPassword: '',
+      newPassword: '',
+      confirmNew: '',
+    },
+    resolver: yupResolver(schema),
+  });
+  const onSubmit = async (data) => {
     const response = privateAxios
       .put('change-password', {
         userid,
-        oldPassword,
-        newPassword,
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
       })
       .then((res) => {
         setErrorMessage(res.data);
@@ -72,7 +69,7 @@ export default function ChangePassword() {
           </div>
         </div>
         <div className='col-md-6'>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className='right-box'>
               <div className='row justify-content-center'>
                 <div
@@ -86,28 +83,28 @@ export default function ChangePassword() {
                     type='password'
                     className='form-control form-control-lg bg-light fs-6'
                     placeholder='Your old password'
-                    name='oldPassword'
+                    {...register('oldPassword')}
                     autoComplete='off'
-                    onChange={handleOldPasswordChange}
                   />
+                  {errors.oldPassword && <p>{errors.oldPassword.message}</p>}
                 </div>
                 <div className='input-group mb-3'>
                   <input
                     type='password'
                     placeholder='Your new password'
                     className='form-control form-control-lg bg-light fs-6'
-                    name='newPassword'
-                    onChange={handleNewPasswordChange}
+                    {...register('newPassword')}
                   />
+                  {errors.newPassword && <p>{errors.newPassword.message}</p>}
                 </div>
                 <div className='input-group mb-3'>
                   <input
                     type='password'
                     placeholder='Confirm your new password'
                     className='form-control form-control-lg bg-light fs-6'
-                    name='confirmNew'
-                    onChange={handleConfirmNewChange}
+                    {...register('confirmNew')}
                   />
+                  {errors.confirmNew && <p>{errors.confirmNew.message}</p>}
                 </div>
               </div>
               {errorMessage && (

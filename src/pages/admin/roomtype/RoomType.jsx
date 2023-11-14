@@ -14,8 +14,10 @@ import Add from '@mui/icons-material/Add';
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import RoomTypeForm from './RoomTypeForm';
+import { useConfirm } from 'material-ui-confirm';
 
 export default function RoomType() {
+  const customConfirm = useConfirm();
   const [roomTypes, setRoomTypes] = useState([]);
   const [selectedRoomType, setSelectedRoomType] = useState(null);
   const [openAdd, setOpenAdd] = useState(false);
@@ -148,18 +150,17 @@ export default function RoomType() {
                   <IconButton
                     color='error'
                     onClick={() => {
-                      if (
-                        confirm(
-                          `Do you want to delete room type ID ${rt.roomTypeId}`
-                        )
-                      ) {
+                      customConfirm({
+                        title: 'Delete Room Type?',
+                        content: `Do you want to delete room type ID ${rt.roomTypeId}`,
+                      }).then(() => {
                         privateAxios
                           .delete(`room-type/${rt.roomTypeId}`)
                           .then((res) => {
                             alert(res.data);
                             setReload(!reload);
                           });
-                      }
+                      });
                     }}
                     variant='contained'
                   >
