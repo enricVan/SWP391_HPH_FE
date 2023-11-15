@@ -104,7 +104,7 @@ export function LoginPage() {
                                             fontSize: "13px",
                                         }}
                                     >
-                                        {"Account not existed!"}
+                                        {"Wrong username or password!"}
                                     </p>
                                 ) : isValid &&
                                   isSubmitted &&

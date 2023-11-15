@@ -108,7 +108,7 @@ export default function ChangePassword() {
                 </div>
               </div>
               {errorMessage && (
-                <div style={{ color: 'red' }}>{errorMessage}</div>
+                <div style={{ color: errorMessage === 'Change Password Successfully!' ? 'green' : 'red' }}>{errorMessage}</div>
               )}
               <div className='input-group mb-3'>
                 <button
@@ -131,8 +131,8 @@ export default function ChangePassword() {
                       user.roleName === 'STUDENT'
                         ? '/student/home'
                         : user.roleName === 'MANAGER'
-                        ? '/manager/dashboard'
-                        : '/admin'
+                          ? '/manager/dashboard'
+                          : '/admin'
                     }
                   >
                     <button

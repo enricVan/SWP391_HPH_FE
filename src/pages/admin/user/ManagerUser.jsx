@@ -49,25 +49,7 @@ export default function ManagerUser() {
   }, [currentPage]);
   return (
     <Box padding={1}>
-      <Search sx={{ display: "inline-block" }}>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase
-          onChange={(e) => {
-            setTimeout(() => {
-              setSearch(e.target.value);
-            }, 700)();
-          }}
-          placeholder="Manager ID..."
-          inputProps={{ "aria-label": "search" }}
-          sx={{
-            border: "5px solid orangered",
-            borderRadius: "30px",
-          }}
-        />
-      </Search>
-      <Box textAlign={"right"} mb={2}>
+      <Box textAlign={"right"} mb={2} sx={{marginTop: '4.5%'}}>
         <Button
           onClick={() => {
             dispatch(open("ADD_MANAGER"));
