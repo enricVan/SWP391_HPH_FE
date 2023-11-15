@@ -1,17 +1,17 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Close from '@mui/icons-material/Close';
-import Box from '@mui/material/Box';
-import { Controller, useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { MenuItem, Select } from '@mui/material';
-import { privateAxios } from '../../../service/axios';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Close from "@mui/icons-material/Close";
+import Box from "@mui/material/Box";
+import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { MenuItem, Select } from "@mui/material";
+import { privateAxios } from "../../../service/axios";
 export default function RoomForm({
   reload,
   setReload,
@@ -24,7 +24,7 @@ export default function RoomForm({
   const [floorList, setFloorList] = React.useState([]);
   const getInitialValue = (selectedRoom) => {
     return {
-      roomName: selectedRoom ? selectedRoom.roomName : '',
+      roomName: selectedRoom ? selectedRoom.roomName : "",
       roomTypeId: selectedRoom
         ? selectedRoom.roomTypeId
         : roomTypeList[0].roomTypeId,
@@ -39,8 +39,8 @@ export default function RoomForm({
       .string()
       .required()
       .test(
-        'noWhiteSpace',
-        'Room Name cannot contain only white spaces',
+        "noWhiteSpace",
+        "Room Name cannot contain only white spaces",
         (value) => {
           // Use a regular expression to check if the string contains only white spaces
           return /\S/.test(value);
@@ -67,13 +67,14 @@ export default function RoomForm({
         .post(`room`, data)
         .then((res) => {
           console.log(res);
-          alert('Create Room Successfully!');
+          alert("Create Room Successfully!");
           reset(getInitialValue());
           setReload(!reload);
           setOpen(false);
         })
         .catch((err) => {
           console.log(err);
+          alert("Duplicated Room Name");
           // dispatch(resetForm());
           // reset(getInitialValue());
         });
@@ -82,7 +83,7 @@ export default function RoomForm({
         .put(`room/${room.roomId}`, data)
         .then((res) => {
           console.log(res);
-          alert('Room is Updated Successfully!');
+          alert("Room is Updated Successfully!");
           setReload(!reload);
           setOpen(false);
         })
@@ -94,17 +95,17 @@ export default function RoomForm({
     }
   };
   const fetchFloor = async () => {
-    const res = await privateAxios.get(`building/${watch('buildingId')}`);
+    const res = await privateAxios.get(`building/${watch("buildingId")}`);
     setFloorList(res.data.floors);
   };
   React.useEffect(() => {
     fetchFloor();
-  }, [watch('buildingId')]);
+  }, [watch("buildingId")]);
   return (
     <>
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
         <span
-          style={{ alignSelf: 'end', cursor: 'pointer' }}
+          style={{ alignSelf: "end", cursor: "pointer" }}
           onClick={() => setOpen(false)}
         >
           <Close />
@@ -113,21 +114,21 @@ export default function RoomForm({
           <Box>
             <div
               style={{
-                backgroundColor: '#034EA2',
-                padding: '6px',
-                borderRadius: '15px',
+                backgroundColor: "#034EA2",
+                padding: "6px",
+                borderRadius: "15px",
               }}
             >
               <h3
                 style={{
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  color: '#fff',
-                  textTransform: 'uppercase',
-                  margin: '0',
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: "#fff",
+                  textTransform: "uppercase",
+                  margin: "0",
                 }}
               >
-                {!room ? 'Create' : 'Edit'} Room
+                {!room ? "Create" : "Edit"} Room
               </h3>
             </div>
           </Box>
@@ -135,28 +136,28 @@ export default function RoomForm({
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogContent>
             <TextField
-              {...register('roomName')}
-              margin='dense'
-              label='Name'
-              type='text'
+              {...register("roomName")}
+              margin="dense"
+              label="Name"
+              type="text"
               fullWidth
               error={!!errors.roomName}
               helperText={errors?.roomName?.message}
             />
             <Controller
-              name='roomTypeId'
+              name="roomTypeId"
               control={control}
               render={({ field }) => (
-                <Select {...field} fullWidth sx={{ marginBottom: '4px' }}>
+                <Select {...field} fullWidth sx={{ marginBottom: "4px" }}>
                   {roomTypeList?.map((roomType) => (
                     <MenuItem
                       key={roomType.roomTypeId}
                       value={roomType.roomTypeId}
                     >
                       {roomType.roomTypeName}&nbsp;&nbsp;- &nbsp;
-                      {roomType.price.toLocaleString('it-IT', {
-                        style: 'currency',
-                        currency: 'VND',
+                      {roomType.price.toLocaleString("it-IT", {
+                        style: "currency",
+                        currency: "VND",
                       })}
                     </MenuItem>
                   ))}
@@ -164,10 +165,10 @@ export default function RoomForm({
               )}
             />
             <Controller
-              name='buildingId'
+              name="buildingId"
               control={control}
               render={({ field }) => (
-                <Select {...field} fullWidth sx={{ marginBottom: '4px' }}>
+                <Select {...field} fullWidth sx={{ marginBottom: "4px" }}>
                   {buildingList.map((building) => (
                     <MenuItem
                       key={building.buildingId}
@@ -180,7 +181,7 @@ export default function RoomForm({
               )}
             />
             <Controller
-              name='floor'
+              name="floor"
               control={control}
               render={({ field }) => (
                 <Select {...field} fullWidth>
@@ -194,24 +195,24 @@ export default function RoomForm({
               )}
             />
           </DialogContent>
-          <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
+          <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
             <Button
               sx={{
-                padding: '8px 20px',
-                color: '#FFF',
-                backgroundColor: '#FF5000',
-                '&:hover': {
-                  backgroundColor: '#FF2000',
-                  borderColor: '#FF2000',
-                  boxShadow: 'none',
+                padding: "8px 20px",
+                color: "#FFF",
+                backgroundColor: "#FF5000",
+                "&:hover": {
+                  backgroundColor: "#FF2000",
+                  borderColor: "#FF2000",
+                  boxShadow: "none",
                 },
-                fontWeight: 'bold',
-                fontSize: '1.25rem',
+                fontWeight: "bold",
+                fontSize: "1.25rem",
               }}
-              variant='contained'
-              type='submit'
+              variant="contained"
+              type="submit"
             >
-              {!room ? 'Create' : 'Save'}
+              {!room ? "Create" : "Save"}
             </Button>
           </DialogActions>
         </form>

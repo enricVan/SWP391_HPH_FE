@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import { privateAxios } from '../../../service/axios';
+import { useEffect, useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import { privateAxios } from "../../../service/axios";
 import {
   Button,
   FormControl,
@@ -18,13 +18,14 @@ import {
   Select,
   Switch,
   TextField,
-} from '@mui/material';
-import Delete from '@mui/icons-material/Delete';
-import { deepOrange, orange } from '@mui/material/colors';
-import { AddCircle, Edit, RemoveRedEye } from '@mui/icons-material';
-import AddUser from './form/AddUser';
-import EditUser from './form/EditUser';
-import { useNavigate } from 'react-router-dom';
+} from "@mui/material";
+import Delete from "@mui/icons-material/Delete";
+import { deepOrange, orange } from "@mui/material/colors";
+import { AddCircle, Edit, RemoveRedEye } from "@mui/icons-material";
+import AddUser from "./form/AddUser";
+import EditUser from "./form/EditUser";
+import { useNavigate } from "react-router-dom";
+import { useConfirm } from "material-ui-confirm";
 
 export default function AllUser() {
   const navigate = useNavigate();
@@ -33,19 +34,20 @@ export default function AllUser() {
   const [currentPage, setCurrentPage] = useState(1);
   const [checked, setChecked] = useState(false);
   const [reload, setReload] = useState(false);
-  const [partialName, setPartialName] = useState('');
+  const [partialName, setPartialName] = useState("");
   const [roleId, setRoleId] = useState(0);
   const [roles, setRoles] = useState([]);
-  const [selectedStatus, SetSelectedStatus] = useState('all');
+  const [selectedStatus, SetSelectedStatus] = useState("all");
   const [selectedUser, setSelectedUser] = useState(null);
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const muiConfirm = useConfirm();
   const fetchRoles = async () => {
     try {
-      const res = await privateAxios.get('role');
+      const res = await privateAxios.get("role");
       setRoles(
         res.data.filter(
-          (role) => role.roleName !== 'ADMIN' && role.roleName !== 'GUARD'
+          (role) => role.roleName !== "ADMIN" && role.roleName !== "GUARD"
         )
       );
     } catch (error) {
@@ -53,14 +55,14 @@ export default function AllUser() {
     }
   };
   const fetchUser = async () => {
-    let roleFilter = '';
+    let roleFilter = "";
     if (roleId !== 0) roleFilter = roleId;
     const res = await privateAxios.get(
       `user?partialName=${partialName}&roleId=${roleFilter}&pageNo=${
         currentPage - 1
       }`
     );
-    setUsers(res.data?.data.filter((user) => user.username !== 'admin'));
+    setUsers(res.data?.data.filter((user) => user.username !== "admin"));
     setTotalPages(res.data.totalPages);
   };
   useEffect(() => {
@@ -68,7 +70,7 @@ export default function AllUser() {
   }, []);
   useEffect(() => {
     fetchUser().then(() => {
-      if (selectedStatus !== 'all') {
+      if (selectedStatus !== "all") {
         setUsers((prev) =>
           prev.filter((user) => user.status.toLowerCase() === selectedStatus)
         );
@@ -94,14 +96,14 @@ export default function AllUser() {
   return (
     <Box padding={1}>
       <Box
-        display={'flex'}
-        sx={{ justifyContent: 'space-between' }}
-        margin={'5vh 0'}
+        display={"flex"}
+        sx={{ justifyContent: "space-between" }}
+        margin={"5vh 0"}
       ></Box>
-      <Box display={'flex'} justifyContent={'center'} gap={2} mb={2}>
+      <Box display={"flex"} justifyContent={"center"} gap={2} mb={2}>
         <FormControl sx={{ width: 250 }}>
           <TextField
-            label='Username'
+            label="Username"
             fullWidth
             multiline
             value={partialName}
@@ -111,10 +113,10 @@ export default function AllUser() {
           />
         </FormControl>
         <FormControl sx={{ width: 250 }}>
-          <InputLabel id='floor-label'>Role</InputLabel>
+          <InputLabel id="floor-label">Role</InputLabel>
           <Select
-            labelId='floor-label'
-            label='Floor'
+            labelId="floor-label"
+            label="Floor"
             value={roleId}
             onChange={(e) => {
               setRoleId(e.target.value);
@@ -132,25 +134,25 @@ export default function AllUser() {
           </Select>
         </FormControl>
         <FormControl sx={{ width: 250 }}>
-          <InputLabel id='room-type-label'>Status</InputLabel>
+          <InputLabel id="room-type-label">Status</InputLabel>
           <Select
-            labelId='room-type-label'
-            label='Status'
+            labelId="room-type-label"
+            label="Status"
             value={selectedStatus}
             onChange={(e) => {
               SetSelectedStatus(e.target.value);
             }}
           >
-            <MenuItem value={'all'}>{'ALL'}</MenuItem>
-            <MenuItem value={'active'}>{'ACTIVE'}</MenuItem>
-            <MenuItem value={'deactive'}>{'DEACTIVE'}</MenuItem>
+            <MenuItem value={"all"}>{"ALL"}</MenuItem>
+            <MenuItem value={"active"}>{"ACTIVE"}</MenuItem>
+            <MenuItem value={"inactive"}>{"INACTIVE"}</MenuItem>
           </Select>
         </FormControl>
       </Box>
-      <Box textAlign={'right'} mb={2}>
+      <Box textAlign={"right"} mb={2}>
         <Button
           onClick={() => setOpenAdd(true)}
-          variant='contained'
+          variant="contained"
           endIcon={<AddCircle />}
         >
           Create
@@ -159,28 +161,28 @@ export default function AllUser() {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: 'orangered' }}>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
+            <TableRow sx={{ backgroundColor: "orangered" }}>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 ID
               </TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Username
               </TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Email
               </TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Activate
               </TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Created Date
               </TableCell>
-              <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
+              <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                 Updated Date
               </TableCell>
               <TableCell
                 colSpan={2}
-                sx={{ color: 'white', fontWeight: 'bold' }}
+                sx={{ color: "white", fontWeight: "bold" }}
               >
                 Settings
               </TableCell>
@@ -189,22 +191,29 @@ export default function AllUser() {
           <TableBody>
             {users.map((item) => (
               <TableRow key={item.id}>
-                <TableCell component='th'>{item.id}</TableCell>
+                <TableCell component="th">{item.id}</TableCell>
                 <TableCell>{item.username}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell>
                   <FormControl>
                     <Switch
-                      checked={item.status === 'active' ? true : false}
+                      checked={item.status === "active" ? true : false}
                       onChange={(e) => {
                         const newStatus =
-                          item.status === 'active' ? 'deactive' : 'active';
-                        privateAxios
-                          .put(`user/${item.id}`, { status: newStatus })
-                          .then((res) => {
-                            setReload(!reload);
-                          })
-                          .catch((err) => console.log(err));
+                          item.status === "active" ? "inactive" : "active";
+                        muiConfirm({
+                          title: "Update status",
+                          content: `Are you sure you want to update User (ID: ${
+                            item.id
+                          }) from ${item.status.toUpperCase()} to ${newStatus.toUpperCase()}`,
+                        }).then(() => {
+                          privateAxios
+                            .put(`user/${item.id}`, { status: newStatus })
+                            .then((res) => {
+                              setReload(!reload);
+                            })
+                            .catch((err) => console.log(err));
+                        });
                       }}
                     />
                   </FormControl>
@@ -213,16 +222,16 @@ export default function AllUser() {
                 <TableCell>{item.updatedAt}</TableCell>
                 <TableCell>
                   <IconButton
-                    color='primary'
+                    color="primary"
                     onClick={() => {
                       setSelectedUser(item);
                       setOpenEdit(true);
                     }}
-                    variant='contained'
+                    variant="contained"
                   >
                     <Edit />
                   </IconButton>
-                  <IconButton
+                  {/* <IconButton
                     color='error'
                     onClick={() => {
                       if (confirm(`Do you want to delete user ${item.id}`)) {
@@ -232,17 +241,17 @@ export default function AllUser() {
                     variant='contained'
                   >
                     <Delete />
-                  </IconButton>
+                  </IconButton> */}
                   <IconButton
-                    sx={{ color: 'orangered' }}
+                    sx={{ color: "orangered" }}
                     onClick={() => {
-                      if (item.roleName === 'STUDENT') {
+                      if (item.roleName === "STUDENT") {
                         navigate(`../student/${item.studentRollNumber}`);
                       } else {
                         navigate(`../manager/${item.managerId}`);
                       }
                     }}
-                    variant='contained'
+                    variant="contained"
                   >
                     <RemoveRedEye />
                   </IconButton>
@@ -253,25 +262,25 @@ export default function AllUser() {
         </Table>
       </TableContainer>
       <Pagination
-        color='primary'
+        color="primary"
         count={totalPages}
         page={currentPage}
         onChange={(e, value) => {
           setCurrentPage(value);
         }}
         sx={{
-          justifyContent: 'center',
-          '& .MuiPagination-ul': {
-            justifyContent: 'center',
+          justifyContent: "center",
+          "& .MuiPagination-ul": {
+            justifyContent: "center",
           },
-          '&& .Mui-selected': {
-            bgcolor: 'orangered',
+          "&& .Mui-selected": {
+            bgcolor: "orangered",
           },
-          '& .MuiPaginationItem-root:hover': {
-            bgcolor: 'rgba(255,69,0,0.8)',
+          "& .MuiPaginationItem-root:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
           },
-          '&& .Mui-selected:hover': {
-            bgcolor: 'rgba(255,69,0,0.8)',
+          "&& .Mui-selected:hover": {
+            bgcolor: "rgba(255,69,0,0.8)",
           },
           my: 4,
         }}

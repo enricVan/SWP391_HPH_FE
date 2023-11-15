@@ -57,9 +57,12 @@ export default function ManagerForm({ reload, setReload }) {
 
   const schema = yup.object().shape({
     managerDto: yup.object().shape({
-      description: yup.string().required(),
+      description: yup.string().required("Description is required"),
     }),
-    fullName: yup.string().required(),
+    fullName: yup
+      .string()
+      .matches(/^[A-Za-zÀ-ỹ ]*$/, "Please enter valid name")
+      .required(),
     phone: yup
       .string()
       .matches(phoneRegEx, "Phone number is not valid")
@@ -67,8 +70,50 @@ export default function ManagerForm({ reload, setReload }) {
     address: yup.string().required(),
     username: yup.string().required(),
 
-    email: yup.string().email("Wrong email format!").required(),
-    avatar: yup.array().min(1, "Please select one file"),
+    email: yup
+      .string()
+      .matches(
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "Wrong email format"
+      )
+      .required("Email is required"),
+    avatar: yup
+      .array()
+      .min(1, "Please select one file")
+      .test(
+        "fileType",
+        "Invalid file type. Only image files (.png, .jpg, .jpeg) are allowed.",
+        (files) => {
+          if (!files) return false;
+
+          const allowedTypes = ["image/png", "image/jpg", "image/jpeg"];
+
+          for (const file of files) {
+            if (!allowedTypes.includes(file.type)) {
+              return false;
+            }
+          }
+
+          return true;
+        }
+      )
+      .test(
+        "fileSize",
+        "File size is too large. Maximum size is 1MB.",
+        (files) => {
+          if (!files) return true;
+
+          const maxSize = 1024 * 1024; // 2MB
+
+          for (const file of files) {
+            if (file.size > maxSize) {
+              return false;
+            }
+          }
+
+          return true;
+        }
+      ),
     dob: yup
       .date()
       .max(new Date(), "Date of Birth cannot be in the future")

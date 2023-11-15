@@ -49,7 +49,7 @@ export default function ManagerUser() {
   }, [currentPage]);
   return (
     <Box padding={1}>
-      <Box textAlign={"right"} mb={2} sx={{marginTop: '4.5%'}}>
+      <Box textAlign={"right"} mb={2} sx={{ marginTop: "4.5%" }}>
         <Button
           onClick={() => {
             dispatch(open("ADD_MANAGER"));
@@ -129,13 +129,13 @@ export default function ManagerUser() {
                   >
                     <Edit />
                   </IconButton>
-                  <IconButton
+                  {/* <IconButton
                     color="error"
                     onClick={() => {}}
                     variant="contained"
                   >
                     <Delete />
-                  </IconButton>
+                  </IconButton> */}
                 </TableCell>
               </TableRow>
             ))}
