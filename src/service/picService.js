@@ -3,7 +3,7 @@ import { privateAxios } from "./axios";
 const getUserPic = async (userId) => {
   try {
     const res = await privateAxios(`user/user-pic/${userId}`, {
-      // responseType: "blob",
+      responseType: "blob",
     });
     console.log(res);
     const url = URL.createObjectURL(res.data);
