@@ -29,7 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             dialogProps: {
               sx: {
                 textAlign: 'center',
-                maxWidth: '300px',
+                maxWidth: '400px',
                 margin: 'auto',
               },
             },

@@ -1,9 +1,9 @@
-import { privateAxios } from "./axios";
+import { privateAxios } from './axios';
 
 const getUserPic = async (userId) => {
   try {
     const res = await privateAxios(`user/user-pic/${userId}`, {
-      responseType: "blob",
+      responseType: 'blob',
     });
     console.log(res);
     const url = URL.createObjectURL(res.data);
@@ -15,7 +15,7 @@ const getUserPic = async (userId) => {
 const getPicFile = async (userId) => {
   try {
     const res = await privateAxios(`user/user-pic/${userId}`, {
-      responseType: "blob",
+      responseType: 'blob',
     });
     const file = new File([res.data], `user${userId}.jpg`, {
       lastModified: new Date().getTime(),
@@ -30,7 +30,7 @@ const getPicFile = async (userId) => {
 const getNewsPdfFile = async (newsId) => {
   try {
     const res = await privateAxios(`news/file/${newsId}`, {
-      responseType: "blob",
+      responseType: 'blob',
     });
     console.log(res);
     const url = URL.createObjectURL(res.data);
