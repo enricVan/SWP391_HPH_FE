@@ -1,23 +1,23 @@
 // import Searchbar from "../../../components/Searchbar";
 // import SearchIcon from "@mui/icons-material/Search";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { privateAxios } from '../../../../service/axios';
-import { ArrowForward } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserPic } from '../../../../features/picSlice';
-import picService from '../../../../service/picService';
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { privateAxios } from "../../../../service/axios";
+import { ArrowForward } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserPic } from "../../../../features/picSlice";
+import picService from "../../../../service/picService";
 // const { Search, SearchIconWrapper, StyledInputBase } = Searchbar;
 const MainInfo = ({ student }) => {
   return (
@@ -25,46 +25,46 @@ const MainInfo = ({ student }) => {
       <Table>
         <TableBody>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Roll Number
             </TableCell>
-            <TableCell align='right'>{student.rollNumber}</TableCell>
+            <TableCell align="right">{student.rollNumber}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Name
             </TableCell>
-            <TableCell align='right'>{student.userDto?.fullName}</TableCell>
+            <TableCell align="right">{student.userDto?.fullName}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Parent Name
             </TableCell>
-            <TableCell align='right'>{student.parentName}</TableCell>
+            <TableCell align="right">{student.parentName}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Gender
             </TableCell>
-            <TableCell align='right'>{student.userDto?.gender}</TableCell>
+            <TableCell align="right">{student.userDto?.gender}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Date of birth
             </TableCell>
-            <TableCell align='right'>{student.userDto?.dob}</TableCell>
+            <TableCell align="right">{student.userDto?.dob}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Phone Number
             </TableCell>
-            <TableCell align='right'>{student.userDto?.phone}</TableCell>
+            <TableCell align="right">{student.userDto?.phone}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Address
             </TableCell>
-            <TableCell align='right'>{student.userDto?.address}</TableCell>
+            <TableCell align="right">{student.userDto?.address}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -75,36 +75,36 @@ const SideInfo = ({ student }) => {
   return (
     <>
       <Box paddingLeft={1}>
-        <Table sx={{ borderRadius: '20px' }}>
-          <TableRow sx={{ backgroundColor: '#fff' }}>
+        <Table sx={{ borderRadius: "20px" }}>
+          <TableRow sx={{ backgroundColor: "#fff" }}>
             <TableCell
               colSpan={2}
-              align='center'
-              sx={{ fontWeight: 'bolder', fontSize: '24px' }}
+              align="center"
+              sx={{ fontWeight: "bolder", fontSize: "24px" }}
             >
               Account
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               ID
             </TableCell>
-            <TableCell align='left'>{student.userDto.id}</TableCell>
+            <TableCell align="left">{student.userDto.id}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               User Name
             </TableCell>
-            <TableCell align='left'>{student.userDto?.username}</TableCell>
+            <TableCell align="left">{student.userDto?.username}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Status
             </TableCell>
             <TableCell
-              align='left'
+              align="left"
               sx={{
-                color: student.userDto?.status === 'active' ? 'green' : 'red',
+                color: student.userDto?.status === "active" ? "green" : "red",
               }}
             >
               {student.userDto?.status}
@@ -112,10 +112,10 @@ const SideInfo = ({ student }) => {
           </TableRow>
 
           <TableRow>
-            <TableCell align='right' sx={{ fontWeight: 'bolder' }}>
+            <TableCell align="right" sx={{ fontWeight: "bolder" }}>
               Email
             </TableCell>
-            <TableCell align='left'>{student.userDto?.email}</TableCell>
+            <TableCell align="left">{student.userDto?.email}</TableCell>
           </TableRow>
         </Table>
       </Box>
@@ -186,9 +186,9 @@ export default function StudentDetail() {
     <Box p={2}>
       <Button
         onClick={() => {
-          navigate('../student');
+          navigate("../student");
         }}
-        variant='contained'
+        variant="contained"
         startIcon={<ArrowBackIcon />}
       >
         Back
@@ -201,10 +201,10 @@ export default function StudentDetail() {
               <Grid container>
                 <Grid item xs={12} md={5}>
                   <Avatar
-                    variant='square'
+                    variant="square"
                     sx={{
-                      width: '100%',
-                      height: 400,
+                      width: "100%",
+                      height: 500,
                       marginRight: 4,
                       mb: 5,
                     }}
@@ -213,17 +213,17 @@ export default function StudentDetail() {
                 </Grid>
                 <Grid item xs={12} md={7}>
                   {!showNext ? (
-                    <div style={{ textAlign: 'right' }}>
+                    <div style={{ textAlign: "right" }}>
                       <ArrowForward
                         onClick={() => setShowNext(true)}
-                        sx={{ cursor: 'pointer' }}
+                        sx={{ cursor: "pointer" }}
                       />
                     </div>
                   ) : (
                     <div>
                       <ArrowBackIcon
                         onClick={() => setShowNext(false)}
-                        sx={{ cursor: 'pointer' }}
+                        sx={{ cursor: "pointer" }}
                       />
                     </div>
                   )}

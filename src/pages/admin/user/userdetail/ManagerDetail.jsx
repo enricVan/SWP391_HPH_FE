@@ -162,7 +162,7 @@ export default function ManagerDetail() {
                     variant="square"
                     sx={{
                       width: "100%",
-                      height: 400,
+                      height: 500,
                       marginRight: 4,
                       mb: 5,
                     }}

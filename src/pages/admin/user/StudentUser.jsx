@@ -34,10 +34,11 @@ export default function StudentUser() {
   const [reload, setReload] = useState(false);
   const [search, setSearch] = useState("");
   const fetchStudent = async () => {
-    const res = await privateAxios.get(`student?rollNumber=${search}`);
+    const res = await privateAxios.get(
+      `student?pageNo=${currentPage - 1}&rollNumber=${search}`
+    );
     setStudents(res.data.data);
-
-    setTotalPages(res.totalPages);
+    setTotalPages(res.data.totalPages);
   };
   useEffect(() => {
     fetchStudent();

@@ -162,6 +162,7 @@ export default function ManagerForm({ reload, setReload }) {
           if (res.data.message.includes("Username")) {
             resetField("username");
           }
+          dispatch(close("ADD_MANAGER"));
           setReload(!reload);
         })
         .catch((err) => {
@@ -177,6 +178,7 @@ export default function ManagerForm({ reload, setReload }) {
           console.log(res);
           alert(res.data.message.toUpperCase());
 
+          dispatch(close("ADD_MANAGER"));
           setReload(!reload);
         })
         .catch((err) => {
