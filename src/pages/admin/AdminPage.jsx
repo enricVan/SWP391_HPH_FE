@@ -24,6 +24,10 @@ const navItems = [
 ];
 
 function AdminPage() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user || user.roleName !== 'ADMIN') {
+    return <Navigate to='/login' replace />;
+  }
   const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (

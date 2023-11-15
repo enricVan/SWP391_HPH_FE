@@ -177,10 +177,13 @@ export default function BedModal({
                   &nbsp; &nbsp; &nbsp; {selectedBed.status.toUpperCase()}
                 </span>
               </Typography>
-              <div p={1} style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                p={1}
+                // style={{ display: 'flex', alignItems: 'center' }}
+              >
                 Student in:{' '}
-                {selectedBed.rollNumber ? selectedBed.rollNumber : ''}
-                {!selectedBed.rollNumber && openMoveStudent && (
+                {selectedBed.rollNumber ? selectedBed.rollNumber : 'N/A'}
+                {/* {!selectedBed.rollNumber && openMoveStudent && (
                   <>
                     <TextField
                       sx={{ ml: 1 }}
@@ -277,8 +280,8 @@ export default function BedModal({
                       }}
                     />
                   </span>
-                )}
-              </div>
+                )} */}
+              </Typography>
               {/* <Button
                 variant="contained"
                 color="primary"
