@@ -86,8 +86,10 @@ export default function ChangePassword() {
                     {...register('oldPassword')}
                     autoComplete='off'
                   />
-                  {errors.oldPassword && <p>{errors.oldPassword.message}</p>}
                 </div>
+                {errors.oldPassword && (
+                  <p style={{ color: 'red' }}>{errors.oldPassword.message}</p>
+                )}
                 <div className='input-group mb-3'>
                   <input
                     type='password'
@@ -95,8 +97,10 @@ export default function ChangePassword() {
                     className='form-control form-control-lg bg-light fs-6'
                     {...register('newPassword')}
                   />
-                  {errors.newPassword && <p>{errors.newPassword.message}</p>}
                 </div>
+                {errors.newPassword && (
+                  <p style={{ color: 'red' }}>{errors.newPassword.message}</p>
+                )}
                 <div className='input-group mb-3'>
                   <input
                     type='password'
@@ -104,8 +108,10 @@ export default function ChangePassword() {
                     className='form-control form-control-lg bg-light fs-6'
                     {...register('confirmNew')}
                   />
-                  {errors.confirmNew && <p>{errors.confirmNew.message}</p>}
                 </div>
+                {errors.confirmNew && (
+                  <p style={{ color: 'red' }}>{errors.confirmNew.message}</p>
+                )}
               </div>
               {errorMessage && (
                 <div style={{ color: 'red' }}>{errorMessage}</div>

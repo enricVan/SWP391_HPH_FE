@@ -226,7 +226,7 @@ export default function AllUser() {
                     color='error'
                     onClick={() => {
                       if (confirm(`Do you want to delete user ${item.id}`)) {
-                        privateAxios.post(`user/${item.id}`);
+                        privateAxios.delete(`user/${item.id}`);
                       }
                     }}
                     variant='contained'
