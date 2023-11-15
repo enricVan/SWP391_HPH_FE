@@ -69,6 +69,10 @@ export default function BedRequest() {
     fetchSemester();
     fetchData();
   }, [currentPage, searchRollnumber, selectedSemester, selectedStatus]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchRollnumber, selectedSemester, selectedStatus]);
   return (
     <Box padding={2}>
       <Box>
@@ -154,6 +158,7 @@ export default function BedRequest() {
               <MenuItem value="all">ALL</MenuItem>
               <MenuItem value="pending">PENDING</MenuItem>
               <MenuItem value="approved">APPROVED</MenuItem>
+              <MenuItem value="rejected">REJECTED</MenuItem>
               <MenuItem value="expired">EXPIRED</MenuItem>
             </Select>
           </FormControl>

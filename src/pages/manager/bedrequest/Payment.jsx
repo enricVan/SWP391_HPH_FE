@@ -9,6 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 export default function Payment({ open, setOpen, bedRequestId }) {
   const [payment, setPayment] = useState({});
@@ -31,10 +32,21 @@ export default function Payment({ open, setOpen, bedRequestId }) {
     window.location.reload();
   };
 
+  const unCheckPaid = async () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    await privateAxios.put(
+      `payment/${payment.paymentId}/uncheck?managerId=${user.managerId}`
+    );
+    window.location.reload();
+  };
+
   const handleClickCheckPaid = () => {
     checkPaid();
   };
 
+  const handleClickUnCheckPaid = () => {
+    unCheckPaid();
+  };
   function formatPrice(price) {
     price = (price + "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
@@ -82,7 +94,9 @@ export default function Payment({ open, setOpen, bedRequestId }) {
                   payment.status === "expired"
                     ? "red"
                     : payment.status === "pending"
-                    ? "#FFC300 "
+                    ? "#FFC300"
+                    : payment.status === "not paid"
+                    ? "orangered"
                     : "green",
                 textTransform: "uppercase",
                 fontWeight: "bold",
@@ -96,12 +110,36 @@ export default function Payment({ open, setOpen, bedRequestId }) {
                 border: "1px solid green",
                 color: "#56E90D",
                 "&:hover": { color: "#088803" },
-                display: payment.status === "expired" ? "none" : "",
+                display:
+                  payment.status === "expired"
+                    ? "none"
+                    : payment.status === "not paid"
+                    ? "none"
+                    : "",
               }}
               disabled={payment.status === "paid"}
               onClick={handleClickCheckPaid}
             >
               <CheckCircleIcon sx={{ color: "#088803" }} />
+            </IconButton>
+
+            <IconButton
+              variant="contained"
+              sx={{
+                border: "1px solid red",
+                color: "red",
+                "&:hover": { color: "#088803" },
+                display:
+                  payment.status === "expired"
+                    ? "none"
+                    : payment.status === "paid"
+                    ? "none"
+                    : "",
+              }}
+              disabled={payment.status === "not paid"}
+              onClick={handleClickUnCheckPaid}
+            >
+              <CancelIcon sx={{ color: "red" }} />
             </IconButton>
           </Grid>
           <Grid item xs={3} sx={{ fontWeight: "bolder" }}>
