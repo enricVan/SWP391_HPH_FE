@@ -62,14 +62,14 @@ export default function AddUser({ openAdd, setOpenAdd }) {
     dob: new Date(),
   };
   const schema = yup.object().shape({
-    fullName: yup.string().required(),
+    fullName: yup.string().required("Full Name is required"),
     phone: yup
       .string()
       .matches(phoneRegEx, 'Phone number is not valid')
       .required(),
-    address: yup.string().required(),
-    username: yup.string().required(),
-    email: yup.string().email('Wrong email format!').required(),
+    address: yup.string().required("Address is required"),
+    username: yup.string().required("Username is required"),
+    email: yup.string().email('Wrong email format!').required("Email is required"),
     avatar: yup.array().min(1, 'Please select one file'),
     dob: yup
       .date()
