@@ -41,10 +41,10 @@ const navItems = [
     text: "Booked History",
     icon: <ListAltIcon />,
   },
-  // {
-  //   text: "Payment History",
-  //   icon: <PaidIcon />,
-  // },
+  {
+    text: "Payment History",
+    icon: <PaymentIcon />,
+  },
   {
     text: "Request",
     icon: <ContactSupportIcon />,
