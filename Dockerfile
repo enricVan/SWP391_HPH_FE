@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-ENV NGINX_DOMAIN hph.quachuoitrenmay.online
+ENV NGINX_DOMAIN holacampushome.quachuoitrenmay.online
 
 WORKDIR /usr/share/nginx/html
 
