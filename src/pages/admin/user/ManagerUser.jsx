@@ -34,11 +34,10 @@ export default function ManagerUser() {
   const [reload, setReload] = useState(false);
   const [search, setSearch] = useState("");
   const fetchManager = async () => {
-    const res = await privateAxios.get(`manager`);
+    const res = await privateAxios.get(`manager?pageNo=${currentPage - 1}`);
     console.log(res.data);
     setManagers(res.data.data);
-
-    setTotalPages(res.totalPages);
+    setTotalPages(res.data.totalPages);
   };
   useEffect(() => {
     fetchManager();

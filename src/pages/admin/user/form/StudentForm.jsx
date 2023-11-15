@@ -160,6 +160,7 @@ export default function StudentForm({ reload, setReload }) {
           if (res.data.message.includes("Exist")) {
             resetField("studentDto.rollNumber");
           }
+          dispatch(resetForm());
           dispatch(close("ADD_STUDENT"));
           setReload(!reload);
         })
@@ -182,6 +183,7 @@ export default function StudentForm({ reload, setReload }) {
           } else {
             setReload(!reload);
           }
+          dispatch(resetForm());
           dispatch(close("ADD_STUDENT"));
         })
         .catch((err) => {

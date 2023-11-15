@@ -23,12 +23,21 @@ export default function Home() {
   const { picUrl } = useSelector((state) => state.pic);
   const dispatch = useDispatch();
   const [news, setNews] = React.useState([]);
+  const [student, setStudent] = React.useState(null);
+
+  const fetchStudent = async () => {
+    const res = await privateAxios.get(`student/${user.studentRollNumber}`);
+    console.log(res.data);
+    setStudent(res.data);
+  };
+
   const fetchData = async () => {
     const res = await privateAxios.get("news?page=0");
     setNews(res.data.content);
   };
   React.useEffect(() => {
     fetchData();
+    fetchStudent();
     dispatch(getUserPic(user.id));
   }, []);
 
@@ -99,15 +108,19 @@ export default function Home() {
               <Grid item xs={4}>
                 <Avatar
                   alt="Remy Sharp"
-                  sx={{ width: "100%", height: 150 }}
+                  sx={{ width: "100%", minHeight: 200 }}
                   variant="square"
                   src={picUrl}
                 />
               </Grid>
               <Grid item xs={8} width={"100%"} paddingLeft={1}>
+                <Typography m={2}>{user.studentRollNumber}</Typography>
                 <Typography m={2}>{user.fullName}</Typography>
                 <Typography m={2}>{user.dob}</Typography>
                 <Typography m={2}>{user.gender}</Typography>
+                <Typography m={2}>
+                  {student?.roomName ? "Room: " + student.roomName : ""}
+                </Typography>
               </Grid>
             </Grid>
           </Item>

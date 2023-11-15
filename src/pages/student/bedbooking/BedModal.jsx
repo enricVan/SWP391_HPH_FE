@@ -11,6 +11,7 @@ import {
 import SingleBedIcon from "@mui/icons-material/SingleBed";
 import { privateAxios } from "../../../service/axios";
 import MessageModal from "./MessageModal";
+import { useConfirm } from "material-ui-confirm";
 
 export default function BedModal({
   roomId,
@@ -24,33 +25,37 @@ export default function BedModal({
   const [bookedStatus, setBookedStatus] = useState(false);
   const [openStatus, setOpenStatus] = useState(false);
   const [reload, setReload] = useState(false);
+  const muiConfirm = useConfirm();
   const handleBedClick = (bed) => {
     setSelectedBed(bed);
   };
 
   const handleConfirm = (bed) => {
     // Handle the confirmation action here
-    if (selectedBed && confirm(`Confirmed Booking: ${selectedBed.bedName}?`)) {
-      privateAxios
-        .post(
-          `bed-request/book?studentId=${studentId}&bedId=${bed.id}&semesterId=${semesterId}`
-        )
-        .then((response) => {
-          console.log(response);
-          if (response.data.bedRequestId) {
-            setBookedStatus(true);
-          } else {
-            setBookedStatus(false);
-          }
-          setOpenStatus(true);
-          setReload(!reload);
-        })
-        .catch((error) => {
-          setBookedStatus(false);
-          setOpenStatus(true);
-          setReload(!reload);
-        });
-      // You can perform further actions here, e.g., submit data or update the state.
+    if (selectedBed) {
+      muiConfirm({ title: `Confirmed Booking: ${selectedBed.bedName}?` }).then(
+        () => {
+          privateAxios
+            .post(
+              `bed-request/book?studentId=${studentId}&bedId=${bed.id}&semesterId=${semesterId}`
+            )
+            .then((response) => {
+              console.log(response);
+              if (response.data.bedRequestId) {
+                setBookedStatus(true);
+              } else {
+                setBookedStatus(false);
+              }
+              setOpenStatus(true);
+              setReload(!reload);
+            })
+            .catch((error) => {
+              setBookedStatus(false);
+              setOpenStatus(true);
+              setReload(!reload);
+            });
+        }
+      );
     }
   };
   const fetchBed = async () => {

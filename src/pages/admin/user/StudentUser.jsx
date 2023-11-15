@@ -55,9 +55,9 @@ export default function StudentUser() {
         </SearchIconWrapper>
         <StyledInputBase
           onChange={(e) => {
-            setTimeout(() => {
-              setSearch(e.target.value);
-            }, 700)();
+            // setTimeout(() => {
+            setSearch(e.target.value);
+            // }, 700)();
           }}
           placeholder="Roll Number..."
           inputProps={{ "aria-label": "search" }}

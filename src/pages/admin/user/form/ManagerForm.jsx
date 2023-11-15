@@ -46,7 +46,7 @@ const getInitialValue = (user) => {
     managerDto: {
       description: user.managerDto ? user.managerDto.description : "",
     },
-    dob: user?.dob ? user.dob : new Date(),
+    dob: user?.dob ? new Date(user.dob) : new Date(),
     avatar: user?.avatar ? user.avatar : [],
   };
 };
@@ -54,6 +54,8 @@ export default function ManagerForm({ reload, setReload }) {
   const dispatch = useDispatch();
   const { openAddManager, user } = useSelector((state) => state.userForm);
   const token = JSON.parse(localStorage.getItem("token"));
+
+  console.log(user);
 
   const schema = yup.object().shape({
     managerDto: yup.object().shape({
@@ -152,7 +154,7 @@ export default function ManagerForm({ reload, setReload }) {
     formData.append("userDto", blob);
     // For JSON, we create a new Blob with type 'application/json'
     // console.log([...formData]);
-    if (user.managerDto.description) {
+    if (user.managerDto?.description) {
       console.log(data);
       privateAxios
         .put("user", formData)

@@ -11,6 +11,7 @@ import { styled } from "@mui/material/styles";
 import avatarLong from "../../../assets/image/avatar.png";
 import avatarTuan from "../../../assets/image/avatar-1.png";
 import { privateAxios } from "../../../service/axios";
+import { useSelector } from "react-redux";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -20,6 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 export default function Dashboard() {
   const [news, setNews] = React.useState([]);
+  const { picUrl } = useSelector((state) => state.pic);
   const fetchData = async () => {
     const res = await privateAxios.get("news?page=0");
     setNews(res.data.content);
@@ -99,7 +101,7 @@ export default function Dashboard() {
                   alt="Remy Sharp"
                   sx={{ width: "100%", height: 150 }}
                   variant="square"
-                  src={user.id === 2 ? avatarLong : avatarTuan}
+                  src={picUrl}
                 />
               </Grid>
               <Grid item xs={8} width={"100%"} paddingLeft={1}>
