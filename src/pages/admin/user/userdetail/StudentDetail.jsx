@@ -119,9 +119,9 @@ const SideInfo = ({ student }) => {
           </TableRow>
         </Table>
       </Box>
-      <Box>
+      {/* <Box>
         <Table sx={{ borderRadius: '20px' }}>
-          {/* <TableRow sx={{ backgroundColor: '#fff' }}>
+          <TableRow sx={{ backgroundColor: '#fff' }}>
             <TableCell
               colSpan={2}
               align='center'
@@ -129,7 +129,7 @@ const SideInfo = ({ student }) => {
             >
               Room {student.roomName ? student.roomName : ''}
             </TableCell>
-          </TableRow> */}
+          </TableRow>
           {student.roomName && (
             <>
               <TableRow>
@@ -159,7 +159,7 @@ const SideInfo = ({ student }) => {
             </>
           )}
         </Table>
-      </Box>
+      </Box> */}
     </>
   );
 };
@@ -201,6 +201,7 @@ export default function StudentDetail() {
               <Grid container>
                 <Grid item xs={12} md={5}>
                   <Avatar
+                    variant='square'
                     sx={{
                       width: '100%',
                       height: 400,
