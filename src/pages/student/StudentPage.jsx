@@ -18,6 +18,7 @@ import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import SideBar from "../../components/Sidebar";
 import Topbar from "../../components/Topbar";
 import { useState } from "react";
+import PaymentHistory from "./paymenthistory/PaymentHistory";
 
 const navItems = [
   {
@@ -87,7 +88,7 @@ function StudentPage() {
           <Route path="bedbooking" element={<BedBooking />} />
           {/* <Route path="bedpayment" element={<BedPayment />} /> */}
           <Route path="bookedhistory" element={<BookedHistory />} />
-          {/* <Route path="paymenthistory" element={<PaymentHistory />} /> */}
+          <Route path="paymenthistory" element={<PaymentHistory />} />
           <Route path="request" element={<Request />} />
         </Route>
         <Route path="profile" element={<StudentProfile />} />
