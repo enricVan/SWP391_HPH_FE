@@ -12,7 +12,6 @@ export default function NewsDetail() {
     const res = await privateAxios.get(`news/detail/${id}`);
     setNewsDetail(res.data);
   };
-  const docs = [{ uri: file, fileName: "News" }];
   useEffect(() => {
     picService.getNewsPdfFile(id).then((file) => {
       setFile(file);
@@ -21,7 +20,26 @@ export default function NewsDetail() {
   }, []);
   return (
     <Box padding={1}>
-      <h1 style={{ marginLeft: "8px" }}>New Detail</h1>
+      <div
+        style={{
+          backgroundColor: "#034EA2",
+          padding: "6px",
+          borderRadius: "15px",
+          marginBottom: "10px",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            color: "#fff",
+            textTransform: "uppercase",
+            margin: "0",
+          }}
+        >
+          News Detail
+        </h2>
+      </div>
       <Box component={Paper}>
         <DocViewer
           documents={[{ uri: file, fileName: "News" }]}

@@ -9,18 +9,8 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { privateAxios } from "../../../service/axios";
 
-import {
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Pagination,
-  Select,
-  Typography,
-} from "@mui/material";
-import { Remove, RemoveRedEye } from "@mui/icons-material";
+import { Button, IconButton, Pagination } from "@mui/material";
+import { RemoveRedEye } from "@mui/icons-material";
 
 import Payment from "./Payment";
 import BedDetails from "./BedDetails";
